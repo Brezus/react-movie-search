@@ -18,6 +18,7 @@ const movieUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=key"
 
 const DivApp = styled.div`
   position: relative;
+  width: 100%;
 `
 function App() {
   return (
