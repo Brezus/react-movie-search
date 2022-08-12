@@ -39,7 +39,7 @@ const TypeIndicator = styled.p`
 
 export default function Genre({ genreId, genreName }) {
   const [data, setData] = useState([])
-  console.log(genreId)
+
   useEffect(() => {
     const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}&with_watch_monetization_types=flatrate`
 
@@ -59,7 +59,7 @@ export default function Genre({ genreId, genreName }) {
       })
   }, [])
 
-  const movies = data.map((movie) => {
+  const movies = data?.map((movie) => {
     return (
       <Movie key={nanoid()}>
         <Poster
