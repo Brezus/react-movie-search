@@ -5,7 +5,7 @@ import Homescreen from "./components/Homescreen"
 import Main from "./components/Main"
 import { ThemeProvider } from "styled-components"
 import { useEffect, useState } from "react"
-import { colors } from "./variables/Vars"
+import { vars } from "./variables/Vars"
 
 const key = process.env.REACT_APP_API_KEY
 const baseBackdropImgUrl = "http://image.tmdb.org/t/p/original"
@@ -19,10 +19,12 @@ const movieUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=key"
 const DivApp = styled.div`
   position: relative;
   width: 100%;
+  color: white;
+  background-color: ${({ theme }) => theme.darkBg};
 `
 function App() {
   return (
-    <ThemeProvider theme={colors}>
+    <ThemeProvider theme={vars}>
       <DivApp>
         <Nav />
         <Homescreen />

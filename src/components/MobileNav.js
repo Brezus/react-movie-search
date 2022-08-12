@@ -33,6 +33,7 @@ const Menu = styled.div`
 `
 
 export default function MobileNav({ toggleMenu, openMenu }) {
+  // the movie db logo
   const icon = (
     <Icon src={"../images/tmdbIcon.svg"} alt={"the movie data base icon"} />
   )

@@ -29,6 +29,9 @@ const InputSearch = styled.input`
   color: white;
   background-color: transparent;
   border: none;
+  &::placeholder {
+    color: ${({ theme }) => theme.white};
+  }
   &:focus {
     border: none;
     outline: none;
@@ -42,10 +45,8 @@ const InputSearch = styled.input`
 `
 
 export default function Search({ color, mobile }) {
-  console.log(mobile)
   const [srchQ, setSrchQ] = useState("")
   const [clickedInside, setClickedInside] = useState(false)
-  const { width } = useWindowSize
 
   function useOutsideAlerter(ref) {
     useEffect(() => {

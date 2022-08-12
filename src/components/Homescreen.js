@@ -41,7 +41,6 @@ export default function Homescreen() {
   const [success, setSuccess] = useState(false)
   const [fetchedData, setFetchedData] = useState([])
   const randomNumber = Math.floor(Math.random() * 19)
-  console.log(fetchedData)
   useEffect(() => {
     setIsLoading(true)
     fetch(url)
@@ -63,10 +62,8 @@ export default function Homescreen() {
         console.error(err)
       })
   }, [])
-  const baseBackdropImgUrl = "http://image.tmdb.org/t/p/original"
-  const backgroundImg = `url(${
-    baseBackdropImgUrl + fetchedData[randomNumber]?.poster_path
-  })`
+  const backgroundImg = `url(
+    https://image.tmdb.org/t/p/original${fetchedData[randomNumber]?.poster_path})`
 
   return (
     <Display bgImg={backgroundImg}>
