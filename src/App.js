@@ -6,15 +6,15 @@ import Main from "./components/Main"
 import { ThemeProvider } from "styled-components"
 import { useEffect, useState } from "react"
 import { vars } from "./variables/Vars"
-
-const key = process.env.REACT_APP_API_KEY
-const baseBackdropImgUrl = "http://image.tmdb.org/t/p/original"
-const basePosterImgUrl = "http://image.tmdb.org/t/p/w780"
-const sliceVal = 20
-const moviesAndTvUrl =
-  "https://api.themoviedb.org/3/trending/all/day?api_key=key"
-const tvUrl = "https://api.themoviedb.org/3/trending/tv/day?api_key=key"
-const movieUrl = "https://api.themoviedb.org/3/trending/movie/day?api_key=key"
+import { AppContext } from "./AppContext"
+import SearchPage from "./pages/SearchPage"
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  matchPath,
+} from "react-router-dom"
 
 const DivApp = styled.div`
   position: relative;
@@ -23,13 +23,36 @@ const DivApp = styled.div`
   background-color: ${({ theme }) => theme.darkBg};
 `
 function App() {
+  const [srchQ, setSrchQ] = useState("")
+  const [searchedName, setSearchedName] = useState()
+  const [searched, setSearched] = useState(false)
+  function search(e, history) {
+    if (e.keyCode === 13) {
+      setSearched(true)
+      setSrchQ(e.target.value)
+      history.push("/search")
+      setSearchedName(e.target.value)
+    }
+  }
+
   return (
     <ThemeProvider theme={vars}>
-      <DivApp>
-        <Nav />
-        <Homescreen />
-        <Main />
-      </DivApp>
+      <Router>
+        <DivApp>
+          <AppContext.Provider value={{ srchQ, search, setSrchQ }}>
+            <Nav searched={searched} />
+            <Switch>
+              <Route exact path="/">
+                <Homescreen />
+                <Main />
+              </Route>
+              <Route path="/search">
+                <SearchPage movieName={searchedName} />
+              </Route>
+            </Switch>
+          </AppContext.Provider>
+        </DivApp>
+      </Router>
     </ThemeProvider>
   )
 }

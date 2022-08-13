@@ -16,20 +16,17 @@ const Navigation = styled.nav`
   left: 0;
   right: 0;
   z-index: 10;
- c`
+`
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = useState(false)
-  const [showMobile, setShowMobile] = useState(false)
   const { width } = useWindowSize()
 
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 700) {
         setOpenMenu(false)
-        setShowMobile(false)
       } else if (window.innerWidth < 700) {
-        setShowMobile(true)
         setOpenMenu(true)
       }
     }

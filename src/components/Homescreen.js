@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, memo } from "react"
 import styled from "styled-components"
 
 const Display = styled.div`
@@ -36,7 +36,7 @@ const Display = styled.div`
 const key = process.env.REACT_APP_API_KEY
 const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&language=en-US&page=1`
 
-export default function Homescreen() {
+function Homescreen() {
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [fetchedData, setFetchedData] = useState([])
@@ -64,6 +64,7 @@ export default function Homescreen() {
   }, [])
   const backgroundImg = `url(
     https://image.tmdb.org/t/p/original${fetchedData[randomNumber]?.poster_path})`
+  console.count("renderd")
 
   return (
     <Display bgImg={backgroundImg}>
@@ -71,3 +72,4 @@ export default function Homescreen() {
     </Display>
   )
 }
+export default memo(Homescreen)

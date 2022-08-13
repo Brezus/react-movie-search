@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, memo } from "react"
 import styled from "styled-components"
 import Genre from "./Genre"
 
@@ -14,9 +14,10 @@ const MainDiv = styled.main`
 const key = process.env.REACT_APP_API_KEY
 const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${key}&language=en-US`
 
-export default function Main() {
+function Main() {
   const [genres, setGenres] = useState([])
-  console.log(genres)
+  console.count("renderd")
+
   useEffect(() => {
     fetch(genreUrl)
       .then((res) => {
@@ -44,3 +45,4 @@ export default function Main() {
     </MainDiv>
   )
 }
+export default memo(Main)
