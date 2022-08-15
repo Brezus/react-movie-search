@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from "react"
 import styled from "styled-components"
-import Genre from "./Genre"
+import { SearchPage as Genre } from "../pages/SearchPage"
 
 const MainDiv = styled.main`
   min-height: 100vh;
@@ -11,8 +11,8 @@ const MainDiv = styled.main`
   gap: 3em;
   padding: 5em 0;
 `
-const key = process.env.REACT_APP_API_KEY
-const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${key}&language=en-US`
+
+const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
 
 function Main() {
   const [genres, setGenres] = useState([])
@@ -36,11 +36,32 @@ function Main() {
 
   return (
     <MainDiv>
-      <Genre genreId={genres[2]?.id.toString()} genreName={genres[2]?.name} />
+      <Genre
+        url={`https://api.themoviedb.org/3/discover/movie?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        dep={genres[2]?.id.toString()}
+      >
+        <p>{genres[2]?.name}</p>
+      </Genre>
       <hr style={{ justifySelf: "center", width: "100%" }} />
-      <Genre genreId={genres[10]?.id.toString()} genreName={genres[10]?.name} />
+      <Genre
+        url={`https://api.themoviedb.org/3/discover/movie?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        dep={genres[10]?.id.toString()}
+      >
+        <p>{genres[10]?.name}</p>
+      </Genre>
       <hr style={{ justifySelf: "center", width: "100%" }} />
-      <Genre genreId={genres[6]?.id.toString()} genreName={genres[6]?.name} />
+      <Genre
+        url={`https://api.themoviedb.org/3/discover/movie?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        dep={genres[6]?.id.toString()}
+      >
+        <p>{genres[6]?.name}</p>
+      </Genre>
     </MainDiv>
   )
 }

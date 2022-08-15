@@ -51,10 +51,9 @@ const TypeIndicator = styled.p`
   border-radius: 5px;
 `
 
-export default function SearchPage({ movieName }) {
+function SearchPage({ dep, url, children }) {
   const [data, setData] = useState([])
   useEffect(() => {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${movieName}&page=1&include_adult=false`
     fetch(url)
       .then((res) => {
         if (!res.ok) {
@@ -69,7 +68,7 @@ export default function SearchPage({ movieName }) {
       .catch((err) => {
         console.error(err)
       })
-  }, [movieName])
+  }, [dep])
   const movies = data?.map((movie) => {
     return (
       <Movie key={nanoid()}>
@@ -96,10 +95,12 @@ export default function SearchPage({ movieName }) {
   })
   return (
     <Div style={{ minHeight: "100vh" }}>
-      <p>
-        Search Results for <Span>{movieName}</Span>
-      </p>
+      {/* <p>
+        Search Results for <Span>{dep}</Span>
+      </p> */}
+      {children}
       <Section>{movies}</Section>
     </Div>
   )
 }
+export { SearchPage }
