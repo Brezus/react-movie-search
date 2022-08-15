@@ -4,17 +4,12 @@ import styled from "styled-components"
 import Homescreen from "./components/Homescreen"
 import Main from "./components/Main"
 import { ThemeProvider } from "styled-components"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback, useMemo } from "react"
 import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import SearchPage from "./pages/SearchPage"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  matchPath,
-} from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import debounce from "lodash.debounce"
 
 const DivApp = styled.div`
   position: relative;
@@ -24,13 +19,20 @@ const DivApp = styled.div`
 `
 function App() {
   const [srchQ, setSrchQ] = useState("")
-  const [searchedName, setSearchedName] = useState()
+  const [searchedName, setSearchedName] = useState("")
   const [searched, setSearched] = useState(false)
-  function search(e, history) {
+
+  const handleChange = (e) => {
+    setSrchQ(e.target.value)
+    setSearched(true)
+    console.log("i ran")
+  }
+  const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
+
+  function search(e) {
     if (e.keyCode === 13) {
       setSearched(true)
       setSrchQ(e.target.value)
-      history.push("/search")
       setSearchedName(e.target.value)
     }
   }
@@ -39,15 +41,26 @@ function App() {
     <ThemeProvider theme={vars}>
       <Router>
         <DivApp>
-          <AppContext.Provider value={{ srchQ, search, setSrchQ }}>
+          <AppContext.Provider
+            value={{
+              srchQ,
+              search,
+              setSrchQ,
+              handleChange,
+              debouncedChangeHandler,
+            }}
+          >
             <Nav searched={searched} />
             <Switch>
               <Route exact path="/">
-                <Homescreen />
-                <Main />
+                {!srchQ && <Homescreen />}
+                {!srchQ && <Main />}
+                {srchQ && <SearchPage movieName={srchQ} />}
               </Route>
               <Route path="/search">
                 <SearchPage movieName={searchedName} />
+                {/* pass searchedName so search page re renders when user clicks addEventListener
+                pass srchQ so search page re renders on input change */}
               </Route>
             </Switch>
           </AppContext.Provider>

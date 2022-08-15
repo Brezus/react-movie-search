@@ -1,7 +1,15 @@
-import React, { useState, useRef, useEffect, useContext } from "react"
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react"
 import styled from "styled-components"
 import { AppContext } from "../AppContext"
 import { useHistory } from "react-router-dom"
+import { DebounceInput } from "react-debounce-input"
+import debounce from "lodash.debounce"
 
 const InputWrapper = styled.span`
   position: relative;
@@ -47,7 +55,14 @@ const InputSearch = styled.input`
 
 export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
-  const { srchQ, search, setSrchQ } = useContext(AppContext)
+  const {
+    srchQ,
+    search,
+    throttle,
+    setSrchQ,
+    handleChange,
+    debouncedChangeHandler,
+  } = useContext(AppContext)
   const history = useHistory()
 
   function useOutsideAlerter(ref) {
@@ -83,24 +98,20 @@ export default function Search({ color, mobile }) {
     if (mobileProp) {
       inputType = clickedInside && (
         <InputSearch
-          value={srchQ}
           autoFocus={true}
           color={color}
           type={"text"}
           placeholder={"search movies and tv shows"}
-          onChange={(e) => setSrchQ(e.target.value)}
-          onKeyDown={(e) => search(e, history)}
+          onChange={debouncedChangeHandler}
         />
       )
     } else {
       inputType = (
         <InputSearch
-          value={srchQ}
           color={color}
           type={"text"}
           placeholder={"search movies and tv shows"}
-          onChange={(e) => setSrchQ(e.target.value)}
-          onKeyDown={(e) => search(e, history)}
+          onChange={debouncedChangeHandler}
         />
       )
     }

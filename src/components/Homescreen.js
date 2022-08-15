@@ -2,9 +2,8 @@ import React, { useState, useEffect, memo } from "react"
 import styled from "styled-components"
 
 const Display = styled.div`
-  background: green;
+  background-color: black;
   min-height: ${({ theme }) => theme.hScreenHeight};
-  background-image: ${(props) => props.bgImg};
   background-size: cover;
   background-position: center top;
   position: relative;
@@ -40,8 +39,10 @@ function Homescreen() {
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [fetchedData, setFetchedData] = useState([])
-  const randomNumber = Math.floor(Math.random() * 19)
+  console.log(fetchedData)
   useEffect(() => {
+    const randomNumber = Math.floor(Math.random() * 19)
+
     setIsLoading(true)
     fetch(url)
       .then((res) => {
@@ -54,7 +55,7 @@ function Homescreen() {
       .then((data) => {
         setSuccess(true)
         setIsLoading(false)
-        setFetchedData(data.results)
+        setFetchedData(data.results[randomNumber])
       })
       .catch((err) => {
         setSuccess(false)
@@ -62,14 +63,19 @@ function Homescreen() {
         console.error(err)
       })
   }, [])
-  const backgroundImg = `url(
-    https://image.tmdb.org/t/p/original${fetchedData[randomNumber]?.poster_path})`
-  console.count("renderd")
 
   return (
-    <Display bgImg={backgroundImg}>
-      <div>play</div>
-    </Display>
+    <>
+      <Display
+        style={{
+          backgroundImage: fetchedData.backdrop_path
+            ? `url(http://image.tmdb.org/t/p/original${fetchedData.backdrop_path})`
+            : "",
+        }}
+      >
+        <div>play</div>
+      </Display>
+    </>
   )
 }
 export default memo(Homescreen)

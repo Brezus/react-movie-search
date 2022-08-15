@@ -16,7 +16,6 @@ const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${key}&l
 
 function Main() {
   const [genres, setGenres] = useState([])
-  console.count("renderd")
 
   useEffect(() => {
     fetch(genreUrl)
