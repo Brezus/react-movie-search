@@ -39,8 +39,9 @@ function Main() {
       <Genre
         url={`https://api.themoviedb.org/3/discover/movie?api_key=${
           process.env.REACT_APP_API_KEY
-        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id?.toString()}&with_watch_monetization_types=flatrate`}
         dep={genres[2]?.id.toString()}
+        redirected={false}
       >
         <p>{genres[2]?.name}</p>
       </Genre>
@@ -48,8 +49,9 @@ function Main() {
       <Genre
         url={`https://api.themoviedb.org/3/discover/movie?api_key=${
           process.env.REACT_APP_API_KEY
-        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[10]?.id?.toString()}&with_watch_monetization_types=flatrate`}
         dep={genres[10]?.id.toString()}
+        redirected={false}
       >
         <p>{genres[10]?.name}</p>
       </Genre>
@@ -57,8 +59,9 @@ function Main() {
       <Genre
         url={`https://api.themoviedb.org/3/discover/movie?api_key=${
           process.env.REACT_APP_API_KEY
-        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id.toString()}&with_watch_monetization_types=flatrate`}
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[6]?.id?.toString()}&with_watch_monetization_types=flatrate`}
         dep={genres[6]?.id.toString()}
+        redirected={false}
       >
         <p>{genres[6]?.name}</p>
       </Genre>

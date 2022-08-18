@@ -1,15 +1,8 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  useCallback,
-} from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
 import styled from "styled-components"
 import { AppContext } from "../AppContext"
-import { useHistory } from "react-router-dom"
-import { DebounceInput } from "react-debounce-input"
-import debounce from "lodash.debounce"
+import { Redirect, Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 const InputWrapper = styled.span`
   position: relative;
@@ -55,15 +48,8 @@ const InputSearch = styled.input`
 
 export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
-  const {
-    srchQ,
-    search,
-    throttle,
-    setSrchQ,
-    handleChange,
-    debouncedChangeHandler,
-  } = useContext(AppContext)
-  const history = useHistory()
+  const { srchQ, debouncedChangeHandler } = useContext(AppContext)
+  const location = useParams()
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -127,6 +113,11 @@ export default function Search({ color, mobile }) {
           setClickedInside(true)
         }}
       >
+        {srchQ ? (
+          <Redirect push to={`/${srchQ}`} />
+        ) : (
+          <Redirect push to={"/"} />
+        )}
         {searchIcon}
         {getInputType(mobile)}
       </InputWrapper>

@@ -39,7 +39,6 @@ function Homescreen() {
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [fetchedData, setFetchedData] = useState([])
-  console.log(fetchedData)
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * 19)
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
+import { useParams } from "react-router-dom"
 
 const Div = styled.div`
   min-height: 100vh;
@@ -51,30 +52,44 @@ const TypeIndicator = styled.p`
   border-radius: 5px;
 `
 
-function SearchPage({ dep, url, children }) {
+function SearchPage({ dep, url, children, redirected }) {
   const [data, setData] = useState([])
+  const location = useParams()
+  console.log(url)
   useEffect(() => {
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        } else {
-          return res.json()
-        }
-      })
-      .then((data) => {
-        setData(data.results)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [dep])
+    if (dep || url || redirected) {
+      console.log(redirected)
+
+      fetch(
+        redirected
+          ? `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${location.search}&page=1&include_adult=false`
+          : url
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(res.status)
+          } else {
+            return res.json()
+          }
+        })
+        .then((data) => {
+          setData(data.results)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
+  }, [location.search || dep])
   const movies = data?.map((movie) => {
     return (
       <Movie key={nanoid()}>
         <Poster
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`,
+            backgroundImage: `${
+              movie.poster_path
+                ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
+                : ""
+            }`,
           }}
         />
         <Info>
@@ -95,9 +110,6 @@ function SearchPage({ dep, url, children }) {
   })
   return (
     <Div style={{ minHeight: "100vh" }}>
-      {/* <p>
-        Search Results for <Span>{dep}</Span>
-      </p> */}
       {children}
       <Section>{movies}</Section>
     </Div>

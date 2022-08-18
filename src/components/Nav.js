@@ -3,26 +3,44 @@ import styled from "styled-components"
 import MobileNav from "./MobileNav"
 import DesktopNav from "./DesktopNav"
 import useWindowSize from "../hooks/UseWindowSize"
+import useScrollDirection from "../hooks/useScrollDirection"
 
 const Navigation = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 95%;
-  margin: 0 auto;
-  padding: 1em 0;
+  transition: height 0.3s ease-in;
+  overflow: hidden;
+`
+const NavWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
+  transition: background 0.3s ease;
 `
 
 export default function Nav() {
   const [openMenu, setOpenMenu] = useState(false)
+  const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
+  const scrollDirection = useScrollDirection()
 
   useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY < 200) {
+        console.log("Not past 100px")
+        setNavBg(false)
+      } else {
+        console.log("Past 100px!")
+        setNavBg(true)
+      }
+    }
     function handleResize() {
       if (window.innerWidth > 700) {
         setOpenMenu(false)
@@ -30,9 +48,14 @@ export default function Nav() {
         setOpenMenu(true)
       }
     }
-    window.addEventListener("resize", handleResize)
 
-    return () => window.removeEventListener("resize", handleResize)
+    window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [])
 
   function toggleMenu() {
@@ -45,5 +68,18 @@ export default function Nav() {
       <DesktopNav />
     )
   // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />
-  return <Navigation>{navComponent}</Navigation>
+  return (
+    <NavWrapper
+      style={{
+        background: `${navBg ? "black" : "none"}`,
+        height: `${scrollDirection === "down" ? "0" : "60px"}`,
+      }}
+    >
+      <Navigation
+        style={{ height: `${scrollDirection === "down" ? "0" : "60px"}` }}
+      >
+        {navComponent}
+      </Navigation>
+    </NavWrapper>
+  )
 }
