@@ -16,7 +16,6 @@ const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${proces
 
 function Main() {
   const [genres, setGenres] = useState([])
-  console.log(genres)
 
   useEffect(() => {
     fetch(genreUrl)

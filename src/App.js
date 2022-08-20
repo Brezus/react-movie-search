@@ -9,6 +9,7 @@ import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./composition/SearchPage"
 import Category from "./pages/Category"
+import { nanoid } from "nanoid"
 import {
   BrowserRouter as Router,
   Switch,
@@ -35,11 +36,42 @@ function App() {
   const [redirected, setRedirected] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
   const [category, setCategory] = useState("")
+  const navLinksArray = [
+    {
+      linkName: "/categories/movies/popular",
+      linkNameHtml: "Popular Movies",
+      url: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+    },
+    {
+      linkName: "/categories/tv/popular",
+      linkNameHtml: "Popular Tv Shows",
+      url: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+    },
+    {
+      linkName: "/categories/tv/on-the-air",
+      linkNameHtml: "TV on Air",
+      url: `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+    },
+    {
+      linkName: "/categories/coming-soon",
+      linkNameHtml: "Coming Soon",
+      url: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+    },
+  ]
+  const [navLinks] = useState(navLinksArray.map((link) => link.linkNameHtml))
+  const navRoutesHtml = navLinksArray.map((link) => {
+    return (
+      <Route path={link.linkName} key={nanoid()}>
+        <SearchPage url={link.url} redirected={false} category={true}>
+          <p>categories : {link.linkNameHtml}</p>
+        </SearchPage>
+      </Route>
+    )
+  })
 
   function fetchCategory(e) {
     const formatted = e.target.innerText.split(" ").join("_").toLowerCase()
     setCategory(e.target.innerText)
-    console.log(formatted)
   }
 
   const updatePageNumber = () => {
@@ -94,38 +126,7 @@ function App() {
               <Route exact path={`/details/:movieName`}>
                 <p>hello there</p>
               </Route>
-              <Route path={"/categories/movies/popular"}>
-                <SearchPage
-                  url={`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-                  redirected={false}
-                >
-                  <p>categories : popular movie</p>
-                </SearchPage>
-              </Route>
-              <Route path={"/categories/tv/popular"}>
-                <SearchPage
-                  url={`https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-                  redirected={false}
-                >
-                  <p>categories : popular tv</p>
-                </SearchPage>
-              </Route>
-              <Route path={"/categories/tv/on-the-air"}>
-                <SearchPage
-                  url={`https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-                  redirected={false}
-                >
-                  <p>categories : tv on the air</p>
-                </SearchPage>
-              </Route>
-              <Route path={"/categories/coming-soon"}>
-                <SearchPage
-                  url={`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-                  redirected={false}
-                >
-                  <p>categories : coming soon</p>
-                </SearchPage>
-              </Route>
+              {navRoutesHtml}
             </Switch>
           </AppContext.Provider>
         </DivApp>
