@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import MobileNav from "./MobileNav"
 import DesktopNav from "./DesktopNav"
 import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
+import { AppContext } from "../AppContext"
 
 const Navigation = styled.nav`
   display: flex;
@@ -29,6 +30,7 @@ export default function Nav() {
   const [openMenu, setOpenMenu] = useState(false)
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
+  const { fetchCategory } = useContext(AppContext)
   const scrollDirection = useScrollDirection()
 
   useEffect(() => {
@@ -63,9 +65,13 @@ export default function Nav() {
   }
   const navComponent =
     width < 700 ? (
-      <MobileNav toggleMenu={toggleMenu} openMenu={openMenu} />
+      <MobileNav
+        handleClick={fetchCategory}
+        toggleMenu={toggleMenu}
+        openMenu={openMenu}
+      />
     ) : (
-      <DesktopNav />
+      <DesktopNav handleClick={fetchCategory} />
     )
   // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />
   return (

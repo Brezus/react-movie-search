@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from "react"
 import styled from "styled-components"
-import { SearchPage as Genre } from "../pages/SearchPage"
+import { SearchPage as Genre } from "../composition/SearchPage"
 
 const MainDiv = styled.main`
   min-height: 100vh;
@@ -16,6 +16,7 @@ const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${proces
 
 function Main() {
   const [genres, setGenres] = useState([])
+  console.log(genres)
 
   useEffect(() => {
     fetch(genreUrl)
