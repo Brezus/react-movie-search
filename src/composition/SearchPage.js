@@ -64,13 +64,8 @@ function SearchPage({
 }) {
   const [mData, setMData] = useState([])
   const location = useLocation()
-  console.log(location)
   const params = useParams()
-
-  console.log(params)
-  console.log(params.pNum)
   const p = parseInt(params.pNum, 10)
-  console.log(p)
 
   useEffect(() => {
     console.log(url)
@@ -88,7 +83,7 @@ function SearchPage({
           }
         })
         .then((data) => {
-          setMData(params.pNum ? data.results : data.results.slice(0, 10))
+          setMData(params.pNum ? data.results : data.results.slice(0, 8))
         })
         .catch((err) => {
           console.error(err)
@@ -144,7 +139,9 @@ function SearchPage({
       {params.pNum && (
         <>
           <Link
-            to={`${linkName ? linkName : `/${params.search}`}/page=${p - 1}`}
+            to={`${linkName ? linkName : `/${params.search}`}/page=${
+              p === 1 ? 1 : p - 1
+            }`}
           >
             Previous
           </Link>

@@ -30,17 +30,6 @@ function App() {
   const [redirected, setRedirected] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
 
-  const updatePageNumber = () => {
-    setPageNumber((prev) => prev + 1)
-  }
-  const reducePageNumber = () => {
-    setPageNumber((prev) => (prev === 1 ? 1 : prev - 1))
-    console.log("reduced page number " + pageNumber)
-  }
-  function resetPageNumber() {
-    setPageNumber(1)
-  }
-
   const handleChange = (e) => {
     setSrchQ(e.target.value)
     setRedirected(true)
@@ -67,17 +56,13 @@ function App() {
               LinksArray,
             }}
           >
-            <Nav
-              resetPageNumber={resetPageNumber}
-              navLinksArray={LinksArray}
-              searched={searched}
-            />
+            <Nav navLinksArray={LinksArray} searched={searched} />
             <Switch>
-              <Route key={nanoid()} exact path="/">
+              <Route exact path="/">
                 <Homescreen />
                 <Main pageNumber={pageNumber} />
               </Route>
-              <Route key={nanoid()} exact path="/:search/page=:pNum">
+              <Route exact path="/:search/page=:pNum">
                 <SearchPage
                   url={searchResultsUrl}
                   dep={srchQ}
@@ -88,7 +73,7 @@ function App() {
                   </p>{" "}
                 </SearchPage>
               </Route>
-              <Route key={nanoid()} exact path={`/details/:movieName`}>
+              <Route exact path={`/details/:movieName`}>
                 <p>hello there</p>
               </Route>
               {navRoutesHtml}

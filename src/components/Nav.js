@@ -33,7 +33,7 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function Nav({ navLinksArray, resetPageNumber }) {
+export default function Nav({ navLinksArray }) {
   const [openMenu, setOpenMenu] = useState(false)
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
@@ -41,7 +41,7 @@ export default function Nav({ navLinksArray, resetPageNumber }) {
 
   const navRouterLinks = navLinksArray.map((link) => {
     return (
-      <li key={nanoid()} onClick={resetPageNumber}>
+      <li key={nanoid()}>
         <StyledLink to={`${link.linkName}/page=1`}>
           {link.linkNameHtml}
         </StyledLink>
