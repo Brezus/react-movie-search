@@ -16,6 +16,23 @@ const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${proces
 
 function Main() {
   const [genres, setGenres] = useState([])
+  const desiredGenreId = [2, 6, 10]
+  const genreHtml = genres.map((genre, i) => {
+    return (
+      <Genre
+        url={`https://api.themoviedb.org/3/discover/movie?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[
+          i
+        ]?.id?.toString()}&with_watch_monetization_types=flatrate`}
+        dep={genres[i]?.id.toString()}
+        redirected={false}
+      >
+        <p>{genres[i]?.name}</p>
+        <a href="#">see more</a>
+      </Genre>
+    )
+  })
 
   useEffect(() => {
     fetch(genreUrl)
@@ -27,7 +44,7 @@ function Main() {
         }
       })
       .then((data) => {
-        setGenres(data.genres)
+        setGenres(data.genres.slice(0, 3))
       })
       .catch((err) => {
         console.error(err)
@@ -36,7 +53,7 @@ function Main() {
 
   return (
     <MainDiv>
-      <Genre
+      {/* <Genre
         url={`https://api.themoviedb.org/3/discover/movie?api_key=${
           process.env.REACT_APP_API_KEY
         }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genres[2]?.id?.toString()}&with_watch_monetization_types=flatrate`}
@@ -64,7 +81,8 @@ function Main() {
         redirected={false}
       >
         <p>{genres[6]?.name}</p>
-      </Genre>
+      </Genre> */}
+      {genreHtml}
     </MainDiv>
   )
 }

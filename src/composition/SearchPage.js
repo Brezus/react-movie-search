@@ -88,7 +88,7 @@ function SearchPage({
           }
         })
         .then((data) => {
-          setMData(data.results)
+          setMData(params.pNum ? data.results : data.results.slice(0, 10))
         })
         .catch((err) => {
           console.error(err)
