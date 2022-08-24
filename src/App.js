@@ -8,15 +8,8 @@ import { useEffect, useState, useMemo } from "react"
 import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./composition/SearchPage"
-import Category from "./pages/Category"
 import { nanoid } from "nanoid"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 
 const DivApp = styled.div`
@@ -35,48 +28,63 @@ function App() {
   const [searched, setSearched] = useState(false)
   const [redirected, setRedirected] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
-  const [category, setCategory] = useState("")
+
   const navLinksArray = [
     {
       linkName: "/categories/movies/popular",
+      linkNamePaginated: `/categories/movies/popular/:page=1`,
       linkNameHtml: "Popular Movies",
-      url: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+      url: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
     },
     {
       linkName: "/categories/tv/popular",
+      linkNamePaginated: `/categories/tv/popular/:page=1`,
       linkNameHtml: "Popular Tv Shows",
-      url: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+      url: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
     },
     {
-      linkName: "/categories/tv/on-the-air",
-      linkNameHtml: "TV on Air",
-      url: `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+      linkName: "/categories/tv/trending",
+      linkNamePaginated: `/categories/tv/trending/:page=1`,
+      linkNameHtml: "Trending",
+      url: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`,
     },
     {
       linkName: "/categories/coming-soon",
+      linkNamePaginated: `/categories/coming-soon/:page=1`,
       linkNameHtml: "Coming Soon",
-      url: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
+      url: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
     },
   ]
-  const [navLinks] = useState(navLinksArray.map((link) => link.linkNameHtml))
+  const updatePageNumber = () => {
+    setPageNumber((prev) => prev + 1)
+  }
+  const reducePageNumber = () => {
+    setPageNumber((prev) => (prev === 1 ? 1 : prev - 1))
+    console.log("reduced page number " + pageNumber)
+  }
+  function resetPageNumber() {
+    setPageNumber(1)
+  }
   const navRoutesHtml = navLinksArray.map((link) => {
     return (
-      <Route path={link.linkName} key={nanoid()}>
-        <SearchPage url={link.url} redirected={false} category={true}>
+      <Route
+        path={[`${link.linkName}/page=:pNum`, link.linkName]}
+        key={nanoid()}
+      >
+        <SearchPage
+          url={link.url}
+          redirected={false}
+          category={true}
+          pageNumber={pageNumber}
+          nextPage={updatePageNumber}
+          prevPage={reducePageNumber}
+          linkName={link.linkName}
+        >
           <p>categories : {link.linkNameHtml}</p>
         </SearchPage>
       </Route>
     )
   })
-
-  function fetchCategory(e) {
-    const formatted = e.target.innerText.split(" ").join("_").toLowerCase()
-    setCategory(e.target.innerText)
-  }
-
-  const updatePageNumber = () => {
-    setPageNumber((prev) => prev + 1)
-  }
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
@@ -85,13 +93,13 @@ function App() {
   }
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
 
-  const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&page=1&include_adult=false`
+  const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&include_adult=false&page=1`
 
   useEffect(() => {
     return () => {
       debouncedChangeHandler.cancel()
     }
-  }, [])
+  }, [debouncedChangeHandler])
 
   return (
     <ThemeProvider theme={vars}>
@@ -101,29 +109,35 @@ function App() {
             value={{
               srchQ,
               debouncedChangeHandler,
-              fetchCategory,
+              navLinksArray,
             }}
           >
-            <Nav searched={searched} />
+            <Nav
+              resetPageNumber={resetPageNumber}
+              navLinksArray={navLinksArray}
+              searched={searched}
+            />
             <Switch>
-              <Route exact path="/">
+              <Route key={nanoid()} exact path="/">
                 <Homescreen />
-                <Main />
+                <Main pageNumber={pageNumber} />
               </Route>
-              <Route exact path="/:search">
+              <Route key={nanoid()} exact path="/:search/page=:pNum">
                 <SearchPage
                   url={searchResultsUrl}
                   dep={srchQ}
                   redirected={redirected}
                   pageNumber={pageNumber}
+                  nextPage={updatePageNumber}
+                  resetNumber={resetPageNumber}
+                  prevPage={reducePageNumber}
                 >
                   <p>
                     Results for <Span>{srchQ}</Span>
                   </p>{" "}
                 </SearchPage>
-                <button onClick={updatePageNumber}>click the i</button>
               </Route>
-              <Route exact path={`/details/:movieName`}>
+              <Route key={nanoid()} exact path={`/details/:movieName`}>
                 <p>hello there</p>
               </Route>
               {navRoutesHtml}

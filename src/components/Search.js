@@ -114,7 +114,7 @@ export default function Search({ color, mobile }) {
         }}
       >
         {srchQ ? (
-          <Redirect push to={`/${srchQ}`} />
+          <Redirect push to={`/${srchQ}/page=1`} />
         ) : (
           <Redirect push to={"/"} />
         )}

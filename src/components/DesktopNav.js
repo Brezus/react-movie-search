@@ -15,7 +15,7 @@ const Ul = styled.ul`
   margin-right: auto;
 `
 
-export default function DesktopNav({ handleClick }) {
+export default function DesktopNav({ navRouterLinks }) {
   const icon = (
     <Icon src={"../images/tmdbIcon.svg"} alt={"the movie data base icon"} />
   )
@@ -23,28 +23,7 @@ export default function DesktopNav({ handleClick }) {
   return (
     <>
       <Link to={"/"}>{icon}</Link>
-      <Ul>
-        <li>
-          <Link onClick={handleClick} to={"/categories/movies/popular"}>
-            Popular Movies
-          </Link>
-        </li>
-        <li>
-          <Link onClick={handleClick} to={"/categories/tv/popular"}>
-            Popular Tv Shows
-          </Link>
-        </li>
-        <li>
-          <Link onClick={handleClick} to={"/categories/tv/on-the-air"}>
-            TV on Air
-          </Link>
-        </li>
-        <li>
-          <Link onClick={handleClick} to={"/categories/coming-soon"}>
-            Coming Soon
-          </Link>
-        </li>
-      </Ul>
+      <Ul>{navRouterLinks}</Ul>
       <Search color={"black"} />
     </>
   )

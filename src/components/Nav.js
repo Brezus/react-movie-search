@@ -5,6 +5,8 @@ import DesktopNav from "./DesktopNav"
 import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
 import { AppContext } from "../AppContext"
+import { Link } from "react-router-dom"
+import { nanoid } from "nanoid"
 
 const Navigation = styled.nav`
   display: flex;
@@ -26,20 +28,32 @@ const NavWrapper = styled.div`
   transition: background 0.3s ease;
 `
 
-export default function Nav() {
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
+
+export default function Nav({ navLinksArray, resetPageNumber }) {
   const [openMenu, setOpenMenu] = useState(false)
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
-  const { fetchCategory } = useContext(AppContext)
   const scrollDirection = useScrollDirection()
+
+  const navRouterLinks = navLinksArray.map((link) => {
+    return (
+      <li key={nanoid()} onClick={resetPageNumber}>
+        <StyledLink to={`${link.linkName}/page=1`}>
+          {link.linkNameHtml}
+        </StyledLink>
+      </li>
+    )
+  })
 
   useEffect(() => {
     function handleScroll() {
       if (window.scrollY < 200) {
-        console.log("Not past 100px")
         setNavBg(false)
       } else {
-        console.log("Past 100px!")
         setNavBg(true)
       }
     }
@@ -66,12 +80,12 @@ export default function Nav() {
   const navComponent =
     width < 700 ? (
       <MobileNav
-        handleClick={fetchCategory}
+        navRouterLinks={navRouterLinks}
         toggleMenu={toggleMenu}
         openMenu={openMenu}
       />
     ) : (
-      <DesktopNav handleClick={fetchCategory} />
+      <DesktopNav navRouterLinks={navRouterLinks} />
     )
   // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />
   return (
