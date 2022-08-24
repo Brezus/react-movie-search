@@ -59,11 +59,7 @@ function SearchPage({
   url = null,
   children,
   redirected = false,
-  pageNumber,
   category = false,
-  type = null,
-  nextPage,
-  prevPage,
   linkName,
 }) {
   const [mData, setMData] = useState([])
@@ -98,7 +94,7 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location.pathname, dep, pageNumber, params.pNum])
+  }, [location.pathname, dep, params.pNum])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
@@ -145,15 +141,6 @@ function SearchPage({
     >
       {children}
       <Section>{movies}</Section>
-      {/* <LoadMore handleClick={nextPage} pageNumber={pageNumber} forward={true}>
-        <p>Next Page</p>
-      </LoadMore>
-      <LoadMore handleClick={prevPage} pageNumber={pageNumber} forward={false}>
-        <p>Previous Page</p>
-      </LoadMore> */}
-      {/* <Link onClick={nextPage} to={`${linkName}/page=${pageNumber}`}>
-        click me plz
-      </Link> */}
       <Link to={`${linkName ? linkName : `/${params.search}`}/page=${p - 1}`}>
         Previous
       </Link>
@@ -164,8 +151,3 @@ function SearchPage({
   )
 }
 export { SearchPage }
-
-// make state in main called pageNumber
-// make function that increments pageNumber or decrements it
-// make a component LoadMore.js
-// pass pageNumber function that increments pageNumber to component to be executed on click

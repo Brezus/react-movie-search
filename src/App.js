@@ -11,6 +11,7 @@ import { SearchPage } from "./composition/SearchPage"
 import { nanoid } from "nanoid"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
+import { LinksArray, navRoutesHtml } from "./navLinksArray"
 
 const DivApp = styled.div`
   position: relative;
@@ -29,32 +30,6 @@ function App() {
   const [redirected, setRedirected] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
 
-  const navLinksArray = [
-    {
-      linkName: "/categories/movies/popular",
-      linkNamePaginated: `/categories/movies/popular/:page=1`,
-      linkNameHtml: "Popular Movies",
-      url: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
-    },
-    {
-      linkName: "/categories/tv/popular",
-      linkNamePaginated: `/categories/tv/popular/:page=1`,
-      linkNameHtml: "Popular Tv Shows",
-      url: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
-    },
-    {
-      linkName: "/categories/tv/trending",
-      linkNamePaginated: `/categories/tv/trending/:page=1`,
-      linkNameHtml: "Trending",
-      url: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`,
-    },
-    {
-      linkName: "/categories/coming-soon",
-      linkNamePaginated: `/categories/coming-soon/:page=1`,
-      linkNameHtml: "Coming Soon",
-      url: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&`,
-    },
-  ]
   const updatePageNumber = () => {
     setPageNumber((prev) => prev + 1)
   }
@@ -65,26 +40,6 @@ function App() {
   function resetPageNumber() {
     setPageNumber(1)
   }
-  const navRoutesHtml = navLinksArray.map((link) => {
-    return (
-      <Route
-        path={[`${link.linkName}/page=:pNum`, link.linkName]}
-        key={nanoid()}
-      >
-        <SearchPage
-          url={link.url}
-          redirected={false}
-          category={true}
-          pageNumber={pageNumber}
-          nextPage={updatePageNumber}
-          prevPage={reducePageNumber}
-          linkName={link.linkName}
-        >
-          <p>categories : {link.linkNameHtml}</p>
-        </SearchPage>
-      </Route>
-    )
-  })
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
@@ -109,12 +64,12 @@ function App() {
             value={{
               srchQ,
               debouncedChangeHandler,
-              navLinksArray,
+              LinksArray,
             }}
           >
             <Nav
               resetPageNumber={resetPageNumber}
-              navLinksArray={navLinksArray}
+              navLinksArray={LinksArray}
               searched={searched}
             />
             <Switch>
