@@ -94,7 +94,7 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location.pathname, dep, params.pNum])
+  }, [location.pathname, dep, p, url, redirected, params.search])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
@@ -141,12 +141,20 @@ function SearchPage({
     >
       {children}
       <Section>{movies}</Section>
-      <Link to={`${linkName ? linkName : `/${params.search}`}/page=${p - 1}`}>
-        Previous
-      </Link>
-      <Link to={`${linkName ? linkName : `/${params.search}`}/page=${p + 1}`}>
-        Next
-      </Link>
+      {params.pNum && (
+        <>
+          <Link
+            to={`${linkName ? linkName : `/${params.search}`}/page=${p - 1}`}
+          >
+            Previous
+          </Link>
+          <Link
+            to={`${linkName ? linkName : `/${params.search}`}/page=${p + 1}`}
+          >
+            Next
+          </Link>
+        </>
+      )}
     </Div>
   )
 }

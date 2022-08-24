@@ -82,10 +82,6 @@ function App() {
                   url={searchResultsUrl}
                   dep={srchQ}
                   redirected={redirected}
-                  pageNumber={pageNumber}
-                  nextPage={updatePageNumber}
-                  resetNumber={resetPageNumber}
-                  prevPage={reducePageNumber}
                 >
                   <p>
                     Results for <Span>{srchQ}</Span>

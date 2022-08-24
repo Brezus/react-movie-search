@@ -19,7 +19,7 @@ export const LinksArray = [
     linkName: "/categories/tv/trending",
     linkNamePaginated: `/categories/tv/trending/:page=1`,
     linkNameHtml: "Trending",
-    url: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}`,
+    url: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_API_KEY}&`,
   },
   {
     linkName: "/categories/coming-soon",
