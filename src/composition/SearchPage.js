@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
-import LoadMore from "../components/LoadMore"
 
 const Div = styled.div`
   min-height: 100vh;
@@ -60,19 +59,32 @@ function SearchPage({
   children,
   redirected = false,
   category = false,
-  linkName,
+  linkName = null,
+  genre = null,
 }) {
   const [mData, setMData] = useState([])
   const location = useLocation()
   const params = useParams()
+  console.log(params)
+  console.log(url)
+  console.log(location?.state?.linkName)
   const p = parseInt(params.pNum, 10)
+  let toLink
+  if (linkName) {
+    toLink = linkName
+  } else if (genre) {
+    toLink = location?.state?.linkName
+  } else {
+    toLink = `/${params.search}`
+  }
 
   useEffect(() => {
-    console.log(url)
-    if (dep || url || redirected) {
+    if (dep || url || redirected || genre) {
       fetch(
         redirected
           ? `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&include_adult=false&page=${p}`
+          : genre
+          ? `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
           : url + `page=${p}`
       )
         .then((res) => {
@@ -89,7 +101,15 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location.pathname, dep, p, url, redirected, params.search])
+  }, [
+    location.pathname,
+    dep,
+    p,
+    url,
+    redirected,
+    params.search,
+    location.state?.id,
+  ])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
@@ -138,18 +158,8 @@ function SearchPage({
       <Section>{movies}</Section>
       {params.pNum && (
         <>
-          <Link
-            to={`${linkName ? linkName : `/${params.search}`}/page=${
-              p === 1 ? 1 : p - 1
-            }`}
-          >
-            Previous
-          </Link>
-          <Link
-            to={`${linkName ? linkName : `/${params.search}`}/page=${p + 1}`}
-          >
-            Next
-          </Link>
+          <Link to={`${toLink}/page=${p === 1 ? 1 : p - 1}`}>Previous</Link>
+          <Link to={`${toLink}/page=${p + 1}`}>Next</Link>
         </>
       )}
     </Div>

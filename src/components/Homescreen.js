@@ -71,9 +71,7 @@ function Homescreen() {
             ? `url(http://image.tmdb.org/t/p/original${fetchedData.backdrop_path})`
             : "",
         }}
-      >
-        <div>play</div>
-      </Display>
+      ></Display>
     </>
   )
 }

@@ -32,7 +32,18 @@ function Main() {
         redirected={false}
       >
         <p>{genres[i]?.name}</p>
-        <Link to={`/${genres[i]?.name}/page=1`}>see more</Link>
+        <Link
+          to={{
+            pathname: `/categories/${genres[i]?.name.toLowerCase()}/page=1`,
+            state: {
+              id: `${genres[i]?.id}`,
+              linkName: `/categories/${genres[i]?.name.toLowerCase()}`,
+            },
+          }}
+        >
+          {" "}
+          see more
+        </Link>
       </Genre>
     )
   })

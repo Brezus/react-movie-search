@@ -73,6 +73,10 @@ function App() {
                   </p>{" "}
                 </SearchPage>
               </Route>
+              <Route exact path={`/categories/:genre/page=:pNum`}>
+                <SearchPage redirected={false} genre={true}></SearchPage>
+                <p>Genressss</p>
+              </Route>
               <Route exact path={`/details/:movieName`}>
                 <p>hello there</p>
               </Route>
