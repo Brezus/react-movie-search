@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
+import LoadingBar from "react-top-loading-bar"
 
 const Div = styled.div`
   min-height: 100vh;
@@ -63,31 +64,28 @@ function SearchPage({
   genre = null,
 }) {
   const [mData, setMData] = useState([])
+  console.log(mData)
+  const [progress, setProgress] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const location = useLocation()
   const params = useParams()
-  console.log(params)
-  console.log(url)
-  console.log(location?.state?.linkName)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
     toLink = linkName
   } else if (genre) {
-    toLink = location?.state?.linkName
+    toLink = `/categories/${location?.state?.genreName}`
   } else {
     toLink = `/${params.search}`
   }
 
   useEffect(() => {
     if (dep || url || redirected || genre) {
-      fetch(
-        redirected
-          ? `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&include_adult=false&page=${p}`
-          : genre
-          ? `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
-          : url + `page=${p}`
-      )
+      const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
+      const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
+      fetch(redirected ? redirectedUrl : genre ? genreUrl : url + `page=${p}`)
         .then((res) => {
+          setIsLoading(true)
           if (!res.ok) {
             throw new Error(res.status)
           } else {
@@ -96,8 +94,10 @@ function SearchPage({
         })
         .then((data) => {
           setMData(params.pNum ? data.results : data.results.slice(0, 8))
+          setIsLoading(false)
         })
         .catch((err) => {
+          setIsLoading(false)
           console.error(err)
         })
     }
@@ -117,7 +117,19 @@ function SearchPage({
       : movie.first_air_date
 
     return (
-      <StyledLink key={nanoid()} to={`/details/${movie.title}`}>
+      <StyledLink
+        key={nanoid()}
+        to={{
+          pathname: `/details/${movie.title}`,
+          state: {
+            detailsUrl: `https://api.themoviedb.org/3/${
+              movie.first_air_date ? "tv" : "movie"
+            }/${movie.id}?api_key=${
+              process.env.REACT_APP_API_KEY
+            }&language=en-US&append_to_response=videos`,
+          },
+        }}
+      >
         <Movie>
           <Poster
             style={{
@@ -151,15 +163,43 @@ function SearchPage({
     <Div
       style={{
         minHeight: "100vh",
-        padding: `${redirected || category ? "10rem 0 5rem" : "1rem 0 5rem"}`,
+        padding: `${
+          redirected || category || genre ? "10rem 0 5rem" : "1rem 0 5rem"
+        }`,
       }}
     >
+      <LoadingBar
+        color="#f11946"
+        progress={isLoading ? 20 : 100}
+        onLoaderFinished={() => setProgress(0)}
+      />
       {children}
+      {genre && <p>Genre: {location?.state?.genreName}</p>}
       <Section>{movies}</Section>
       {params.pNum && (
         <>
-          <Link to={`${toLink}/page=${p === 1 ? 1 : p - 1}`}>Previous</Link>
-          <Link to={`${toLink}/page=${p + 1}`}>Next</Link>
+          <Link
+            to={{
+              pathname: `${toLink}/page=${p === 1 ? 1 : p - 1}`,
+              state: {
+                id: `${location?.state?.id}`,
+                genreName: `${location?.state?.genreName}`,
+              },
+            }}
+          >
+            Previous
+          </Link>
+          <Link
+            to={{
+              pathname: `${toLink}/page=${p + 1}`,
+              state: {
+                id: `${location?.state?.id}`,
+                genreName: `${location?.state?.genreName}`,
+              },
+            }}
+          >
+            Next
+          </Link>
         </>
       )}
     </Div>

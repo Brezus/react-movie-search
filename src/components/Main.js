@@ -17,6 +17,7 @@ const MainDiv = styled.main`
 const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
 
 function Main() {
+  console.log("ran")
   const [genres, setGenres] = useState([])
   const desiredGenreId = [2, 6, 10]
   const genreHtml = genres.map((genre, i) => {
@@ -37,6 +38,7 @@ function Main() {
             pathname: `/categories/${genres[i]?.name.toLowerCase()}/page=1`,
             state: {
               id: `${genres[i]?.id}`,
+              genreName: `${genres[i]?.name.toLowerCase()}`,
               linkName: `/categories/${genres[i]?.name.toLowerCase()}`,
             },
           }}
