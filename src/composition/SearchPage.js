@@ -64,7 +64,6 @@ function SearchPage({
   genre = null,
 }) {
   const [mData, setMData] = useState([])
-  console.log(mData)
   const [progress, setProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const location = useLocation()
@@ -80,12 +79,12 @@ function SearchPage({
   }
 
   useEffect(() => {
+    setIsLoading(true)
     if (dep || url || redirected || genre) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
       const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
       fetch(redirected ? redirectedUrl : genre ? genreUrl : url + `page=${p}`)
         .then((res) => {
-          setIsLoading(true)
           if (!res.ok) {
             throw new Error(res.status)
           } else {

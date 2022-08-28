@@ -19,6 +19,7 @@ const DivApp = styled.div`
   width: 100%;
   color: white;
   background-color: ${({ theme }) => theme.darkBg};
+  min-height: 100vh;
 `
 
 const Span = styled.span`
