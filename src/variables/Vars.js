@@ -11,4 +11,5 @@ export const vars = {
   iconColor: "white",
   inputHeight: "48px",
   white: "white",
+  border: "20px",
 }

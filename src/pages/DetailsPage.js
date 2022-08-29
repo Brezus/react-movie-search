@@ -2,9 +2,64 @@ import React, { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import YouTube from "react-youtube"
 import styled from "styled-components"
+import { nanoid } from "nanoid"
 
 const Main = styled.main`
-  padding-top: 7rem;
+  padding-top: 5rem;
+`
+
+const DivBKDrop = styled.article`
+  min-height: 100vh;
+  padding-top: 5em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgb(32, 32, 38);
+  background-size: cover;
+  background-position: center;
+`
+
+const PosterCont = styled.div`
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+`
+
+const DivPoster = styled.div`
+  height: 350px;
+  border-radius: ${({ theme }) => theme.border};
+  background: black;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+`
+
+const ContainerDiv = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  gap: 5em;
+`
+const Button = styled.button`
+  padding: 1em 3em;
+  background-color: orange;
+  color: white;
+  border-radius: ${({ theme }) => theme.border};
+  border: none;
+  width: 100%;
+`
+const InfoCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+`
+
+const Ul = styled.ul`
+  padding: 0;
+  display: flex;
+  gap: 1em;
+  list-style: none;
 `
 
 export default function DetailsPage() {
@@ -13,9 +68,17 @@ export default function DetailsPage() {
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )
-  //   const trailer = videos.find((video) => video.contai)
-  //   console.log(vidId)
   const location = useLocation()
+  const bkdrp = `${
+    detailsData?.backdrop_path
+      ? `https://image.tmdb.org/t/p/original/${detailsData.backdrop_path}`
+      : null
+  }`
+  const postr = `${
+    detailsData?.poster_path
+      ? `https://image.tmdb.org/t/p/w500/${detailsData.poster_path}`
+      : null
+  }`
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const opts = {
@@ -25,6 +88,29 @@ export default function DetailsPage() {
       autoplay: 1,
     },
   }
+  const bgStyle = {
+    backgroundImage: `linear-gradient(90deg, rgba(32,32,38,0.75) 0%, rgba(1,11,19,1) 100%), url(${bkdrp})`,
+  }
+  const posterBg = {
+    backgroundImage: `url(${postr})`,
+  }
+  const genreList = detailsData?.genres.map((genre) => (
+    <li key={nanoid()}>{genre.name}</li>
+  ))
+  const productionCompanies =
+    detailsData?.production_companies &&
+    detailsData.production_companies.map((company) => (
+      <li
+        style={{
+          backgroundImage: `url(https://image.tmdb.org/t/p/w45/${company?.logo_path})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
+          height: "30px",
+          width: "30px",
+        }}
+      ></li>
+    ))
   function _onReady(e) {
     e.target.pauseVideo()
   }
@@ -52,8 +138,25 @@ export default function DetailsPage() {
 
   return (
     <Main>
-      {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />}
-      <p>testing</p>
+      <DivBKDrop style={bgStyle}>
+        <ContainerDiv>
+          <PosterCont>
+            <DivPoster style={posterBg}></DivPoster>
+            <Button>Watch Trailer</Button>
+          </PosterCont>
+          <InfoCont>
+            <h1>
+              {detailsData?.title ? detailsData?.title : detailsData?.name}
+            </h1>
+            <p>{detailsData?.tagline && `${detailsData.tagline}`}</p>
+            <p>{detailsData?.release_date}</p>
+            <Ul>{productionCompanies}</Ul>
+            <Ul>{genreList}</Ul>
+            <p style={{ maxWidth: "500px" }}>{detailsData?.overview}</p>
+          </InfoCont>
+          {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
+        </ContainerDiv>
+      </DivBKDrop>
     </Main>
   )
 }
