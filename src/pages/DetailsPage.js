@@ -123,6 +123,7 @@ export default function DetailsPage() {
     e.target.pauseVideo()
   }
   useEffect(() => {
+    window.scrollTo(0, 0)
     setIsLoading(true)
     fetch(location?.state?.detailsUrl)
       .then((res) => {
@@ -142,7 +143,7 @@ export default function DetailsPage() {
         setIsLoading(false)
         console.error(err)
       })
-  }, [location.pathname])
+  }, [location.pathname, location.state])
 
   return (
     <Main>
