@@ -142,7 +142,7 @@ export default function DetailsPage() {
         setIsLoading(false)
         console.error(err)
       })
-  }, [])
+  }, [location.pathname])
 
   return (
     <Main>
@@ -166,11 +166,7 @@ export default function DetailsPage() {
             {genreList && <Ul>{genreList}</Ul>}
             <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
           </InfoCont>
-          <p>you may also like...</p>
           {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
-          {/* {mediaType && movieId ? (
-            <Cast movieId={movieId} mediaType={mediaType} />
-          ) : null} */}
         </ContainerDiv>
       </DivBKDrop>
       {mediaType && movieId ? (
