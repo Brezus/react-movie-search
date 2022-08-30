@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom"
 import YouTube from "react-youtube"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
+import Cast from "../components/Cast"
 
 const Main = styled.main`
   padding-top: 5rem;
@@ -52,7 +53,10 @@ const Button = styled.button`
 const InfoCont = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 0.8em;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex: 2;
 `
 
 const Ul = styled.ul`
@@ -60,11 +64,11 @@ const Ul = styled.ul`
   display: flex;
   gap: 1em;
   list-style: none;
+  margin: 0;
 `
 
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
-  console.log(detailsData)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )
@@ -101,6 +105,7 @@ export default function DetailsPage() {
     detailsData?.production_companies &&
     detailsData.production_companies.map((company) => (
       <li
+        key={nanoid()}
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w45/${company?.logo_path})`,
           backgroundPosition: "center",
@@ -108,9 +113,12 @@ export default function DetailsPage() {
           backgroundSize: "contain",
           height: "30px",
           width: "30px",
+          display: `${company?.logo_path ? "initial" : "none"}`,
         }}
       ></li>
     ))
+  const movieId = detailsData?.id
+  const mediaType = detailsData?.release_date ? "movie" : "tv"
   function _onReady(e) {
     e.target.pauseVideo()
   }
@@ -148,15 +156,26 @@ export default function DetailsPage() {
             <h1>
               {detailsData?.title ? detailsData?.title : detailsData?.name}
             </h1>
-            <p>{detailsData?.tagline && `${detailsData.tagline}`}</p>
-            <p>{detailsData?.release_date}</p>
-            <Ul>{productionCompanies}</Ul>
-            <Ul>{genreList}</Ul>
-            <p style={{ maxWidth: "500px" }}>{detailsData?.overview}</p>
+            {detailsData?.tagline && <p>{detailsData.tagline}</p>}
+            {detailsData?.release_date && (
+              <p>{detailsData.release_date.slice(0, 4)}</p>
+            )}
+            {detailsData?.production_companies?.length >= 1 && (
+              <Ul>{productionCompanies}</Ul>
+            )}
+            {genreList && <Ul>{genreList}</Ul>}
+            <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
           </InfoCont>
+          <p>you may also like...</p>
           {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
+          {/* {mediaType && movieId ? (
+            <Cast movieId={movieId} mediaType={mediaType} />
+          ) : null} */}
         </ContainerDiv>
       </DivBKDrop>
+      {mediaType && movieId ? (
+        <Cast movieId={movieId} mediaType={mediaType} />
+      ) : null}
     </Main>
   )
 }
