@@ -15,15 +15,14 @@ const Div = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
+  scroll-snap-align: start;
 `
 
 const Section = styled.section`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
   gap: 2em;
-  border-radius: 10px;
-  justify-content: center;
-  overflow: hidden;
 `
 const Movie = styled.div`
   display: grid;
@@ -33,6 +32,7 @@ const Movie = styled.div`
 const Poster = styled.div`
   background-size: cover;
   background-position: center;
+  border-radius: 10px;
 `
 const Info = styled.div`
   display: flex;
@@ -62,6 +62,7 @@ function SearchPage({
   category = false,
   linkName = null,
   genre = null,
+  horizontalScroll = false,
 }) {
   const [mData, setMData] = useState([])
   const [progress, setProgress] = useState(0)
@@ -133,9 +134,14 @@ function SearchPage({
           <Poster
             style={{
               backgroundImage: `${
-                movie.poster_path
+                movie.poster_path && horizontalScroll
+                  ? `linear-gradient(90deg, rgba(32,32,38,0.6) 0%, rgba(1,11,19,0.6) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
+                  : movie.poster_path
                   ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
                   : `url(../images/no-photo.png)`
+              }`,
+              backgroundBlendMode: `${
+                horizontalScroll ? "multiply" : "normal"
               }`,
             }}
           />
@@ -174,7 +180,23 @@ function SearchPage({
       />
       {children}
       {genre && <p>Genre: {location?.state?.genreName}</p>}
-      <Section>{movies}</Section>
+
+      <Section
+        style={
+          horizontalScroll
+            ? {
+                gridAutoColumns: "21%",
+                gridAutoFlow: "column",
+                scrollSnapType: "inline mandatory",
+              }
+            : {
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                justifyContent: "center",
+              }
+        }
+      >
+        {movies}
+      </Section>
       {params.pNum && (
         <>
           <Link

@@ -30,6 +30,7 @@ function Main() {
         ]?.id?.toString()}&with_watch_monetization_types=flatrate&page=1`}
         dep={genres[i]?.id.toString()}
         redirected={false}
+        horizontalScroll={i % 3 === 0 && true}
       >
         <p>{genres[i]?.name}</p>
         <Link
