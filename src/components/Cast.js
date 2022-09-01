@@ -1,0 +1,108 @@
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
+import Recomendations from "../components/Recomendations"
+import { SearchPage } from "../composition/SearchPage"
+import { nanoid } from "nanoid"
+
+const Aside = styled.aside`
+  border: 5px solid black;
+  padding: 3rem 0;
+  background-image: url(../images/fancy-pants.jpg);
+
+  //   flex: 1;
+  //   height: 550px;
+`
+
+const Profiles = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-row-gap: 2em;
+  grid-column-gap: 4em;
+`
+const ActorCont = styled.div`
+  height: 250px;
+  display: grid;
+  max-width: 300px;
+  grid-template-rows: 2fr 1fr;
+  border-radius: ${({ theme }) => theme.border};
+  overflow: hidden;
+  border: 5px solid white;
+`
+const ProfilePhoto = styled.div`
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+`
+const ProfileRole = styled.div`
+  background: white;
+  color: ${({ theme }) => theme.darkBg};
+  padding: 0 1em;
+  text-align: center;
+`
+
+export default function Cast({ movieId, mediaType }) {
+  const [isLoading, setIsLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [castData, setCastData] = useState([])
+  useEffect(() => {
+    const fetchCastUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+    setIsLoading(true)
+    fetch(fetchCastUrl)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        } else {
+          return res.json()
+        }
+      })
+      .then((data) => {
+        setSuccess(true)
+        setIsLoading(false)
+        setCastData(data.cast.slice(0, 12))
+      })
+      .catch((err) => {
+        setSuccess(false)
+        setIsLoading(false)
+        console.error(err)
+      })
+  }, [movieId, mediaType])
+  const profiles =
+    castData &&
+    castData.map((castMember) => {
+      return (
+        <ActorCont key={nanoid()}>
+          <ProfilePhoto
+            style={{
+              backgroundImage: `${
+                castMember?.profile_path
+                  ? `url(${`https://image.tmdb.org/t/p/h632/${castMember?.profile_path}`})`
+                  : "url(../images/no-photo.png)"
+              }`,
+            }}
+          ></ProfilePhoto>
+          <ProfileRole>
+            <p>
+              {castMember?.name} <span>{castMember?.character}</span>
+            </p>
+          </ProfileRole>
+        </ActorCont>
+      )
+    })
+  return (
+    <>
+      <Aside>
+        <h2>Cast</h2>
+        <Profiles>{profiles}</Profiles>
+      </Aside>
+      <SearchPage
+        url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+        redirected={false}
+        category={true}
+      >
+        <h3>you may also like</h3>
+      </SearchPage>
+    </>
+  )
+}
