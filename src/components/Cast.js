@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, lazy, Suspense } from "react"
 import styled from "styled-components"
-import Recomendations from "../components/Recomendations"
-import { SearchPage } from "../composition/SearchPage"
 import { nanoid } from "nanoid"
+
+const SearchPage = React.lazy(() =>
+  import("../composition/SearchPage").then((module) => ({
+    default: module.SearchPage,
+  }))
+)
 
 const Aside = styled.aside`
   border: 5px solid black;
   padding: 3rem 0;
   background-image: url(../images/fancy-pants.jpg);
-
   //   flex: 1;
   //   height: 550px;
 `
@@ -28,12 +31,12 @@ const ActorCont = styled.div`
   grid-template-rows: 2fr 1fr;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
-  border: 5px solid white;
+  border: 3px solid white;
 `
-const ProfilePhoto = styled.div`
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+const StyledImage = styled.img`
+  object-fit: cover;
+  max-width: 100%;
+  display: block;
 `
 const ProfileRole = styled.div`
   background: white;
@@ -73,15 +76,16 @@ export default function Cast({ movieId, mediaType }) {
     castData.map((castMember) => {
       return (
         <ActorCont key={nanoid()}>
-          <ProfilePhoto
-            style={{
-              backgroundImage: `${
-                castMember?.profile_path
-                  ? `url(${`https://image.tmdb.org/t/p/h632/${castMember?.profile_path}`})`
-                  : "url(../images/no-photo.png)"
-              }`,
-            }}
-          ></ProfilePhoto>
+          <StyledImage
+            height={"170px"}
+            width={"100%"}
+            loading={"lazy"}
+            src={`${
+              castMember?.profile_path
+                ? `https://image.tmdb.org/t/p/h632/${castMember?.profile_path}`
+                : "../images/no-photo.png"
+            }`}
+          />
           <ProfileRole>
             <p>
               {castMember?.name} <span>{castMember?.character}</span>

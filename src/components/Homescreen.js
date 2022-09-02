@@ -5,6 +5,7 @@ const Display = styled.div`
   background-color: black;
   min-height: ${({ theme }) => theme.hScreenHeight};
   background-size: cover;
+  height: 120vh;
   background-position: center top;
   position: relative;
   z-index: 9;

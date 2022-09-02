@@ -1,6 +1,7 @@
 import React, { useEffect, useState, memo } from "react"
 import styled from "styled-components"
 import { SearchPage as Genre } from "../composition/SearchPage"
+
 import { Link } from "react-router-dom"
 import { nanoid } from "nanoid"
 

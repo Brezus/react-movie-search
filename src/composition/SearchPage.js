@@ -132,6 +132,7 @@ function SearchPage({
       >
         <Movie>
           <Poster
+            loading={"lazy"}
             style={{
               backgroundImage: `${
                 movie.poster_path && horizontalScroll

@@ -2,18 +2,26 @@
 import Nav from "./components/Nav"
 import styled from "styled-components"
 import Homescreen from "./components/Homescreen"
-import Main from "./components/Main"
+// import Main from "./components/Main"
 import { ThemeProvider } from "styled-components"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, lazy, Suspense } from "react"
 import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
-import { SearchPage } from "./composition/SearchPage"
+// import { SearchPage } from "./composition/SearchPage"
 import { nanoid } from "nanoid"
+import DetailsPage from "./pages/DetailsPage"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
-import DetailsPage from "./pages/DetailsPage"
 import "./App.css"
+
+const Main = lazy(() => import("./components/Main"))
+
+const SearchPage = lazy(() =>
+  import("./composition/SearchPage").then((module) => ({
+    default: module.SearchPage,
+  }))
+)
 
 const DivApp = styled.div`
   position: relative;
@@ -63,21 +71,45 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Homescreen />
-                <Main pageNumber={pageNumber} />
+                <Suspense
+                  fallback={
+                    <div style={{ color: "white", fontSize: "20rem" }}>
+                      pain and suffering
+                    </div>
+                  }
+                >
+                  <Main pageNumber={pageNumber} />
+                </Suspense>
               </Route>
               <Route exact path="/:search/page=:pNum">
-                <SearchPage
-                  url={searchResultsUrl}
-                  dep={srchQ}
-                  redirected={redirected}
+                <Suspense
+                  fallback={
+                    <div style={{ color: "white", fontSize: "20rem" }}>
+                      pain and suffering
+                    </div>
+                  }
                 >
-                  <p>
-                    Results for <Span>{srchQ}</Span>
-                  </p>{" "}
-                </SearchPage>
+                  <SearchPage
+                    url={searchResultsUrl}
+                    dep={srchQ}
+                    redirected={redirected}
+                  >
+                    <p>
+                      Results for <Span>{srchQ}</Span>
+                    </p>{" "}
+                  </SearchPage>
+                </Suspense>
               </Route>
               <Route exact path={`/categories/:genre/page=:pNum`}>
-                <SearchPage redirected={false} genre={true} />
+                <Suspense
+                  fallback={
+                    <div style={{ color: "white", fontSize: "20rem" }}>
+                      pain and suffering
+                    </div>
+                  }
+                >
+                  <SearchPage redirected={false} genre={true} />
+                </Suspense>
               </Route>
               <Route exact path={`/details/:movieName`}>
                 <DetailsPage />
