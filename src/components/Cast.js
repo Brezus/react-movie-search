@@ -1,12 +1,13 @@
 import React, { useEffect, useState, lazy, Suspense } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
+import { SearchPage } from "../composition/SearchPage"
 
-const SearchPage = React.lazy(() =>
-  import("../composition/SearchPage").then((module) => ({
-    default: module.SearchPage,
-  }))
-)
+// const SearchPage = React.lazy(() =>
+//   import("../composition/SearchPage").then((module) => ({
+//     default: module.SearchPage,
+//   }))
+// )
 
 const Aside = styled.aside`
   border: 5px solid black;
@@ -20,14 +21,14 @@ const Profiles = styled.div`
   width: 95%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-row-gap: 2em;
   grid-column-gap: 4em;
 `
 const ActorCont = styled.div`
   height: 250px;
   display: grid;
-  max-width: 300px;
+  max-width: 230px;
   grid-template-rows: 2fr 1fr;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;

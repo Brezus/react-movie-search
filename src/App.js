@@ -9,14 +9,14 @@ import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 // import { SearchPage } from "./composition/SearchPage"
 import { nanoid } from "nanoid"
-import DetailsPage from "./pages/DetailsPage"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+// import DetailsPage from "./pages/DetailsPage"
+import { HashRouter as Router, Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import "./App.css"
 
 const Main = lazy(() => import("./components/Main"))
-
+const DetailsPage = lazy(() => import("./pages/DetailsPage"))
 const SearchPage = lazy(() =>
   import("./composition/SearchPage").then((module) => ({
     default: module.SearchPage,
@@ -71,22 +71,17 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Homescreen />
-                <Suspense
-                  fallback={
-                    <div style={{ color: "white", fontSize: "20rem" }}>
-                      pain and suffering
-                    </div>
-                  }
-                >
-                  <Main pageNumber={pageNumber} />
-                </Suspense>
+                <Main pageNumber={pageNumber} />
               </Route>
               <Route exact path="/:search/page=:pNum">
                 <Suspense
                   fallback={
-                    <div style={{ color: "white", fontSize: "20rem" }}>
-                      pain and suffering
-                    </div>
+                    <div
+                      style={{
+                        backgroundImage: "url(../images/giphy.gif)",
+                        backgroundSize: "cover",
+                      }}
+                    ></div>
                   }
                 >
                   <SearchPage
@@ -103,16 +98,30 @@ function App() {
               <Route exact path={`/categories/:genre/page=:pNum`}>
                 <Suspense
                   fallback={
-                    <div style={{ color: "white", fontSize: "20rem" }}>
-                      pain and suffering
-                    </div>
+                    <div
+                      style={{
+                        backgroundImage: "url(../images/giphy.gif)",
+                        backgroundSize: "cover",
+                      }}
+                    ></div>
                   }
                 >
                   <SearchPage redirected={false} genre={true} />
                 </Suspense>
               </Route>
               <Route exact path={`/details/:movieName`}>
-                <DetailsPage />
+                <Suspense
+                  fallback={
+                    <div
+                      style={{
+                        backgroundImage: "url(../images/giphy.gif)",
+                        backgroundSize: "cover",
+                      }}
+                    ></div>
+                  }
+                >
+                  <DetailsPage />
+                </Suspense>
               </Route>
               {navRoutesHtml}
             </Switch>

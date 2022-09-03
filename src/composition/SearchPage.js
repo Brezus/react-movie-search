@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
@@ -24,10 +24,9 @@ const Section = styled.section`
   overscroll-behavior-inline: contain;
   gap: 2em;
 `
+
 const Movie = styled.div`
   display: grid;
-  grid-template-rows: 300px auto;
-  grid-template-columns: minmax(150px, 1fr);
 `
 const Poster = styled.div`
   background-size: cover;
@@ -37,12 +36,9 @@ const Poster = styled.div`
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  padding: 1em 0;
 `
 const MetaInfo = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
 `
 const TypeIndicator = styled.p`
@@ -80,6 +76,8 @@ function SearchPage({
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     setIsLoading(true)
     if (dep || url || redirected || genre) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
@@ -120,7 +118,7 @@ function SearchPage({
       <StyledLink
         key={nanoid()}
         to={{
-          pathname: `/details/${movie.title}`,
+          pathname: `/details/${movie.title ? movie.title : movie.name}`,
           state: {
             detailsUrl: `https://api.themoviedb.org/3/${
               movie.first_air_date ? "tv" : "movie"
@@ -130,13 +128,19 @@ function SearchPage({
           },
         }}
       >
-        <Movie>
+        <Movie
+          style={{
+            gridTemplateRows: `${
+              movie.poster_path && horizontalScroll ? "200px" : "300px auto"
+            }`,
+            gridTemplateColumns: `${"minmax(150px, 1fr)"}`,
+          }}
+        >
           <Poster
-            loading={"lazy"}
             style={{
               backgroundImage: `${
                 movie.poster_path && horizontalScroll
-                  ? `linear-gradient(90deg, rgba(32,32,38,0.6) 0%, rgba(1,11,19,0.6) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
+                  ? `linear-gradient(90deg, rgba(32,32,38,0.8) 0%, rgba(1,11,19,0.7) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
                   : movie.poster_path
                   ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
                   : `url(../images/no-photo.png)`
@@ -144,15 +148,35 @@ function SearchPage({
               backgroundBlendMode: `${
                 horizontalScroll ? "multiply" : "normal"
               }`,
+              maxWidth: "300px",
+              gridRow: "1",
+              gridColumn: "1",
             }}
           />
-          <Info>
+          <Info
+            style={{
+              gridRow: `${horizontalScroll ? "1" : "initial"}`,
+              gridColumn: `${horizontalScroll ? "1" : "initial"}`,
+              gap: `${!horizontalScroll && "1em"}`,
+              padding: `${!horizontalScroll ? "1em 0 0" : "0 0 1em"}`,
+              alignSelf: "end",
+              margin: `${horizontalScroll && "0 auto"}`,
+              width: `${horizontalScroll && "95%"}`,
+            }}
+          >
             <h3>
               {nameOrTitle?.length >= 25
                 ? nameOrTitle?.slice(0, 25) + "..."
                 : nameOrTitle}
             </h3>
-            <MetaInfo>
+            <MetaInfo
+              style={{
+                gap: `${horizontalScroll && "1em"}`,
+                justifyContent: `${
+                  horizontalScroll ? "flex-start" : "space-between"
+                }`,
+              }}
+            >
               <p>
                 {releaseOrAirDate?.slice(0, 4)} • ({movie.vote_average} ⭐)
               </p>
@@ -186,7 +210,7 @@ function SearchPage({
         style={
           horizontalScroll
             ? {
-                gridAutoColumns: "21%",
+                gridAutoColumns: "33%",
                 gridAutoFlow: "column",
                 scrollSnapType: "inline mandatory",
               }

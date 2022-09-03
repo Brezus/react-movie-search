@@ -67,6 +67,13 @@ const Ul = styled.ul`
   margin: 0;
 `
 
+const LoadingDiv = styled.div`
+  background-image: url(../images/niceload.webp);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 350px;
+`
+
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
   const trailer = detailsData?.videos?.results.find((video) =>
@@ -96,7 +103,7 @@ export default function DetailsPage() {
     backgroundImage: `linear-gradient(90deg, rgba(32,32,38,0.75) 0%, rgba(1,11,19,1) 100%), url(${bkdrp})`,
   }
   const posterBg = {
-    backgroundImage: `url(${postr})`,
+    backgroundImage: `url(${postr && postr})`,
   }
   const genreList = detailsData?.genres.map((genre) => (
     <li key={nanoid()}>{genre.name}</li>
@@ -135,44 +142,54 @@ export default function DetailsPage() {
       })
       .then((data) => {
         setSuccess(true)
-        setIsLoading(false)
         setDetailsData(data)
+        setIsLoading(false)
       })
       .catch((err) => {
         setSuccess(false)
-        setIsLoading(false)
         console.error(err)
+        setIsLoading(false)
       })
   }, [location.pathname, location.state])
 
   return (
     <Main>
-      <DivBKDrop style={bgStyle}>
-        <ContainerDiv>
-          <PosterCont>
-            <DivPoster style={posterBg}></DivPoster>
-            <Button>Watch Trailer</Button>
-          </PosterCont>
-          <InfoCont>
-            <h1>
-              {detailsData?.title ? detailsData?.title : detailsData?.name}
-            </h1>
-            {detailsData?.tagline && <p>{detailsData.tagline}</p>}
-            {detailsData?.release_date && (
-              <p>{detailsData.release_date.slice(0, 4)}</p>
-            )}
-            {detailsData?.production_companies?.length >= 1 && (
-              <Ul>{productionCompanies}</Ul>
-            )}
-            {genreList && <Ul>{genreList}</Ul>}
-            <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
-          </InfoCont>
-          {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
-        </ContainerDiv>
-      </DivBKDrop>
-      {mediaType && movieId ? (
-        <Cast movieId={movieId} mediaType={mediaType} />
-      ) : null}
+      {isLoading ? (
+        <LoadingDiv />
+      ) : (
+        <>
+          <DivBKDrop style={bgStyle}>
+            <ContainerDiv>
+              <PosterCont>
+                {isLoading ? (
+                  <LoadingDiv />
+                ) : (
+                  <DivPoster style={posterBg}></DivPoster>
+                )}
+                <Button>Watch Trailer</Button>
+              </PosterCont>
+              <InfoCont>
+                <h1>
+                  {detailsData?.title ? detailsData?.title : detailsData?.name}
+                </h1>
+                {detailsData?.tagline && <p>{detailsData.tagline}</p>}
+                {detailsData?.release_date && (
+                  <p>{detailsData.release_date.slice(0, 4)}</p>
+                )}
+                {detailsData?.production_companies?.length >= 1 && (
+                  <Ul>{productionCompanies}</Ul>
+                )}
+                {genreList && <Ul>{genreList}</Ul>}
+                <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
+              </InfoCont>
+              {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
+            </ContainerDiv>
+          </DivBKDrop>
+          {mediaType && movieId ? (
+            <Cast movieId={movieId} mediaType={mediaType} />
+          ) : null}
+        </>
+      )}
     </Main>
   )
 }

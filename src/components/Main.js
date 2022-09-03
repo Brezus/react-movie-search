@@ -19,7 +19,6 @@ const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${proces
 
 function Main() {
   const [genres, setGenres] = useState([])
-  const desiredGenreId = [2, 6, 10]
   const genreHtml = genres.map((genre, i) => {
     return (
       <Genre
@@ -61,7 +60,7 @@ function Main() {
         }
       })
       .then((data) => {
-        setGenres(data.genres.slice(0, 6))
+        setGenres(data.genres.slice(0, 5))
       })
       .catch((err) => {
         console.error(err)
