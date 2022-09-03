@@ -75,7 +75,7 @@ function Homescreen() {
           width={"100%"}
           src={
             fetchedData.backdrop_path
-              ? `http://image.tmdb.org/t/p/original${fetchedData.backdrop_path}`
+              ? `https://image.tmdb.org/t/p/original${fetchedData.backdrop_path}`
               : ""
           }
         />
