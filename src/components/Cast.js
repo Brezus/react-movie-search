@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
-import { SearchPage } from "../composition/SearchPage"
-
-// const SearchPage = React.lazy(() =>
-//   import("../composition/SearchPage").then((module) => ({
-//     default: module.SearchPage,
-//   }))
-// )
 
 const Aside = styled.aside`
   border: 5px solid black;
@@ -94,13 +87,6 @@ export default function Cast({ movieId, mediaType }) {
         <h2>Cast</h2>
         <Profiles>{profiles}</Profiles>
       </Aside>
-      <SearchPage
-        url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-        redirected={false}
-        category={true}
-      >
-        <h3>you may also like</h3>
-      </SearchPage>
     </>
   )
 }

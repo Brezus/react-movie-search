@@ -5,7 +5,6 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import LoadingBar from "react-top-loading-bar"
 
 const Div = styled.div`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   width: 95%;
@@ -192,7 +191,6 @@ function SearchPage({
   return (
     <Div
       style={{
-        minHeight: "100vh",
         padding: `${
           redirected || category || genre ? "10rem 0 5rem" : "1rem 0 5rem"
         }`,

@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, lazy, Suspense } from "react"
 import { useLocation } from "react-router-dom"
 import YouTube from "react-youtube"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import Cast from "../components/Cast"
+
+const SearchPage = React.lazy(() =>
+  import("../composition/SearchPage").then((module) => ({
+    default: module.SearchPage,
+  }))
+)
 
 const Main = styled.main`
   padding-top: 5rem;
@@ -80,6 +86,7 @@ export default function DetailsPage() {
     video.name.toLowerCase().includes("trailer")
   )
   const location = useLocation()
+  const loadingDiv = <div>loading</div>
   const bkdrp = `${
     detailsData?.backdrop_path
       ? `https://image.tmdb.org/t/p/original/${detailsData.backdrop_path}`
@@ -185,9 +192,34 @@ export default function DetailsPage() {
               {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
             </ContainerDiv>
           </DivBKDrop>
-          {mediaType && movieId ? (
+          <Suspense fallback={loadingDiv}>
+            {mediaType && movieId ? (
+              <Cast movieId={movieId} mediaType={mediaType} />
+            ) : null}
+          </Suspense>
+          <Suspense fallback={loadingDiv}>
+            {mediaType && movieId ? (
+              <SearchPage
+                url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+                redirected={false}
+                category={true}
+              >
+                <h3>you may also like</h3>
+              </SearchPage>
+            ) : null}
+          </Suspense>
+          {/* {mediaType && movieId ? (
             <Cast movieId={movieId} mediaType={mediaType} />
           ) : null}
+          {mediaType && movieId ? (
+            <SearchPage
+              url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+              redirected={false}
+              category={true}
+            >
+              <h3>you may also like</h3>
+            </SearchPage>
+          ) : null} */}
         </>
       )}
     </Main>
