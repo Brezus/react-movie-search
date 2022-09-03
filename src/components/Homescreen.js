@@ -46,14 +46,10 @@ const key = process.env.REACT_APP_API_KEY
 const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&language=en-US&page=1`
 
 function Homescreen() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
   const [fetchedData, setFetchedData] = useState([])
   console.log(fetchedData)
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * 19)
-
-    setIsLoading(true)
     fetch(url)
       .then((res) => {
         if (!res.ok) {
@@ -63,13 +59,9 @@ function Homescreen() {
         }
       })
       .then((data) => {
-        setSuccess(true)
-        setIsLoading(false)
         setFetchedData(data.results[randomNumber])
       })
       .catch((err) => {
-        setSuccess(false)
-        setIsLoading(false)
         console.error(err)
       })
   }, [])

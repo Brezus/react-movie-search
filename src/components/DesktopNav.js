@@ -1,5 +1,4 @@
-import React, { useContext } from "react"
-import { AppContext } from "../AppContext"
+import React from "react"
 import Search from "./Search"
 import styled from "styled-components"
 import { Link } from "react-router-dom"

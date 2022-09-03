@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import MobileNav from "./MobileNav"
 import DesktopNav from "./DesktopNav"
 import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
-import { AppContext } from "../AppContext"
 import { Link } from "react-router-dom"
 import { nanoid } from "nanoid"
 

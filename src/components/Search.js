@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react"
 import styled from "styled-components"
 import { AppContext } from "../AppContext"
-import { Redirect, Link } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useParams } from "react-router-dom"
 
 const InputWrapper = styled.span`
@@ -49,7 +49,6 @@ const InputSearch = styled.input`
 export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
   const { srchQ, debouncedChangeHandler } = useContext(AppContext)
-  const location = useParams()
 
   function useOutsideAlerter(ref) {
     useEffect(() => {

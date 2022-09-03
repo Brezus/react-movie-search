@@ -8,7 +8,6 @@ import { useEffect, useState, useMemo } from "react"
 import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./composition/SearchPage"
-import { nanoid } from "nanoid"
 import DetailsPage from "./pages/DetailsPage"
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import debounce from "lodash.debounce"
@@ -31,7 +30,6 @@ function App() {
   const [srchQ, setSrchQ] = useState("")
   const [searched, setSearched] = useState(false)
   const [redirected, setRedirected] = useState(false)
-  const [pageNumber, setPageNumber] = useState(1)
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
@@ -63,7 +61,7 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Homescreen />
-                <Main pageNumber={pageNumber} />
+                <Main />
               </Route>
               <Route exact path="/:search/page=:pNum">
                 <SearchPage
