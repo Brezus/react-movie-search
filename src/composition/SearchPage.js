@@ -148,7 +148,7 @@ function SearchPage({
               backgroundBlendMode: `${
                 horizontalScroll ? "multiply" : "normal"
               }`,
-              maxWidth: `${!horizontalScroll && "300px"}`,
+              maxWidth: `${!horizontalScroll ? "300px" : "initial"}`,
               gridRow: "1",
               gridColumn: "1",
             }}
