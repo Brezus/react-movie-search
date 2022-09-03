@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { SearchPage } from "../composition/SearchPage"
@@ -47,12 +47,9 @@ const ProfileRole = styled.div`
 `
 
 export default function Cast({ movieId, mediaType }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
   const [castData, setCastData] = useState([])
   useEffect(() => {
     const fetchCastUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    setIsLoading(true)
     fetch(fetchCastUrl)
       .then((res) => {
         if (!res.ok) {
@@ -62,13 +59,9 @@ export default function Cast({ movieId, mediaType }) {
         }
       })
       .then((data) => {
-        setSuccess(true)
-        setIsLoading(false)
         setCastData(data.cast.slice(0, 12))
       })
       .catch((err) => {
-        setSuccess(false)
-        setIsLoading(false)
         console.error(err)
       })
   }, [movieId, mediaType])
