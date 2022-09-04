@@ -52,7 +52,7 @@ export default function Cast({ movieId, mediaType }) {
         }
       })
       .then((data) => {
-        setCastData(data.cast.slice(0, 12))
+        setCastData(data.cast.slice(0, 4))
       })
       .catch((err) => {
         console.error(err)

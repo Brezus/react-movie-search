@@ -74,14 +74,16 @@ const Ul = styled.ul`
 `
 
 const LoadingDiv = styled.div`
-  background-image: url(../images/niceload.webp);
+  background-image: url(../images/giphy.gif);
   background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
-  height: 350px;
+  height: 100vh;
 `
 
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
+  console.log(detailsData)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )
@@ -97,8 +99,6 @@ export default function DetailsPage() {
       ? `https://image.tmdb.org/t/p/w500/${detailsData.poster_path}`
       : null
   }`
-  const [isLoading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
   const opts = {
     height: "300",
     width: "400",
@@ -138,7 +138,6 @@ export default function DetailsPage() {
   }
   useEffect(() => {
     window.scrollTo(0, 0)
-    setIsLoading(true)
     fetch(location?.state?.detailsUrl)
       .then((res) => {
         if (!res.ok) {
@@ -148,31 +147,23 @@ export default function DetailsPage() {
         }
       })
       .then((data) => {
-        setSuccess(true)
         setDetailsData(data)
-        setIsLoading(false)
       })
       .catch((err) => {
-        setSuccess(false)
         console.error(err)
-        setIsLoading(false)
       })
   }, [location.pathname, location.state])
 
   return (
     <Main>
-      {isLoading ? (
+      {!detailsData ? (
         <LoadingDiv />
       ) : (
         <>
           <DivBKDrop style={bgStyle}>
             <ContainerDiv>
               <PosterCont>
-                {isLoading ? (
-                  <LoadingDiv />
-                ) : (
-                  <DivPoster style={posterBg}></DivPoster>
-                )}
+                <DivPoster style={posterBg}></DivPoster>
                 <Button>Watch Trailer</Button>
               </PosterCont>
               <InfoCont>
@@ -192,26 +183,10 @@ export default function DetailsPage() {
               {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
             </ContainerDiv>
           </DivBKDrop>
-          <Suspense fallback={loadingDiv}>
-            {mediaType && movieId ? (
-              <Cast movieId={movieId} mediaType={mediaType} />
-            ) : null}
-          </Suspense>
-          <Suspense fallback={loadingDiv}>
-            {mediaType && movieId ? (
-              <SearchPage
-                url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-                redirected={false}
-                category={true}
-              >
-                <h3>you may also like</h3>
-              </SearchPage>
-            ) : null}
-          </Suspense>
-          {/* {mediaType && movieId ? (
+          {mediaType && movieId ? (
             <Cast movieId={movieId} mediaType={mediaType} />
           ) : null}
-          {mediaType && movieId ? (
+          <Suspense fallback={loadingDiv}>
             <SearchPage
               url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
               redirected={false}
@@ -219,9 +194,19 @@ export default function DetailsPage() {
             >
               <h3>you may also like</h3>
             </SearchPage>
-          ) : null} */}
+          </Suspense>
         </>
       )}
     </Main>
   )
 }
+
+// {mediaType && movieId ? (
+//   <SearchPage
+//     url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+//     redirected={false}
+//     category={true}
+//   >
+//     <h3>you may also like</h3>
+//   </SearchPage>
+// ) : null}
