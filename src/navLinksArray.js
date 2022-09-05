@@ -31,7 +31,7 @@ export const LinksArray = [
 
 export const navRoutesHtml = LinksArray.map((link) => {
   return (
-    <Route path={[`${link.linkName}/page=:pNum`, link.linkName]} key={nanoid()}>
+    <Route exact path={`${link.linkName}/page=:pNum`} key={nanoid()}>
       <SearchPage
         url={link.url}
         redirected={false}

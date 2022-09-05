@@ -4,6 +4,8 @@ import YouTube from "react-youtube"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import Cast from "../components/Cast"
+import LoadingAnimation from "../assets/giphy.gif"
+import ProgressiveImage from "react-progressive-graceful-image"
 
 const SearchPage = lazy(() =>
   import("../composition/SearchPage").then((module) => ({
@@ -15,15 +17,39 @@ const Main = styled.main`
   padding-top: 5rem;
 `
 
+// const DivBKDrop = styled.article`
+//   padding-top: 5em;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   background: rgb(32, 32, 38);
+//   background-position: center;
+//   min-height: 100vh;
+// `
+
 const DivBKDrop = styled.article`
-  min-height: 100vh;
   padding-top: 5em;
   width: 100%;
   display: flex;
   justify-content: center;
   background: rgb(32, 32, 38);
-  background-size: cover;
   background-position: center;
+  min-height: 100vh;
+  position: relative;
+  background-color: rgba(32, 32, 38, 1);
+  overflow: hidden;
+`
+
+const StyledImg = styled.img`
+  max-width: 100%;
+  height: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 1;
+  mix-blend-mode: overlay;
 `
 
 const PosterCont = styled.div`
@@ -47,6 +73,8 @@ const ContainerDiv = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 5em;
+  position: absolute;
+  z-index: 2;
 `
 const Button = styled.button`
   padding: 1em 3em;
@@ -108,6 +136,7 @@ export default function DetailsPage() {
   }
   const bgStyle = {
     backgroundImage: `linear-gradient(90deg, rgba(32,32,38,0.75) 0%, rgba(1,11,19,1) 100%), url(${bkdrp})`,
+    backgroundSize: `${detailsData?.backdrop_path ? "cover" : "contain"}`,
   }
   const posterBg = {
     backgroundImage: `url(${postr && postr})`,
@@ -162,7 +191,18 @@ export default function DetailsPage() {
         <LoadingDiv />
       ) : (
         <>
-          <DivBKDrop style={bgStyle}>
+          <DivBKDrop>
+            <ProgressiveImage src={bkdrp} placeholder={LoadingAnimation}>
+              {(src) => (
+                <StyledImg
+                  src={src}
+                  height={"100%"}
+                  width={"100%"}
+                  alt={"backdrop"}
+                />
+              )}
+            </ProgressiveImage>
+
             <ContainerDiv>
               <PosterCont>
                 <DivPoster style={posterBg}></DivPoster>
@@ -203,3 +243,40 @@ export default function DetailsPage() {
     </Main>
   )
 }
+
+// <DivBKDrop style={bgStyle}>
+//             <ContainerDiv>
+//               <PosterCont>
+//                 <DivPoster style={posterBg}></DivPoster>
+//                 <Button>Watch Trailer</Button>
+//               </PosterCont>
+//               <InfoCont>
+//                 <h1>
+//                   {detailsData?.title ? detailsData?.title : detailsData?.name}
+//                 </h1>
+//                 {detailsData?.tagline && <p>{detailsData.tagline}</p>}
+//                 {detailsData?.release_date && (
+//                   <p>{detailsData.release_date.slice(0, 4)}</p>
+//                 )}
+//                 {detailsData?.production_companies?.length >= 1 && (
+//                   <Ul>{productionCompanies}</Ul>
+//                 )}
+//                 {genreList && <Ul>{genreList}</Ul>}
+//                 <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
+//               </InfoCont>
+//               {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
+//             </ContainerDiv>
+//           </DivBKDrop>
+//           {mediaType && movieId ? (
+//             <Cast movieId={movieId} mediaType={mediaType} />
+//           ) : null}
+//           <Suspense fallback={loadingDiv}>
+//             <SearchPage
+//               url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+//               redirected={false}
+//               category={true}
+//               deetsPage={true}
+//             >
+//               <h3>you may also like</h3>
+//             </SearchPage>
+//           </Suspense>

@@ -8,12 +8,7 @@ import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./composition/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
-import {
-  HashRouter as Router,
-  Switch,
-  Route,
-  MemoryRouter,
-} from "react-router-dom"
+import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import "./App.css"
@@ -47,10 +42,7 @@ function App() {
 
   const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
     process.env.REACT_APP_API_KEY
-  }&language=en-US&query=${srchQ || "sonic"}&include_adult=false&page=1`
-
-  // const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&&include_adult=false&page=1`
-  // const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=df1e83da6def4d07f0120e0d01b62a04&language=en-US&query=naruto&page=1&include_adult=false`
+  }&language=en-US&query=${srchQ || "sonic"}&include_adult=false&`
 
   useEffect(() => {
     return () => {
@@ -75,7 +67,7 @@ function App() {
                 <Homescreen />
                 <Main />
               </Route>
-              <Route path="/:search/page=:pNum">
+              <Route exact path="/:search/page=:pNum">
                 <SearchPage
                   url={searchResultsUrl}
                   dep={srchQ}
@@ -86,13 +78,16 @@ function App() {
                   </p>{" "}
                 </SearchPage>
               </Route>
-              <Route path={`/categories/:genre/page=:pNum`}>
+              <Route exact path={`/categories/:genre/page=:pNum`}>
                 <SearchPage redirected={false} genre={true} />
               </Route>
-              <Route path={`/details/:movieName`}>
+              <Route exact path={`/details/:movieName`}>
                 <DetailsPage />
               </Route>
               {navRoutesHtml}
+              <Route path="*">
+                <p>you folllowed zoros directions didnt</p>
+              </Route>
             </Switch>
           </AppContext.Provider>
         </DivApp>

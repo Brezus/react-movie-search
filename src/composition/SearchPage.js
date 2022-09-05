@@ -91,7 +91,7 @@ function SearchPage({
     if (dep || url || redirected || genre) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
       const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
-      fetch(redirected ? redirectedUrl : genre ? genreUrl : url)
+      fetch(redirected ? redirectedUrl : genre ? genreUrl : url + `page=${p}`)
         .then((res) => {
           if (!res.ok) {
             throw new Error(res.status)
