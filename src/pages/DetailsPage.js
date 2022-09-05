@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { nanoid } from "nanoid"
 import Cast from "../components/Cast"
 
-const SearchPage = React.lazy(() =>
+const SearchPage = lazy(() =>
   import("../composition/SearchPage").then((module) => ({
     default: module.SearchPage,
   }))
@@ -124,9 +124,9 @@ export default function DetailsPage() {
           backgroundImage: `url(https://image.tmdb.org/t/p/w45/${company?.logo_path})`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
-          height: "30px",
-          width: "30px",
+          backgroundSize: "100%",
+          height: "50px",
+          width: "50px",
           display: `${company?.logo_path ? "initial" : "none"}`,
         }}
       ></li>
@@ -203,13 +203,3 @@ export default function DetailsPage() {
     </Main>
   )
 }
-
-// {mediaType && movieId ? (
-//   <SearchPage
-//     url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
-//     redirected={false}
-//     category={true}
-//   >
-//     <h3>you may also like</h3>
-//   </SearchPage>
-// ) : null}

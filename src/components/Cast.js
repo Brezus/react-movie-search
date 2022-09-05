@@ -2,31 +2,36 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import NoImage from "../assets/no-photo.png"
+import CastBg from "../assets/fancy-pants.jpg"
 
 const Aside = styled.aside`
   border: 5px solid black;
-  padding: 3rem 0;
-  background-image: url(../images/fancy-pants.jpg);
-  //   flex: 1;
-  //   height: 550px;
+  padding: 5rem 0;
+`
+const StyledH2 = styled.h2`
+  width: 95%;
+  margin: 0 auto 3rem;
+`
+const StyledSpan = styled.span`
+  display: block;
 `
 
 const Profiles = styled.div`
   width: 95%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-row-gap: 2em;
   grid-column-gap: 4em;
 `
 const ActorCont = styled.div`
-  height: 250px;
+  height: 300px;
   display: grid;
   max-width: 230px;
-  grid-template-rows: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
-  border: 3px solid white;
+  outline: 5px solid white;
 `
 const StyledImage = styled.img`
   object-fit: cover;
@@ -78,7 +83,10 @@ export default function Cast({ movieId, mediaType }) {
           />
           <ProfileRole>
             <p>
-              {castMember?.name} <span>{castMember?.character}</span>
+              {castMember?.name}{" "}
+              {castMember?.character && (
+                <StyledSpan>as: {castMember?.character}</StyledSpan>
+              )}
             </p>
           </ProfileRole>
         </ActorCont>
@@ -87,8 +95,8 @@ export default function Cast({ movieId, mediaType }) {
   return (
     <>
       {castData && (
-        <Aside>
-          <h2>Starring</h2>
+        <Aside style={{ backgroundImage: `url(${CastBg})` }}>
+          <StyledH2>Starring</StyledH2>
           <Profiles>{profiles}</Profiles>
         </Aside>
       )}

@@ -12,10 +12,23 @@ const Div = styled.div`
   margin-inline: auto;
   gap: 3em;
 `
+
+const Poster = styled.div`
+  background-size: 100%;
+  background-position: center;
+  transition: background-size 0.5s ease;
+  border-radius: 10px;
+  -webkit-filter: brightness(100%);
+`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
   scroll-snap-align: start;
+
+  &:hover ${Poster} {
+    background-size: 120%;
+    -webkit-filter: brightness(50%);
+  }
 `
 
 const Section = styled.section`
@@ -28,11 +41,7 @@ const Section = styled.section`
 const Movie = styled.div`
   display: grid;
 `
-const Poster = styled.div`
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-`
+
 const Info = styled.div`
   display: flex;
   flex-direction: column;
