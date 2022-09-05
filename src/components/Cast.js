@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
+import NoImage from "../assets/no-photo.png"
 
 const Aside = styled.aside`
   border: 5px solid black;
@@ -41,6 +42,7 @@ const ProfileRole = styled.div`
 
 export default function Cast({ movieId, mediaType }) {
   const [castData, setCastData] = useState([])
+  console.log(castData)
   useEffect(() => {
     const fetchCastUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     fetch(fetchCastUrl)
@@ -52,10 +54,11 @@ export default function Cast({ movieId, mediaType }) {
         }
       })
       .then((data) => {
-        setCastData(data.cast.slice(0, 4))
+        setCastData(data.cast.slice(0, 5))
       })
       .catch((err) => {
         console.error(err)
+        setCastData(null)
       })
   }, [movieId, mediaType])
   const profiles =
@@ -70,7 +73,7 @@ export default function Cast({ movieId, mediaType }) {
             src={`${
               castMember?.profile_path
                 ? `https://image.tmdb.org/t/p/h632/${castMember?.profile_path}`
-                : "../images/no-photo.png"
+                : NoImage
             }`}
           />
           <ProfileRole>
@@ -83,10 +86,12 @@ export default function Cast({ movieId, mediaType }) {
     })
   return (
     <>
-      <Aside>
-        <h2>Cast</h2>
-        <Profiles>{profiles}</Profiles>
-      </Aside>
+      {castData && (
+        <Aside>
+          <h2>Starring</h2>
+          <Profiles>{profiles}</Profiles>
+        </Aside>
+      )}
     </>
   )
 }

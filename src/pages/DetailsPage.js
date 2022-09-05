@@ -138,20 +138,22 @@ export default function DetailsPage() {
   }
   useEffect(() => {
     window.scrollTo(0, 0)
-    fetch(location?.state?.detailsUrl)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        } else {
-          return res.json()
-        }
-      })
-      .then((data) => {
-        setDetailsData(data)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+    if (location?.state?.detailsUrl) {
+      fetch(location?.state?.detailsUrl)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(res.status)
+          } else {
+            return res.json()
+          }
+        })
+        .then((data) => {
+          setDetailsData(data)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
   }, [location.pathname, location.state])
 
   return (
@@ -191,6 +193,7 @@ export default function DetailsPage() {
               url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
               redirected={false}
               category={true}
+              deetsPage={true}
             >
               <h3>you may also like</h3>
             </SearchPage>

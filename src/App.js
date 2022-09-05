@@ -37,18 +37,26 @@ function App() {
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
+    localStorage.setItem("srchQ", JSON.stringify(srchQ))
+    console.log(localStorage.getItem("srchQ"))
+
     setRedirected(true)
     setSearched(true)
   }
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
 
-  const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&include_adult=false&page=1`
+  const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
+    process.env.REACT_APP_API_KEY
+  }&language=en-US&query=${srchQ || "sonic"}&include_adult=false&page=1`
+
+  // const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&&include_adult=false&page=1`
+  // const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=df1e83da6def4d07f0120e0d01b62a04&language=en-US&query=naruto&page=1&include_adult=false`
 
   useEffect(() => {
     return () => {
       debouncedChangeHandler.cancel()
     }
-  }, [debouncedChangeHandler])
+  }, [debouncedChangeHandler, srchQ])
 
   return (
     <ThemeProvider theme={vars}>
@@ -67,7 +75,7 @@ function App() {
                 <Homescreen />
                 <Main />
               </Route>
-              <Route exact path="/:search/page=:pNum">
+              <Route path="/:search/page=:pNum">
                 <SearchPage
                   url={searchResultsUrl}
                   dep={srchQ}
@@ -78,10 +86,10 @@ function App() {
                   </p>{" "}
                 </SearchPage>
               </Route>
-              <Route exact path={`/categories/:genre/page=:pNum`}>
+              <Route path={`/categories/:genre/page=:pNum`}>
                 <SearchPage redirected={false} genre={true} />
               </Route>
-              <Route exact path={`/details/:movieName`}>
+              <Route path={`/details/:movieName`}>
                 <DetailsPage />
               </Route>
               {navRoutesHtml}

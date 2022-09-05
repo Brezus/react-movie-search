@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
 import LoadingBar from "react-top-loading-bar"
+import NoImage from "../assets/no-photo.png"
 
 const Div = styled.div`
   display: flex;
@@ -58,6 +59,7 @@ function SearchPage({
   linkName = null,
   genre = null,
   horizontalScroll = false,
+  deetsPage = false,
 }) {
   const [mData, setMData] = useState([])
   const [progress, setProgress] = useState(0)
@@ -77,11 +79,10 @@ function SearchPage({
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    setIsLoading(true)
     if (dep || url || redirected || genre) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
       const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
-      fetch(redirected ? redirectedUrl : genre ? genreUrl : url + `page=${p}`)
+      fetch(redirected ? redirectedUrl : genre ? genreUrl : url)
         .then((res) => {
           if (!res.ok) {
             throw new Error(res.status)
@@ -90,11 +91,14 @@ function SearchPage({
           }
         })
         .then((data) => {
-          setMData(params.pNum ? data.results : data.results.slice(0, 8))
-          setIsLoading(false)
+          setMData(
+            params.pNum
+              ? data.results
+              : data.results.slice(0, `${deetsPage ? 4 : 8}`)
+          )
         })
         .catch((err) => {
-          setIsLoading(false)
+          setMData(null)
           console.error(err)
         })
     }
@@ -116,6 +120,7 @@ function SearchPage({
     return (
       <StyledLink
         key={nanoid()}
+        replace
         to={{
           pathname: `/details/${movie.title ? movie.title : movie.name}`,
           state: {
@@ -142,7 +147,7 @@ function SearchPage({
                   ? `linear-gradient(90deg, rgba(32,32,38,0.8) 0%, rgba(1,11,19,0.7) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
                   : movie.poster_path
                   ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
-                  : `url(../images/no-photo.png)`
+                  : NoImage
               }`,
               backgroundBlendMode: `${
                 horizontalScroll ? "multiply" : "normal"
@@ -196,55 +201,63 @@ function SearchPage({
         }`,
       }}
     >
-      <LoadingBar
-        color="#f11946"
-        progress={isLoading ? 20 : 100}
-        onLoaderFinished={() => setProgress(0)}
-      />
-      {children}
-      {genre && <p>Genre: {location?.state?.genreName}</p>}
-
-      <Section
-        style={
-          horizontalScroll
-            ? {
-                gridAutoColumns: "33%",
-                gridAutoFlow: "column",
-                scrollSnapType: "inline mandatory",
-              }
-            : {
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                justifyContent: "center",
-              }
-        }
-      >
-        {movies}
-      </Section>
-      {params.pNum && (
+      {!mData ? (
+        <p>nothing</p>
+      ) : mData.length > 1 ? (
         <>
-          <Link
-            to={{
-              pathname: `${toLink}/page=${p === 1 ? 1 : p - 1}`,
-              state: {
-                id: `${location?.state?.id}`,
-                genreName: `${location?.state?.genreName}`,
-              },
-            }}
+          <LoadingBar
+            color="#f11946"
+            progress={isLoading ? 20 : 100}
+            onLoaderFinished={() => setProgress(0)}
+          />
+          {children}
+          {genre && <p>Genre: {location?.state?.genreName}</p>}
+
+          <Section
+            style={
+              horizontalScroll
+                ? {
+                    gridAutoColumns: "33%",
+                    gridAutoFlow: "column",
+                    scrollSnapType: "inline mandatory",
+                  }
+                : {
+                    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                    justifyContent: "center",
+                  }
+            }
           >
-            Previous
-          </Link>
-          <Link
-            to={{
-              pathname: `${toLink}/page=${p + 1}`,
-              state: {
-                id: `${location?.state?.id}`,
-                genreName: `${location?.state?.genreName}`,
-              },
-            }}
-          >
-            Next
-          </Link>
+            {movies}
+          </Section>
+          {params.pNum && (
+            <>
+              <Link
+                to={{
+                  pathname: `${toLink}/page=${p === 1 ? 1 : p - 1}`,
+                  state: {
+                    id: `${location?.state?.id}`,
+                    genreName: `${location?.state?.genreName}`,
+                  },
+                }}
+              >
+                Previous
+              </Link>
+              <Link
+                to={{
+                  pathname: `${toLink}/page=${p + 1}`,
+                  state: {
+                    id: `${location?.state?.id}`,
+                    genreName: `${location?.state?.genreName}`,
+                  },
+                }}
+              >
+                Next
+              </Link>
+            </>
+          )}
         </>
+      ) : (
+        <p>no such result</p>
       )}
     </Div>
   )
