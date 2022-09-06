@@ -50,17 +50,22 @@ export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
   const { srchQ, debouncedChangeHandler, debounced } = useContext(AppContext)
   const inputRef = useRef(null)
+  let local
 
   useEffect(() => {
     if (!debounced) {
       inputRef.current.value = ""
+      console.log("not debounced")
       return
     }
-  }, [debounced])
+    if (debounced) {
+      console.log("debounced")
+      localStorage.setItem("searchQuery", JSON.stringify(srchQ))
+      local = JSON.parse(localStorage.getItem("searchQuery"))
+      console.log(local)
+    }
+  }, [debounced, srchQ])
 
-  useEffect(() => {
-    console.log("changed")
-  }, [srchQ])
   function useOutsideAlerter(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
@@ -125,8 +130,13 @@ export default function Search({ color, mobile }) {
           setClickedInside(true)
         }}
       >
-        {srchQ ? (
-          <Redirect push to={`/${srchQ}/page=1`} />
+        {srchQ || JSON.parse(localStorage.getItem("searchQuery")) ? (
+          <Redirect
+            push
+            to={`/${
+              srchQ || JSON.parse(localStorage.getItem("searchQuery"))
+            }/page=1`}
+          />
         ) : (
           <Redirect push to={"/"} />
         )}
