@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext } from "react"
+import { AppContext } from "../AppContext"
 import Search from "./Search"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
@@ -17,10 +18,13 @@ const Ul = styled.ul`
 
 export default function DesktopNav({ navRouterLinks }) {
   const icon = <Icon src={ApiLogo} alt={"the movie data base icon"} />
+  const { clearInput } = useContext(AppContext)
 
   return (
     <>
-      <Link to={"/"}>{icon}</Link>
+      <Link to={"/"} onClick={clearInput}>
+        {icon}
+      </Link>
       <Ul>{navRouterLinks}</Ul>
       <Search color={"black"} />
     </>

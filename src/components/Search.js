@@ -48,7 +48,15 @@ const InputSearch = styled.input`
 
 export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
-  const { srchQ, debouncedChangeHandler } = useContext(AppContext)
+  const { srchQ, debouncedChangeHandler, debounced } = useContext(AppContext)
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (!debounced) {
+      inputRef.current.value = ""
+      return
+    }
+  }, [debounced])
 
   useEffect(() => {
     console.log("changed")
@@ -86,6 +94,7 @@ export default function Search({ color, mobile }) {
     if (mobileProp) {
       inputType = clickedInside && (
         <InputSearch
+          ref={inputRef}
           autoFocus={true}
           color={color}
           type={"text"}
@@ -96,6 +105,7 @@ export default function Search({ color, mobile }) {
     } else {
       inputType = (
         <InputSearch
+          ref={inputRef}
           color={color}
           type={"text"}
           placeholder={"search movies and tv shows"}

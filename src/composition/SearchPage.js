@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { AppContext } from "../AppContext"
 import styled from "styled-components"
 import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
@@ -74,6 +75,7 @@ function SearchPage({
 
   const [progress, setProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
   const p = parseInt(params.pNum, 10)
@@ -129,6 +131,7 @@ function SearchPage({
 
     return (
       <StyledLink
+        onClick={clearInput}
         key={nanoid()}
         replace
         to={{

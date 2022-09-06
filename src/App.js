@@ -25,18 +25,43 @@ const Span = styled.span`
   display: block;
   font-size: 3rem;
 `
+const StyledInput = styled.input`
+  width: 100%;
+  display: block;
+  padding: 0em 0em 0em 2.5em;
+  color: white;
+  background-color: transparent;
+  border: none;
+  &::placeholder {
+    color: ${({ theme }) => theme.white};
+  }
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  @media (max-width: 700px) {
+    padding: 0em 0em 0em 1.5em;
+    &::placeholder {
+      opacity: 0;
+    }
+  }
+`
 function App() {
   const [srchQ, setSrchQ] = useState("")
   const [searched, setSearched] = useState(false)
   const [redirected, setRedirected] = useState(false)
+  const [debounced, setDebounced] = useState(false)
+
+  function clearInput() {
+    setDebounced(false)
+    console.log("clicked")
+  }
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
-    localStorage.setItem("srchQ", JSON.stringify(srchQ))
-    console.log(localStorage.getItem("srchQ"))
-
     setRedirected(true)
     setSearched(true)
+    setDebounced(true)
   }
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
 
@@ -59,6 +84,8 @@ function App() {
               srchQ,
               debouncedChangeHandler,
               LinksArray,
+              debounced,
+              clearInput,
             }}
           >
             <Nav navLinksArray={LinksArray} searched={searched} />

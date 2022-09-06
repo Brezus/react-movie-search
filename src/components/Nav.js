@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import MobileNav from "./MobileNav"
 import DesktopNav from "./DesktopNav"
@@ -6,6 +6,7 @@ import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
 import { Link } from "react-router-dom"
 import { nanoid } from "nanoid"
+import { AppContext } from "../AppContext"
 
 const Navigation = styled.nav`
   display: flex;
@@ -37,11 +38,12 @@ export default function Nav({ navLinksArray }) {
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
   const scrollDirection = useScrollDirection()
+  const { clearInput } = useContext(AppContext)
 
   const navRouterLinks = navLinksArray.map((link) => {
     return (
       <li key={nanoid()}>
-        <StyledLink to={`${link.linkName}/page=1`}>
+        <StyledLink onClick={clearInput} to={`${link.linkName}/page=1`}>
           {link.linkNameHtml}
         </StyledLink>
       </li>
