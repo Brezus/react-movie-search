@@ -2,6 +2,7 @@ import React from "react"
 import Search from "./Search"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import ApiLogo from "../assets/tmdbIcon.svg"
 
 const Icon = styled.img`
   height: 30%;
@@ -15,9 +16,7 @@ const Ul = styled.ul`
 `
 
 export default function DesktopNav({ navRouterLinks }) {
-  const icon = (
-    <Icon src={"../images/tmdbIcon.svg"} alt={"the movie data base icon"} />
-  )
+  const icon = <Icon src={ApiLogo} alt={"the movie data base icon"} />
 
   return (
     <>

@@ -71,6 +71,7 @@ function SearchPage({
   deetsPage = false,
 }) {
   const [mData, setMData] = useState([])
+
   const [progress, setProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const location = useLocation()
@@ -156,7 +157,7 @@ function SearchPage({
                   ? `linear-gradient(90deg, rgba(32,32,38,0.8) 0%, rgba(1,11,19,0.7) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
                   : movie.poster_path
                   ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
-                  : NoImage
+                  : `url(${NoImage})`
               }`,
               backgroundBlendMode: `${
                 horizontalScroll ? "multiply" : "normal"
@@ -212,7 +213,7 @@ function SearchPage({
     >
       {!mData ? (
         <p>nothing</p>
-      ) : mData.length > 1 ? (
+      ) : mData.length >= 1 ? (
         <>
           <LoadingBar
             color="#f11946"
@@ -231,7 +232,8 @@ function SearchPage({
                     scrollSnapType: "inline mandatory",
                   }
                 : {
-                    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                    gridTemplateColumns:
+                      "repeat(auto-fill, minmax(250px, 1fr))",
                     justifyContent: "center",
                   }
             }

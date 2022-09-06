@@ -50,6 +50,9 @@ export default function Search({ color, mobile }) {
   const [clickedInside, setClickedInside] = useState(false)
   const { srchQ, debouncedChangeHandler } = useContext(AppContext)
 
+  useEffect(() => {
+    console.log("changed")
+  }, [srchQ])
   function useOutsideAlerter(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
