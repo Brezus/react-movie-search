@@ -58,13 +58,7 @@ export default function Search({ color, mobile }) {
       console.log("not debounced")
       return
     }
-    if (debounced) {
-      console.log("debounced")
-      localStorage.setItem("searchQuery", JSON.stringify(srchQ))
-      local = JSON.parse(localStorage.getItem("searchQuery"))
-      console.log(local)
-    }
-  }, [debounced, srchQ])
+  }, [debounced])
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -130,13 +124,8 @@ export default function Search({ color, mobile }) {
           setClickedInside(true)
         }}
       >
-        {srchQ || JSON.parse(localStorage.getItem("searchQuery")) ? (
-          <Redirect
-            push
-            to={`/${
-              srchQ || JSON.parse(localStorage.getItem("searchQuery"))
-            }/page=1`}
-          />
+        {srchQ ? (
+          <Redirect push to={`/${srchQ}/page=1`} />
         ) : (
           <Redirect push to={"/"} />
         )}
