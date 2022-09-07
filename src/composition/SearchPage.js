@@ -51,6 +51,7 @@ const StyledPlay = styled(FiPlayCircle)`
 const StyledImg = styled.img`
   height: 300px;
   width: 100%;
+  transition: opacity 0.2s ease;
 `
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -63,17 +64,23 @@ const StyledLink = styled(Link)`
     top: 40%;
     transform: translate(-50%, -40%);
   }
+  &:hover ${StyledImg} {
+    opacity: 0.4;
+    border: 2px solid orange;
+  }
 `
 
 const Section = styled.section`
   display: grid;
   overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-inline: contain;
   gap: 2em;
 `
 
 const Movie = styled.div`
   display: grid;
+  border-radius: 10px;
 `
 
 const Info = styled.div`
@@ -154,16 +161,8 @@ function SearchPage({
         .then((data) => {
           setMData(
             params.pNum
-              ? data.results.map((data) => {
-                  data.hoverd = false
-                  data.id = nanoid()
-                  return data
-                })
-              : data.results.slice(0, `${deetsPage ? 4 : 8}`).map((data) => {
-                  data.hoverd = false
-                  data.id = nanoid()
-                  return data
-                })
+              ? data.results
+              : data.results.slice(0, `${deetsPage ? 4 : 8}`)
           )
         })
         .catch((err) => {
@@ -190,8 +189,6 @@ function SearchPage({
       <StyledLink
         onClick={clearInput}
         key={nanoid()}
-        onMouseEnter={() => handleMouseEnter(movie.id)}
-        onMouseLeave={() => handleMouseLeave(movie.id)}
         replace
         to={{
           pathname: `/details/${movie.title ? movie.title : movie.name}`,
@@ -227,7 +224,6 @@ function SearchPage({
                 ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
                 : `${NoImage}`
             }
-            placeholder={LoadingAnimation}
           >
             {(src) => (
               <StyledImg
