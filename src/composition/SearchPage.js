@@ -5,6 +5,9 @@ import { nanoid } from "nanoid"
 import { Link, useLocation, useParams } from "react-router-dom"
 import LoadingBar from "react-top-loading-bar"
 import NoImage from "../assets/no-photo.png"
+import { FiPlayCircle } from "react-icons/fi"
+import LoadingAnimation from "../assets/giphy.gif"
+import ProgressiveImage from "react-progressive-graceful-image"
 
 const Div = styled.div`
   display: flex;
@@ -21,14 +24,44 @@ const Poster = styled.div`
   border-radius: 10px;
   -webkit-filter: brightness(100%);
 `
+
+const DarkDiv = styled.div`
+  height: 300px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: black;
+  transition: opacity 0.3s ease-in;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const StyledPlay = styled(FiPlayCircle)`
+  font-size: 4rem;
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -70%);
+  transition: all 0.3s ease-in;
+  opacity: 0;
+`
+
+const StyledImg = styled.img`
+  height: 300px;
+  width: 100%;
+`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
   scroll-snap-align: start;
+  position: relative;
 
-  &:hover ${Poster} {
-    background-size: 120%;
-    -webkit-filter: brightness(50%);
+  &:hover ${StyledPlay} {
+    opacity: 1;
+    top: 40%;
+    transform: translate(-50%, -40%);
   }
 `
 
@@ -72,6 +105,22 @@ function SearchPage({
   deetsPage = false,
 }) {
   const [mData, setMData] = useState([])
+  console.log(mData)
+
+  const handleMouseEnter = (id) => {
+    setMData((prev) =>
+      prev.map((data) => {
+        return data.id === id ? { ...data, hoverd: true } : data
+      })
+    )
+  }
+  const handleMouseLeave = (id) => {
+    setMData((prev) =>
+      prev.map((data) => {
+        return data.id === id ? { ...data, hoverd: false } : data
+      })
+    )
+  }
 
   const [progress, setProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -105,8 +154,16 @@ function SearchPage({
         .then((data) => {
           setMData(
             params.pNum
-              ? data.results
-              : data.results.slice(0, `${deetsPage ? 4 : 8}`)
+              ? data.results.map((data) => {
+                  data.hoverd = false
+                  data.id = nanoid()
+                  return data
+                })
+              : data.results.slice(0, `${deetsPage ? 4 : 8}`).map((data) => {
+                  data.hoverd = false
+                  data.id = nanoid()
+                  return data
+                })
           )
         })
         .catch((err) => {
@@ -133,6 +190,8 @@ function SearchPage({
       <StyledLink
         onClick={clearInput}
         key={nanoid()}
+        onMouseEnter={() => handleMouseEnter(movie.id)}
+        onMouseLeave={() => handleMouseLeave(movie.id)}
         replace
         to={{
           pathname: `/details/${movie.title ? movie.title : movie.name}`,
@@ -151,25 +210,43 @@ function SearchPage({
               movie.poster_path && horizontalScroll ? "200px" : "300px auto"
             }`,
             gridTemplateColumns: `${"minmax(150px, 1fr)"}`,
+            backgroundColor: `${
+              horizontalScroll ? "rgba(32, 32, 38, 1)" : "transparent"
+            }`,
           }}
         >
-          <Poster
+          <DarkDiv
             style={{
-              backgroundImage: `${
-                movie.poster_path && horizontalScroll
-                  ? `linear-gradient(90deg, rgba(32,32,38,0.8) 0%, rgba(1,11,19,0.7) 100%), url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
-                  : movie.poster_path
-                  ? `url(https://image.tmdb.org/t/p/w780${movie.poster_path})`
-                  : `url(${NoImage})`
-              }`,
-              backgroundBlendMode: `${
-                horizontalScroll ? "multiply" : "normal"
-              }`,
-              maxWidth: `${!horizontalScroll ? "300px" : "initial"}`,
-              gridRow: "1",
-              gridColumn: "1",
+              opacity: `${movie.hoverd && !horizontalScroll ? "0.8" : "0"}`,
             }}
           />
+          <StyledPlay />
+          <ProgressiveImage
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
+                : `${NoImage}`
+            }
+            placeholder={LoadingAnimation}
+          >
+            {(src) => (
+              <StyledImg
+                src={src}
+                height={"300px"}
+                width={"100%"}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                  mixBlendMode: `${horizontalScroll ? "overlay" : "normal"}`,
+                  maxWidth: `${!horizontalScroll ? "300px" : "initial"}`,
+                  gridRow: "1",
+                  gridColumn: "1",
+                }}
+                alt={"movie poster"}
+              />
+            )}
+          </ProgressiveImage>
+
           <Info
             style={{
               gridRow: `${horizontalScroll ? "1" : "initial"}`,
