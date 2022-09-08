@@ -33,8 +33,7 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function Nav({ navLinksArray }) {
-  const [openMenu, setOpenMenu] = useState(false)
+export default function Nav({ navLinksArray, setOpenMenu, openMenu }) {
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
   const scrollDirection = useScrollDirection()
@@ -43,7 +42,13 @@ export default function Nav({ navLinksArray }) {
   const navRouterLinks = navLinksArray.map((link) => {
     return (
       <li key={nanoid()}>
-        <StyledLink onClick={clearInput} to={`${link.linkName}/page=1`}>
+        <StyledLink
+          onClick={() => {
+            clearInput()
+            setOpenMenu(false)
+          }}
+          to={`${link.linkName}/page=1`}
+        >
           {link.linkNameHtml}
         </StyledLink>
       </li>
@@ -59,10 +64,8 @@ export default function Nav({ navLinksArray }) {
       }
     }
     function handleResize() {
-      if (window.innerWidth > 700) {
+      if (window.innerWidth > 800) {
         setOpenMenu(false)
-      } else if (window.innerWidth < 700) {
-        setOpenMenu(true)
       }
     }
 
@@ -78,16 +81,14 @@ export default function Nav({ navLinksArray }) {
   function toggleMenu() {
     setOpenMenu((prev) => !prev)
   }
-  const navComponent =
-    width < 700 ? (
-      <MobileNav
-        navRouterLinks={navRouterLinks}
-        toggleMenu={toggleMenu}
-        openMenu={openMenu}
-      />
-    ) : (
-      <DesktopNav navRouterLinks={navRouterLinks} />
-    )
+  const navComponent = (
+    <DesktopNav
+      navRouterLinks={navRouterLinks}
+      openMenu={openMenu}
+      setOpenMenu={setOpenMenu}
+      toggleMenu={toggleMenu}
+    />
+  )
   // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />
   return (
     <NavWrapper

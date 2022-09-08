@@ -46,19 +46,18 @@ const InputSearch = styled.input`
   }
 `
 
-export default function Search({ color, mobile }) {
+export default function Search({ color, mobile, setOpenMenu }) {
   const [clickedInside, setClickedInside] = useState(false)
   const { srchQ, debouncedChangeHandler, debounced } = useContext(AppContext)
   const inputRef = useRef(null)
-  let local
 
   useEffect(() => {
     if (!debounced) {
       inputRef.current.value = ""
-      console.log("not debounced")
       return
     }
-  }, [debounced])
+    if (srchQ) setOpenMenu(false)
+  }, [debounced, srchQ])
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -89,29 +88,15 @@ export default function Search({ color, mobile }) {
   )
 
   function getInputType(mobileProp) {
-    let inputType = ""
-    if (mobileProp) {
-      inputType = clickedInside && (
-        <InputSearch
-          ref={inputRef}
-          autoFocus={true}
-          color={color}
-          type={"text"}
-          placeholder={"search movies and tv shows"}
-          onChange={debouncedChangeHandler}
-        />
-      )
-    } else {
-      inputType = (
-        <InputSearch
-          ref={inputRef}
-          color={color}
-          type={"text"}
-          placeholder={"search movies and tv shows"}
-          onChange={debouncedChangeHandler}
-        />
-      )
-    }
+    let inputType = (
+      <InputSearch
+        ref={inputRef}
+        color={color}
+        type={"text"}
+        placeholder={"search movies and tv shows"}
+        onChange={debouncedChangeHandler}
+      />
+    )
     return inputType
   }
 

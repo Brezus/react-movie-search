@@ -153,7 +153,7 @@ export default function DetailsPage() {
           backgroundImage: `url(https://image.tmdb.org/t/p/w45/${company?.logo_path})`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "100%",
+          backgroundSize: "contain",
           height: "50px",
           width: "50px",
           display: `${company?.logo_path ? "initial" : "none"}`,

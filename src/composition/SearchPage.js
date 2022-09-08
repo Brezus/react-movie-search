@@ -6,7 +6,7 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import LoadingBar from "react-top-loading-bar"
 import NoImage from "../assets/no-photo.png"
 import { FiPlayCircle } from "react-icons/fi"
-import LoadingAnimation from "../assets/giphy.gif"
+import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 
 const Div = styled.div`
@@ -112,7 +112,6 @@ function SearchPage({
   deetsPage = false,
 }) {
   const [mData, setMData] = useState([])
-  console.log(mData)
 
   const handleMouseEnter = (id) => {
     setMData((prev) =>
@@ -187,6 +186,7 @@ function SearchPage({
 
     return (
       <StyledLink
+        style={{ maxWidth: `${horizontalScroll ? "initial" : "300px"}` }}
         onClick={clearInput}
         key={nanoid()}
         replace
@@ -224,6 +224,7 @@ function SearchPage({
                 ? `https://image.tmdb.org/t/p/w780${movie.poster_path}`
                 : `${NoImage}`
             }
+            placeholder={LoadingAnimation}
           >
             {(src) => (
               <StyledImg
@@ -255,7 +256,9 @@ function SearchPage({
             }}
           >
             <h3>
-              {nameOrTitle?.length >= 25
+              {nameOrTitle?.length >= 11 && horizontalScroll
+                ? nameOrTitle?.slice(0, 11) + "..."
+                : nameOrTitle?.length >= 25 && !horizontalScroll
                 ? nameOrTitle?.slice(0, 25) + "..."
                 : nameOrTitle}
             </h3>
@@ -268,7 +271,8 @@ function SearchPage({
               }}
             >
               <p>
-                {releaseOrAirDate?.slice(0, 4)} • ({movie.vote_average} ⭐)
+                {releaseOrAirDate?.slice(0, 4)} • (
+                {Math.floor(movie.vote_average)} ⭐)
               </p>
               <TypeIndicator>
                 {movie.first_air_date ? "tv" : "movie"}
@@ -303,7 +307,7 @@ function SearchPage({
             style={
               horizontalScroll
                 ? {
-                    gridAutoColumns: "33%",
+                    gridAutoColumns: "43%",
                     gridAutoFlow: "column",
                     scrollSnapType: "inline mandatory",
                   }

@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { nanoid } from "nanoid"
 import NoImage from "../assets/no-photo.png"
 import CastBg from "../assets/fancy-pants.jpg"
+import ProgressiveImage from "react-progressive-graceful-image"
+import LoadingAnimation from "../assets/take1animation.webp"
 
 const Aside = styled.aside`
   border: 5px solid black;
@@ -20,7 +22,7 @@ const Profiles = styled.div`
   width: 95%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-row-gap: 2em;
   grid-column-gap: 4em;
 `
@@ -71,16 +73,23 @@ export default function Cast({ movieId, mediaType }) {
     castData.map((castMember) => {
       return (
         <ActorCont key={nanoid()}>
-          <StyledImage
-            height={"170px"}
-            width={"100%"}
-            loading={"lazy"}
+          <ProgressiveImage
             src={`${
               castMember?.profile_path
                 ? `https://image.tmdb.org/t/p/h632/${castMember?.profile_path}`
                 : NoImage
             }`}
-          />
+            placeholder={LoadingAnimation}
+          >
+            {(src) => (
+              <StyledImage
+                height={"170px"}
+                width={"100%"}
+                src={src}
+                alt={`portrait of ${castMember?.name}`}
+              />
+            )}
+          </ProgressiveImage>
           <ProfileRole>
             <p>
               {castMember?.name}{" "}

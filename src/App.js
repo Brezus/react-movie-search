@@ -48,6 +48,7 @@ const StyledInput = styled.input`
 `
 function App() {
   const [srchQ, setSrchQ] = useState("")
+  const [openMenu, setOpenMenu] = useState(false)
   const [searched, setSearched] = useState(false)
   const [redirected, setRedirected] = useState(false)
   const [debounced, setDebounced] = useState(false)
@@ -88,7 +89,12 @@ function App() {
               clearInput,
             }}
           >
-            <Nav navLinksArray={LinksArray} searched={searched} />
+            <Nav
+              navLinksArray={LinksArray}
+              searched={searched}
+              setOpenMenu={setOpenMenu}
+              openMenu={openMenu}
+            />
             <Switch>
               <Route exact path="/">
                 <Homescreen />

@@ -70,7 +70,6 @@ function Homescreen() {
     <>
       <Display>
         <StyledImage
-          loading="lazy"
           height={"100%"}
           width={"100%"}
           src={
