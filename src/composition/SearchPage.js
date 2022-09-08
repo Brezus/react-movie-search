@@ -313,7 +313,7 @@ function SearchPage({
                   }
                 : {
                     gridTemplateColumns:
-                      "repeat(auto-fill, minmax(250px, 1fr))",
+                      "repeat(auto-fill, minmax(230px, 1fr))",
                     justifyContent: "center",
                   }
             }
