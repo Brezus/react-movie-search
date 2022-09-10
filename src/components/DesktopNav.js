@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import ApiLogo from "../assets/tmdbIcon.svg"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
+import Genres from "./Genres"
 
 const BurgerIcon = styled.a`
   height: ${({ theme }) => theme.inputHeight};
@@ -65,6 +66,8 @@ export default function DesktopNav({
   openMenu,
   setOpenMenu,
   toggleMenu,
+  setClickedInside,
+  clickedInside,
 }) {
   const icon = <Icon src={ApiLogo} alt={"the movie data base icon"} />
   const { clearInput } = useContext(AppContext)
@@ -93,7 +96,12 @@ export default function DesktopNav({
         {icon}
       </Link>
       <Ul>{navRouterLinks}</Ul>
-      <Search setOpenMenu={setOpenMenu} color={"black"} />
+      <Search
+        setOpenMenu={setOpenMenu}
+        color={"black"}
+        setClickedInside={setClickedInside}
+        clickedInside={clickedInside}
+      />
     </>
   )
 }

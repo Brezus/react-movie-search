@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from "react"
 import styled from "styled-components"
 import { SearchPage as Genre } from "../composition/SearchPage"
-
+import { FaRegHandPointRight } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { nanoid } from "nanoid"
 
@@ -14,11 +14,23 @@ const MainDiv = styled.main`
   gap: 3em;
   padding: 5em 0;
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+`
+const SeeMoreContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
 
 function Main() {
   const [genres, setGenres] = useState([])
+
   const genreHtml = genres.map((genre, i) => {
     return (
       <Genre
@@ -32,20 +44,23 @@ function Main() {
         redirected={false}
         horizontalScroll={i % 3 === 0 && true}
       >
-        <p>{genres[i]?.name}</p>
-        <Link
-          to={{
-            pathname: `/categories/${genres[i]?.name.toLowerCase()}/page=1`,
-            state: {
-              id: `${genres[i]?.id}`,
-              genreName: `${genres[i]?.name.toLowerCase()}`,
-              linkName: `/categories/${genres[i]?.name.toLowerCase()}`,
-            },
-          }}
-        >
+        <SeeMoreContainer>
           {" "}
-          see more
-        </Link>
+          <h2>{genres[i]?.name}</h2>
+          <StyledLink
+            to={{
+              pathname: `/categories/${genres[i]?.name.toLowerCase()}/page=1`,
+              state: {
+                id: `${genres[i]?.id}`,
+                genreName: `${genres[i]?.name.toLowerCase()}`,
+                linkName: `/categories/${genres[i]?.name.toLowerCase()}`,
+              },
+            }}
+          >
+            {" "}
+            see more <FaRegHandPointRight />
+          </StyledLink>
+        </SeeMoreContainer>
       </Genre>
     )
   })

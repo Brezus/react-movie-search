@@ -25,11 +25,12 @@ const Profiles = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-row-gap: 2em;
   grid-column-gap: 4em;
+  place-items: center;
 `
 const ActorCont = styled.div`
   height: 300px;
   display: grid;
-  max-width: 230px;
+  grid-template-columns: 200px;
   grid-template-rows: 1fr 1fr;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;

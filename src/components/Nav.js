@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
-import MobileNav from "./MobileNav"
 import DesktopNav from "./DesktopNav"
 import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
@@ -33,7 +32,13 @@ const StyledLink = styled(Link)`
   color: white;
 `
 
-export default function Nav({ navLinksArray, setOpenMenu, openMenu }) {
+export default function Nav({
+  navLinksArray,
+  setOpenMenu,
+  openMenu,
+  setClickedInside,
+  clickedInside,
+}) {
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
   const scrollDirection = useScrollDirection()
@@ -64,8 +69,14 @@ export default function Nav({ navLinksArray, setOpenMenu, openMenu }) {
       }
     }
     function handleResize() {
+      if (window.innerWidth > 700) {
+        setClickedInside(true)
+      }
       if (window.innerWidth > 800) {
         setOpenMenu(false)
+        setClickedInside(true)
+      } else if (window.innerWidth < 800) {
+        setClickedInside(false)
       }
     }
 
@@ -87,6 +98,8 @@ export default function Nav({ navLinksArray, setOpenMenu, openMenu }) {
       openMenu={openMenu}
       setOpenMenu={setOpenMenu}
       toggleMenu={toggleMenu}
+      setClickedInside={setClickedInside}
+      clickedInside={clickedInside}
     />
   )
   // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />

@@ -47,7 +47,6 @@ const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&languag
 
 function Homescreen() {
   const [fetchedData, setFetchedData] = useState([])
-  console.log(fetchedData)
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * 19)
     fetch(url)

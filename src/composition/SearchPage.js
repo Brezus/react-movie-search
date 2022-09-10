@@ -15,6 +15,10 @@ const Div = styled.div`
   width: 95%;
   margin-inline: auto;
   gap: 3em;
+
+  @media (min-width: 700px) {
+    grid-row-gap: 6rem;
+  }
 `
 
 const Poster = styled.div`
@@ -34,9 +38,6 @@ const DarkDiv = styled.div`
   background: black;
   transition: opacity 0.3s ease-in;
   opacity: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 const StyledPlay = styled(FiPlayCircle)`
   font-size: 4rem;
@@ -58,6 +59,8 @@ const StyledLink = styled(Link)`
   color: white;
   scroll-snap-align: start;
   position: relative;
+  width: 100%;
+  border-radius: 10px;
 
   &:hover ${StyledPlay} {
     opacity: 1;
@@ -75,7 +78,7 @@ const Section = styled.section`
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
-  gap: 2em;
+  gap: 3em;
 `
 
 const Movie = styled.div`
@@ -110,26 +113,12 @@ function SearchPage({
   genre = null,
   horizontalScroll = false,
   deetsPage = false,
+  mediaType = null,
 }) {
   const [mData, setMData] = useState([])
-
-  const handleMouseEnter = (id) => {
-    setMData((prev) =>
-      prev.map((data) => {
-        return data.id === id ? { ...data, hoverd: true } : data
-      })
-    )
-  }
-  const handleMouseLeave = (id) => {
-    setMData((prev) =>
-      prev.map((data) => {
-        return data.id === id ? { ...data, hoverd: false } : data
-      })
-    )
-  }
-
+  const [remainingD, setRemainingD] = useState(null)
+  console.log(remainingD)
   const [progress, setProgress] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
@@ -148,8 +137,22 @@ function SearchPage({
 
     if (dep || url || redirected || genre) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
-      const genreUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${p}&with_genres=${location?.state?.id}&with_watch_monetization_types=flatrate`
-      fetch(redirected ? redirectedUrl : genre ? genreUrl : url + `page=${p}`)
+      const genreUrl = `https://api.themoviedb.org/3/discover/${
+        mediaType || "movie"
+      }?api_key=${
+        process.env.REACT_APP_API_KEY
+      }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
+        location?.state?.id
+      }&with_watch_monetization_types=flatrate&`
+      if (genre) console.log(genreUrl)
+
+      fetch(
+        redirected
+          ? redirectedUrl
+          : genre
+          ? genreUrl + `page=${p}`
+          : url + `page=${p}`
+      )
         .then((res) => {
           if (!res.ok) {
             throw new Error(res.status)
@@ -163,9 +166,11 @@ function SearchPage({
               ? data.results
               : data.results.slice(0, `${deetsPage ? 4 : 8}`)
           )
+          setRemainingD(data)
         })
         .catch((err) => {
           setMData(null)
+          setRemainingD(null)
           console.error(err)
         })
     }
@@ -186,7 +191,10 @@ function SearchPage({
 
     return (
       <StyledLink
-        style={{ maxWidth: `${horizontalScroll ? "initial" : "300px"}` }}
+        style={{
+          maxWidth: `${horizontalScroll ? "initial" : "300px"}`,
+          overflow: `${horizontalScroll && "hidden"}`,
+        }}
         onClick={clearInput}
         key={nanoid()}
         replace
@@ -206,7 +214,6 @@ function SearchPage({
             gridTemplateRows: `${
               movie.poster_path && horizontalScroll ? "200px" : "300px auto"
             }`,
-            gridTemplateColumns: `${"minmax(150px, 1fr)"}`,
             backgroundColor: `${
               horizontalScroll ? "rgba(32, 32, 38, 1)" : "transparent"
             }`,
@@ -235,7 +242,6 @@ function SearchPage({
                   objectFit: "cover",
                   borderRadius: "10px",
                   mixBlendMode: `${horizontalScroll ? "overlay" : "normal"}`,
-                  maxWidth: `${!horizontalScroll ? "300px" : "initial"}`,
                   gridRow: "1",
                   gridColumn: "1",
                 }}
@@ -297,7 +303,7 @@ function SearchPage({
         <>
           <LoadingBar
             color="#f11946"
-            progress={isLoading ? 20 : 100}
+            progress={!mData ? 20 : 100}
             onLoaderFinished={() => setProgress(0)}
           />
           {children}
@@ -313,8 +319,9 @@ function SearchPage({
                   }
                 : {
                     gridTemplateColumns:
-                      "repeat(auto-fill, minmax(230px, 1fr))",
+                      "repeat(auto-fill, minmax(250px, 1fr))",
                     justifyContent: "center",
+                    placeItems: "center",
                   }
             }
           >
