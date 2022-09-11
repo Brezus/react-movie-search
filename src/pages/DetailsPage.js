@@ -15,6 +15,8 @@ const SearchPage = lazy(() =>
 
 const Main = styled.main`
   padding-top: 5rem;
+  padding-bottom: 5rem;
+  min-height: 100vh;
 `
 
 // const DivBKDrop = styled.article`
@@ -38,6 +40,7 @@ const DivBKDrop = styled.article`
   position: relative;
   background-color: rgba(32, 32, 38, 1);
   overflow: hidden;
+  isolation: isolate;
 `
 
 const StyledImg = styled.img`
@@ -48,7 +51,7 @@ const StyledImg = styled.img`
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 1;
+  z-index: -1;
   mix-blend-mode: overlay;
 `
 
@@ -73,12 +76,11 @@ const ContainerDiv = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 5em;
-  position: absolute;
-  z-index: 2;
 `
 const Button = styled.button`
   padding: 1em 3em;
-  background-color: orange;
+  margin-bottom: 5em;
+  background-color: ${({ theme }) => theme.darkYellow};
   color: white;
   border-radius: ${({ theme }) => theme.border};
   border: none;

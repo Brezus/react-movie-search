@@ -95,7 +95,11 @@ export default function DesktopNav({
       <Link to={"/"} onClick={clearInput}>
         {icon}
       </Link>
-      <Ul>{navRouterLinks}</Ul>
+      {/* <Ul>{navRouterLinks}</Ul> */}
+      <Ul>
+        <li>Browse</li>
+        {navRouterLinks.slice(2, 4)}
+      </Ul>
       <Search
         setOpenMenu={setOpenMenu}
         color={"black"}

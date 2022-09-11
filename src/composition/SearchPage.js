@@ -8,6 +8,7 @@ import NoImage from "../assets/no-photo.png"
 import { FiPlayCircle } from "react-icons/fi"
 import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
+import Span from "../components/Span"
 
 const Div = styled.div`
   display: flex;
@@ -15,9 +16,13 @@ const Div = styled.div`
   width: 95%;
   margin-inline: auto;
   gap: 3em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.282);
 
   @media (min-width: 700px) {
     grid-row-gap: 6rem;
+  }
+  &:last-child {
+    border-bottom: 0;
   }
 `
 
@@ -54,6 +59,7 @@ const StyledImg = styled.img`
   width: 100%;
   transition: opacity 0.2s ease;
 `
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
@@ -71,6 +77,11 @@ const StyledLink = styled(Link)`
     opacity: 0.4;
     border: 2px solid orange;
   }
+`
+
+const StyledButton = styled(Link)`
+  padding: 1em 3em;
+  background: white;
 `
 
 const Section = styled.section`
@@ -144,7 +155,6 @@ function SearchPage({
       }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
         location?.state?.id
       }&with_watch_monetization_types=flatrate&`
-      if (genre) console.log(genreUrl)
 
       fetch(
         redirected
@@ -307,7 +317,11 @@ function SearchPage({
             onLoaderFinished={() => setProgress(0)}
           />
           {children}
-          {genre && <p>Genre: {location?.state?.genreName}</p>}
+          {genre && (
+            <h1>
+              Genre: <Span>{location?.state?.genreName}</Span>
+            </h1>
+          )}
 
           <Section
             style={

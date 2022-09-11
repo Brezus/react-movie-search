@@ -12,6 +12,7 @@ import DetailsPage from "./pages/DetailsPage"
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
+import Span from "./components/Span"
 import Genres from "./components/Genres"
 import "./App.css"
 
@@ -23,10 +24,6 @@ const DivApp = styled.div`
   min-height: 100vh;
 `
 
-const Span = styled.span`
-  display: block;
-  font-size: 3rem;
-`
 const StyledInput = styled.input`
   width: 100%;
   display: block;
@@ -158,17 +155,14 @@ function App() {
                   dep={srchQ}
                   redirected={redirected}
                 >
-                  <p>
+                  <h1>
                     Results for <Span>{srchQ}</Span>
-                  </p>{" "}
+                  </h1>{" "}
                 </SearchPage>
               </Route>
 
               <Route exact path={`/details/:movieName`}>
                 <DetailsPage />
-              </Route>
-              <Route exact path={`/categories/:genre/page=:pNum`}>
-                <SearchPage redirected={false} genre={true} />
               </Route>
               {tvGenreElements}
               {navRoutesHtml}

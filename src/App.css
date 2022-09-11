@@ -8,5 +8,6 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: hsl(170, 86%, 52%);
+  /* background-color: hsl(170, 86%, 52%); */
+  background-color: #2470ff;
 }

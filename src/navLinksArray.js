@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid"
 import { SearchPage } from "./composition/SearchPage"
 import { Route } from "react-router-dom"
+import Span from "./components/Span"
 
 export const LinksArray = [
   {
@@ -38,7 +39,9 @@ export const navRoutesHtml = LinksArray.map((link) => {
         category={true}
         linkName={link.linkName}
       >
-        <p>categories : {link.linkNameHtml}</p>
+        <h1>
+          categories : <Span yellow>{link.linkNameHtml}</Span>
+        </h1>
       </SearchPage>
     </Route>
   )

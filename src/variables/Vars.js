@@ -12,4 +12,8 @@ export const vars = {
   inputHeight: "48px",
   white: "white",
   border: "20px",
+  darkBlue: "#2470FF",
+  darkYellow: "#F5AB0A",
+  darkerYellow: "#A87300",
+  fontSize: "3rem",
 }

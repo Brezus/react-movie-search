@@ -20,6 +20,21 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 1em;
+  font-size: 1.2rem;
+  position: relative;
+  isolation: isolate;
+
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 55%;
+    width: 110%;
+    height: 10px;
+    right: 0;
+    background-color: ${({ theme }) => theme.darkerYellow};
+    transform: skew(-25deg);
+  }
 `
 const SeeMoreContainer = styled.div`
   display: flex;
