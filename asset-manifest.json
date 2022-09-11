@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/react-movie-search/static/css/main.b27308ee.css",
-    "main.js": "/react-movie-search/static/js/main.172239c8.js",
+    "main.css": "/react-movie-search/static/css/main.79ce4d8f.css",
+    "main.js": "/react-movie-search/static/js/main.087fadd2.js",
     "static/js/787.784592d1.chunk.js": "/react-movie-search/static/js/787.784592d1.chunk.js",
     "static/media/giphy.gif": "/react-movie-search/static/media/giphy.2085b173d833836b6840.gif",
     "static/media/no-photo.png": "/react-movie-search/static/media/no-photo.164da85e928811abf5e2.png",
@@ -9,12 +9,12 @@
     "static/media/take1animation.webp": "/react-movie-search/static/media/take1animation.90398d3aec6ad219c6c2.webp",
     "static/media/tmdbIcon.svg": "/react-movie-search/static/media/tmdbIcon.bb8aa703cb92c9aa31fc1e0b17850ed9.svg",
     "index.html": "/react-movie-search/index.html",
-    "main.b27308ee.css.map": "/react-movie-search/static/css/main.b27308ee.css.map",
-    "main.172239c8.js.map": "/react-movie-search/static/js/main.172239c8.js.map",
+    "main.79ce4d8f.css.map": "/react-movie-search/static/css/main.79ce4d8f.css.map",
+    "main.087fadd2.js.map": "/react-movie-search/static/js/main.087fadd2.js.map",
     "787.784592d1.chunk.js.map": "/react-movie-search/static/js/787.784592d1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b27308ee.css",
-    "static/js/main.172239c8.js"
+    "static/css/main.79ce4d8f.css",
+    "static/js/main.087fadd2.js"
   ]
 }
