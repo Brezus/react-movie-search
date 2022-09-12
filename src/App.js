@@ -22,6 +22,8 @@ const DivApp = styled.div`
   color: white;
   background-color: ${({ theme }) => theme.darkBg};
   min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  overflow-x: hidden;
 `
 
 const StyledInput = styled.input`
@@ -160,7 +162,9 @@ function App() {
                   </h1>{" "}
                 </SearchPage>
               </Route>
-
+              <Route exact path={`/categories/:genre/page=:pNum`}>
+                <SearchPage redirected={false} genre={true} />
+              </Route>
               <Route exact path={`/details/:movieName`}>
                 <DetailsPage />
               </Route>

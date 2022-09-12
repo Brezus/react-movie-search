@@ -19,16 +19,6 @@ const Main = styled.main`
   min-height: 100vh;
 `
 
-// const DivBKDrop = styled.article`
-//   padding-top: 5em;
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-//   background: rgb(32, 32, 38);
-//   background-position: center;
-//   min-height: 100vh;
-// `
-
 const DivBKDrop = styled.article`
   padding-top: 5em;
   width: 100%;
@@ -41,6 +31,12 @@ const DivBKDrop = styled.article`
   background-color: rgba(32, 32, 38, 1);
   overflow: hidden;
   isolation: isolate;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    row-gap: 4em;
+    padding-top: 0;
+  }
 `
 
 const StyledImg = styled.img`
@@ -53,6 +49,10 @@ const StyledImg = styled.img`
   top: 0;
   z-index: -1;
   mix-blend-mode: overlay;
+
+  @media (max-width: 700px) {
+    position: relative;
+  }
 `
 
 const PosterCont = styled.div`
@@ -60,6 +60,7 @@ const PosterCont = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
+  grid-area: poster;
 `
 
 const DivPoster = styled.div`
@@ -69,6 +70,10 @@ const DivPoster = styled.div`
   background-size: cover;
   background-position: center;
   width: 100%;
+
+  @media (max-width: 700px) {
+    height: 200px;
+  }
 `
 
 const ContainerDiv = styled.div`
@@ -76,7 +81,17 @@ const ContainerDiv = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 5em;
+
+  @media (max-width: 700px) {
+    display: grid;
+    gap: 0.8em;
+    grid-template-columns: 200px auto;
+    grid-template-areas:
+      "poster title"
+      "desc    desc";
+  }
 `
+
 const Button = styled.button`
   padding: 1em 3em;
   margin-bottom: 5em;
@@ -93,6 +108,75 @@ const InfoCont = styled.div`
   justify-content: flex-start;
   align-items: baseline;
   flex: 2;
+  position: relative;
+`
+
+const StyledH1 = styled.h1`
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: ${({ theme }) => theme.fontSize};
+  font-weight: 900;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+const StyledH1Mob = styled.h1`
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: ${({ theme }) => theme.fontSize};
+  font-weight: 900;
+  grid-area: title;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
+`
+
+const StyledP = styled.p`
+  font-family: "Montserrat", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+const StyledPMob = styled.p`
+  font-family: "Montserrat", sans-serif;
+  font-style: italic;
+  font-weight: 400;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
+`
+
+const StyledYear = styled(StyledH1)`
+  font-size: 1rem;
+`
+const StyledParagraph = styled.p`
+  font-family: "Noto Sans Georgian", sans-serif;
+  margin-bottom: 5em;
+  font-weight: 400;
+  font-size: 1.2rem;
+  text-transform: capitalise;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
+const StyledParagraphMob = styled.p`
+  font-family: "Noto Sans Georgian", sans-serif;
+  margin-bottom: 5em;
+  font-weight: 400;
+  font-size: 1.2rem;
+  text-transform: capitalise;
+  grid-area: desc;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
 `
 
 const Ul = styled.ul`
@@ -144,7 +228,9 @@ export default function DetailsPage() {
     backgroundImage: `url(${postr && postr})`,
   }
   const genreList = detailsData?.genres.map((genre) => (
-    <li key={nanoid()}>{genre.name}</li>
+    <li style={{ textTransform: "uppercase" }} key={nanoid()}>
+      {genre.name}
+    </li>
   ))
   const productionCompanies =
     detailsData?.production_companies &&
@@ -211,19 +297,32 @@ export default function DetailsPage() {
                 <Button>Watch Trailer</Button>
               </PosterCont>
               <InfoCont>
-                <h1>
+                <StyledH1>
                   {detailsData?.title ? detailsData?.title : detailsData?.name}
-                </h1>
-                {detailsData?.tagline && <p>{detailsData.tagline}</p>}
+                </StyledH1>
+                {detailsData?.tagline && (
+                  <StyledP>{detailsData.tagline}</StyledP>
+                )}
                 {detailsData?.release_date && (
-                  <p>{detailsData.release_date.slice(0, 4)}</p>
+                  <StyledYear>
+                    {detailsData.release_date.slice(0, 4)}
+                  </StyledYear>
                 )}
                 {detailsData?.production_companies?.length >= 1 && (
                   <Ul>{productionCompanies}</Ul>
                 )}
                 {genreList && <Ul>{genreList}</Ul>}
-                <p style={{ maxWidth: "600px" }}>{detailsData?.overview}</p>
+                <StyledParagraph style={{ maxWidth: "700px" }}>
+                  {detailsData?.overview}
+                </StyledParagraph>
               </InfoCont>
+              <StyledH1Mob>
+                {detailsData?.title ? detailsData?.title : detailsData?.name}
+              </StyledH1Mob>
+
+              <StyledParagraphMob style={{ maxWidth: "700px" }}>
+                {detailsData?.overview}
+              </StyledParagraphMob>
               {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
             </ContainerDiv>
           </DivBKDrop>

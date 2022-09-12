@@ -10,6 +10,48 @@ import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 import Span from "../components/Span"
 
+const Button = styled(Link).attrs((props) => ({
+  skewDeg: props.skewDeg || "15deg",
+}))`
+  padding: 1em 0;
+  width: 150px;
+  color: white;
+  background-color: ${({ theme }) => theme.darkerYellow};
+  display: inline-block;
+  border: none;
+  transform: skew(${(props) => props.skewDeg});
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  z-index: 1;
+  align-self: center;
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-weight: 900;
+  transition: transform 0.2s ease;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 110%;
+    height: 10%;
+    width: 100%;
+    background-color: ${({ theme }) => theme.darkBlue};
+    transform: skew(${(props) => props.skewDeg});
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: skew(${(props) => props.skewDeg}) scale(1.1);
+
+    &:after {
+      opacity: 1;
+    }
+  }
+`
+
 const Div = styled.div`
   display: flex;
   flex-direction: column;
@@ -113,6 +155,17 @@ const TypeIndicator = styled.p`
   border: 1px solid whitesmoke;
   border-radius: 5px;
 `
+const ButtonCont = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3em;
+  margin-inline: auto;
+`
+
+const PageIndicator = styled.p`
+  color: white;
+`
 
 function SearchPage({
   dep = "",
@@ -127,8 +180,7 @@ function SearchPage({
   mediaType = null,
 }) {
   const [mData, setMData] = useState([])
-  const [remainingD, setRemainingD] = useState(null)
-  console.log(remainingD)
+  const [remainingPages, setRemainingPages] = useState(null)
   const [progress, setProgress] = useState(0)
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
@@ -176,11 +228,11 @@ function SearchPage({
               ? data.results
               : data.results.slice(0, `${deetsPage ? 4 : 8}`)
           )
-          setRemainingD(data)
+          setRemainingPages(data)
         })
         .catch((err) => {
           setMData(null)
-          setRemainingD(null)
+          setRemainingPages(null)
           console.error(err)
         })
     }
@@ -342,8 +394,9 @@ function SearchPage({
             {movies}
           </Section>
           {params.pNum && (
-            <>
-              <Link
+            <ButtonCont>
+              <Button
+                style={{ display: `${p === 1 ? "none" : "initial"}` }}
                 to={{
                   pathname: `${toLink}/page=${p === 1 ? 1 : p - 1}`,
                   state: {
@@ -353,8 +406,17 @@ function SearchPage({
                 }}
               >
                 Previous
-              </Link>
-              <Link
+              </Button>
+              <PageIndicator>
+                Page {remainingPages?.page} of {remainingPages?.total_pages}
+              </PageIndicator>
+              <Button
+                style={{
+                  display: `${
+                    p === remainingPages?.total_pages ? "none" : "initial"
+                  }`,
+                }}
+                skewDeg={"-15deg"}
                 to={{
                   pathname: `${toLink}/page=${p + 1}`,
                   state: {
@@ -364,8 +426,8 @@ function SearchPage({
                 }}
               >
                 Next
-              </Link>
-            </>
+              </Button>
+            </ButtonCont>
           )}
         </>
       ) : (
