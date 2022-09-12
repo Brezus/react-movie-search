@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-movie-search/static/css/main.79ce4d8f.css",
-    "main.js": "/react-movie-search/static/js/main.6d2ba6ee.js",
+    "main.js": "/react-movie-search/static/js/main.2b425572.js",
     "static/js/787.784592d1.chunk.js": "/react-movie-search/static/js/787.784592d1.chunk.js",
     "static/media/giphy.gif": "/react-movie-search/static/media/giphy.2085b173d833836b6840.gif",
     "static/media/no-photo.png": "/react-movie-search/static/media/no-photo.164da85e928811abf5e2.png",
@@ -10,11 +10,11 @@
     "static/media/tmdbIcon.svg": "/react-movie-search/static/media/tmdbIcon.bb8aa703cb92c9aa31fc1e0b17850ed9.svg",
     "index.html": "/react-movie-search/index.html",
     "main.79ce4d8f.css.map": "/react-movie-search/static/css/main.79ce4d8f.css.map",
-    "main.6d2ba6ee.js.map": "/react-movie-search/static/js/main.6d2ba6ee.js.map",
+    "main.2b425572.js.map": "/react-movie-search/static/js/main.2b425572.js.map",
     "787.784592d1.chunk.js.map": "/react-movie-search/static/js/787.784592d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.79ce4d8f.css",
-    "static/js/main.6d2ba6ee.js"
+    "static/js/main.2b425572.js"
   ]
 }
