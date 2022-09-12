@@ -57,24 +57,19 @@ function App() {
   const [redirected, setRedirected] = useState(false)
   const [debounced, setDebounced] = useState(false)
 
-  const tvGenreLinks = tvGenres?.map((genre) => {
+  const movieGenreElements = movieGenres?.map((genre) => {
     return (
-      <Link
-        key={nanoid()}
-        to={{
-          pathname: `/tv/${genre?.name.toLowerCase()}/page=1`,
-          state: {
-            id: `${genre?.id}`,
-            genreName: `${genre?.name.toLowerCase()}`,
-            linkName: `/tv/${genre?.name.toLowerCase()}`,
-            mediaType: "tv",
-          },
-        }}
-      >
-        {genre?.name}
-      </Link>
+      <Route exact path={`/movie/:genre/page=:pNum`} key={nanoid()}>
+        <SearchPage
+          redirected={false}
+          genre={true}
+          linkName={`/tv/${genre?.name}`}
+          mediaType="movie"
+        />
+      </Route>
     )
   })
+
   const tvGenreElements = tvGenres?.map((genre) => {
     return (
       <Route exact path={`/tv/:genre/page=:pNum`} key={nanoid()}>
@@ -143,12 +138,12 @@ function App() {
               setClickedInside={setClickedInside}
               clickedInside={clickedInside}
               openMenu={openMenu}
+              tvGenres={tvGenres}
+              movieGenres={movieGenres}
             />
             <Switch>
               <Route exact path="/">
                 <Homescreen />
-                {tvGenreLinks}
-
                 <Main />
               </Route>
               <Route exact path="/:search/page=:pNum">
@@ -169,6 +164,7 @@ function App() {
                 <DetailsPage />
               </Route>
               {tvGenreElements}
+              {movieGenreElements}
               {navRoutesHtml}
               <Route>
                 <p>you folllowed zoros directions didnt</p>

@@ -38,6 +38,8 @@ export default function Nav({
   openMenu,
   setClickedInside,
   clickedInside,
+  tvGenres,
+  movieGenres,
 }) {
   const [navBg, setNavBg] = useState(false)
   const { width } = useWindowSize()
@@ -95,6 +97,8 @@ export default function Nav({
   const navComponent = (
     <DesktopNav
       navRouterLinks={navRouterLinks}
+      tvGenres={tvGenres}
+      movieGenres={movieGenres}
       openMenu={openMenu}
       setOpenMenu={setOpenMenu}
       toggleMenu={toggleMenu}

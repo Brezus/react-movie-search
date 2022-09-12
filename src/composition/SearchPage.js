@@ -10,9 +10,7 @@ import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 import Span from "../components/Span"
 
-const Button = styled(Link).attrs((props) => ({
-  skewDeg: props.skewDeg || "15deg",
-}))`
+const Button = styled(Link).attrs((props) => ({}))`
   padding: 1em 0;
   width: 150px;
   color: white;

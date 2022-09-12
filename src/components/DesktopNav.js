@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { AppContext } from "../AppContext"
 import Search from "./Search"
 import styled from "styled-components"
@@ -7,6 +7,22 @@ import ApiLogo from "../assets/tmdbIcon.svg"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
 import Genres from "./Genres"
+import { MdMonitor } from "react-icons/md"
+import { BiCameraMovie } from "react-icons/bi"
+import { nanoid } from "nanoid"
+
+const LinksContainer = styled.div`
+  position: absolute;
+  left: 10%;
+  top: 200%;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 2px solid white;
+  gap: 2em;
+  align-items: center;
+  background-color: ${({ theme }) => theme.darkBg};
+  padding: 4em;
+`
 
 const BurgerIcon = styled.a`
   height: ${({ theme }) => theme.inputHeight};
@@ -34,6 +50,9 @@ const Ul = styled.ul`
   gap: 1em;
   list-style: none;
   margin-right: auto;
+  position: absolute;
+  left: 6%;
+  width: 44%;
 
   @media (max-width: 800px) {
     display: none;
@@ -61,6 +80,11 @@ const OpenUL = styled(Ul)`
   }
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`
+
 export default function DesktopNav({
   navRouterLinks,
   openMenu,
@@ -68,9 +92,64 @@ export default function DesktopNav({
   toggleMenu,
   setClickedInside,
   clickedInside,
+  tvGenres,
+  movieGenres,
 }) {
+  const [openTvLinks, setOpenTvLinks] = useState(false)
+  const [openMovieLinks, setOpenMovieLinks] = useState(false)
+
   const icon = <Icon src={ApiLogo} alt={"the movie data base icon"} />
   const { clearInput } = useContext(AppContext)
+
+  const tvGenreLinks = tvGenres?.map((genre) => {
+    return (
+      <StyledLink
+        key={nanoid()}
+        onClick={() => closeLinks(setOpenTvLinks)}
+        to={{
+          pathname: `/tv/${genre?.name.toLowerCase()}/page=1`,
+          state: {
+            id: `${genre?.id}`,
+            genreName: `${genre?.name.toLowerCase()}`,
+            linkName: `/tv/${genre?.name.toLowerCase()}`,
+            mediaType: "tv",
+          },
+        }}
+      >
+        {genre?.name}
+      </StyledLink>
+    )
+  })
+
+  const movieGenreLinks = movieGenres?.map((genre) => {
+    return (
+      <StyledLink
+        key={nanoid()}
+        onClick={() => closeLinks(setOpenMovieLinks)}
+        to={{
+          pathname: `/movie/${genre?.name.toLowerCase()}/page=1`,
+          state: {
+            id: `${genre?.id}`,
+            genreName: `${genre?.name.toLowerCase()}`,
+            linkName: `/movie/${genre?.name.toLowerCase()}`,
+            mediaType: "movie",
+          },
+        }}
+      >
+        {genre?.name}
+      </StyledLink>
+    )
+  })
+
+  function closeLinks(setLinkType) {
+    setLinkType(false)
+  }
+  function openLinks(setLinkType) {
+    setLinkType(false)
+  }
+  function toggleLinks(setLinkType) {
+    setLinkType((prev) => !prev)
+  }
 
   return (
     <>
@@ -95,10 +174,37 @@ export default function DesktopNav({
       <Link to={"/"} onClick={clearInput}>
         {icon}
       </Link>
-      {/* <Ul>{navRouterLinks}</Ul> */}
+
       <Ul>
-        <li>Browse</li>
+        <li>
+          <BiCameraMovie
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              toggleLinks(setOpenMovieLinks)
+              closeLinks(setOpenTvLinks)
+            }}
+          />
+        </li>
+        <li>
+          <MdMonitor
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              toggleLinks(setOpenTvLinks)
+              closeLinks(setOpenMovieLinks)
+            }}
+          />
+        </li>
         {navRouterLinks.slice(2, 4)}
+        <LinksContainer style={{ display: `${openTvLinks ? "flex" : "none"}` }}>
+          <p style={{ width: "100%", textAlign: "center" }}>TV Shows</p>
+          {tvGenreLinks}
+        </LinksContainer>
+        <LinksContainer
+          style={{ display: `${openMovieLinks ? "flex" : "none"}` }}
+        >
+          <p style={{ width: "100%", textAlign: "center" }}>Movies</p>
+          {movieGenreLinks}
+        </LinksContainer>
       </Ul>
       <Search
         setOpenMenu={setOpenMenu}
