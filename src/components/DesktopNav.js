@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import { AppContext } from "../AppContext"
 import Search from "./Search"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { Link } from "react-router-dom"
 import ApiLogo from "../assets/tmdbIcon.svg"
 import { GiHamburgerMenu } from "react-icons/gi"
@@ -10,18 +10,67 @@ import Genres from "./Genres"
 import { MdMonitor } from "react-icons/md"
 import { BiCameraMovie } from "react-icons/bi"
 import { nanoid } from "nanoid"
+import useClickOutside from "../hooks/useHover"
+import useHover from "../hooks/useHover"
+
+const opaictyAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
 
 const LinksContainer = styled.div`
   position: absolute;
   left: 10%;
-  top: 200%;
-  width: 100%;
-  flex-wrap: wrap;
-  border: 2px solid white;
-  gap: 2em;
-  align-items: center;
+  top: 100%;
+  align-items: start;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
   background-color: ${({ theme }) => theme.darkBg};
-  padding: 4em;
+  z-index: 2;
+`
+
+const LinksCont = styled.div`
+  background-color: ${(props) => props.color};
+  width: 400px;
+  gap: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 2em;
+`
+const StyledP = styled.p`
+  font-size: 1.2rem;
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-weight: 900;
+  grid-column: 1/-1;
+`
+
+const DarkCover = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(22, 23, 22, 0.7);
+  z-index: 4;
+  overflow: hidden;
+  animation: ${opaictyAnimation} 0.6s linear forwards;
+`
+
+const Div = styled.div`
+  position: relative;
+  cursor: pointer;
+  z-index: 5;
+
+  &:hover ${LinksContainer} {
+    max-height: 400px;
+    border: 2px solid white;
+  }
 `
 
 const BurgerIcon = styled.a`
@@ -82,7 +131,7 @@ const OpenUL = styled(Ul)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: white;
+  color: ${(props) => props.color};
 `
 
 export default function DesktopNav({
@@ -95,17 +144,17 @@ export default function DesktopNav({
   tvGenres,
   movieGenres,
 }) {
-  const [openTvLinks, setOpenTvLinks] = useState(false)
-  const [openMovieLinks, setOpenMovieLinks] = useState(false)
+  const [movHoverRef, isMovHoverd] = useHover()
+  const [tvHoverRef, isTvHoverd] = useHover()
 
-  const icon = <Icon src={ApiLogo} alt={"the movie data base icon"} />
+  const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
   const { clearInput } = useContext(AppContext)
 
   const tvGenreLinks = tvGenres?.map((genre) => {
     return (
       <StyledLink
+        color={"white"}
         key={nanoid()}
-        onClick={() => closeLinks(setOpenTvLinks)}
         to={{
           pathname: `/tv/${genre?.name.toLowerCase()}/page=1`,
           state: {
@@ -124,8 +173,8 @@ export default function DesktopNav({
   const movieGenreLinks = movieGenres?.map((genre) => {
     return (
       <StyledLink
+        color={"white"}
         key={nanoid()}
-        onClick={() => closeLinks(setOpenMovieLinks)}
         to={{
           pathname: `/movie/${genre?.name.toLowerCase()}/page=1`,
           state: {
@@ -140,71 +189,51 @@ export default function DesktopNav({
       </StyledLink>
     )
   })
-
-  function closeLinks(setLinkType) {
-    setLinkType(false)
-  }
-  function openLinks(setLinkType) {
-    setLinkType(false)
-  }
-  function toggleLinks(setLinkType) {
-    setLinkType((prev) => !prev)
-  }
+  const bgIcon = !openMenu ? (
+    <GiHamburgerMenu
+      style={{
+        color: "white",
+      }}
+    />
+  ) : (
+    <AiFillCloseCircle
+      style={{
+        color: "white",
+      }}
+    />
+  )
 
   return (
     <>
-      <BurgerIcon onClick={toggleMenu}>
-        {!openMenu ? (
-          <GiHamburgerMenu
-            style={{
-              color: "white",
-            }}
-          />
-        ) : (
-          <AiFillCloseCircle
-            style={{
-              color: "white",
-            }}
-          />
-        )}
-      </BurgerIcon>
-      <OpenUL style={{ right: `${openMenu ? "0%" : "100%"}` }}>
-        {navRouterLinks}
-      </OpenUL>
+      <BurgerIcon onClick={toggleMenu}>{bgIcon}</BurgerIcon>
       <Link to={"/"} onClick={clearInput}>
         {icon}
       </Link>
-
       <Ul>
-        <li>
-          <BiCameraMovie
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              toggleLinks(setOpenMovieLinks)
-              closeLinks(setOpenTvLinks)
-            }}
-          />
-        </li>
-        <li>
-          <MdMonitor
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              toggleLinks(setOpenTvLinks)
-              closeLinks(setOpenMovieLinks)
-            }}
-          />
-        </li>
-        {navRouterLinks.slice(2, 4)}
-        <LinksContainer style={{ display: `${openTvLinks ? "flex" : "none"}` }}>
-          <p style={{ width: "100%", textAlign: "center" }}>TV Shows</p>
-          {tvGenreLinks}
-        </LinksContainer>
-        <LinksContainer
-          style={{ display: `${openMovieLinks ? "flex" : "none"}` }}
-        >
-          <p style={{ width: "100%", textAlign: "center" }}>Movies</p>
-          {movieGenreLinks}
-        </LinksContainer>
+        <Div ref={movHoverRef}>
+          <span>Movies</span>
+          <LinksContainer>
+            <LinksCont color={"black"}>
+              <StyledP>movie</StyledP>
+              {movieGenreLinks}
+            </LinksCont>
+          </LinksContainer>
+        </Div>
+        <Div ref={tvHoverRef}>
+          <span>Tv</span>
+          <LinksContainer>
+            <LinksCont color={"black"}>
+              <StyledP>tv</StyledP>
+              {tvGenreLinks}
+            </LinksCont>
+          </LinksContainer>
+        </Div>
+        <DarkCover
+          style={{
+            opacity: `${isTvHoverd || isMovHoverd ? "1" : "0"}`,
+            display: `${isTvHoverd || isMovHoverd ? "block" : "none"}`,
+          }}
+        />
       </Ul>
       <Search
         setOpenMenu={setOpenMenu}

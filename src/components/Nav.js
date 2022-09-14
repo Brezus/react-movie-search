@@ -13,7 +13,7 @@ const Navigation = styled.nav`
   align-items: center;
   width: 95%;
   transition: height 0.3s ease-in;
-  overflow: hidden;
+  position: relative;
 `
 const NavWrapper = styled.div`
   width: 100%;

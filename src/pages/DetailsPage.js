@@ -197,7 +197,6 @@ const LoadingDiv = styled.div`
 
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
-  console.log(detailsData)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )

@@ -146,12 +146,8 @@ function App() {
                 <Homescreen />
                 <Main />
               </Route>
-              <Route exact path="/:search/page=:pNum">
-                <SearchPage
-                  url={searchResultsUrl}
-                  dep={srchQ}
-                  redirected={redirected}
-                >
+              <Route exact path="/search/:name/page=:pNum">
+                <SearchPage redirected={redirected}>
                   <h1>
                     Results for <Span>{srchQ}</Span>
                   </h1>{" "}

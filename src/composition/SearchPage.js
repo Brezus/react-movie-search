@@ -10,14 +10,14 @@ import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 import Span from "../components/Span"
 
-const Button = styled(Link).attrs((props) => ({}))`
+const Button = styled(Link)`
   padding: 1em 0;
   width: 150px;
   color: white;
   background-color: ${({ theme }) => theme.darkerYellow};
   display: inline-block;
   border: none;
-  transform: skew(${(props) => props.skewDeg});
+  transform: skew(${(props) => props.skewdeg}) !important;
   position: relative;
   cursor: pointer;
   text-align: center;
@@ -56,7 +56,8 @@ const Div = styled.div`
   width: 95%;
   margin-inline: auto;
   gap: 3em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.282);
+  border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
+  font-size: 0.8rem;
 
   @media (min-width: 700px) {
     grid-row-gap: 6rem;
@@ -130,6 +131,13 @@ const Section = styled.section`
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
   gap: 3em;
+
+  @media (min-width: 800px) {
+    grid-template-columns: ${(props) =>
+      props.horizontal === "false"
+        ? "repeat(auto-fill, minmax(244px, 1fr))"
+        : "43%"} !important;
+  }
 `
 
 const Movie = styled.div`
@@ -183,6 +191,8 @@ function SearchPage({
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
+  console.log(location)
+  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
@@ -374,6 +384,7 @@ function SearchPage({
           )}
 
           <Section
+            horizontal={`${horizontalScroll ? "true" : "false"}`}
             style={
               horizontalScroll
                 ? {
@@ -383,7 +394,7 @@ function SearchPage({
                   }
                 : {
                     gridTemplateColumns:
-                      "repeat(auto-fill, minmax(250px, 1fr))",
+                      "repeat(auto-fill, minmax(180px, 1fr))",
                     justifyContent: "center",
                     placeItems: "center",
                   }
@@ -394,6 +405,7 @@ function SearchPage({
           {params.pNum && (
             <ButtonCont>
               <Button
+                skewdeg={"15deg"}
                 style={{ display: `${p === 1 ? "none" : "initial"}` }}
                 to={{
                   pathname: `${toLink}/page=${p === 1 ? 1 : p - 1}`,
@@ -414,7 +426,7 @@ function SearchPage({
                     p === remainingPages?.total_pages ? "none" : "initial"
                   }`,
                 }}
-                skewDeg={"-15deg"}
+                skewdeg={"-15deg"}
                 to={{
                   pathname: `${toLink}/page=${p + 1}`,
                   state: {
