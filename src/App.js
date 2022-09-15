@@ -13,7 +13,6 @@ import { Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import Span from "./components/Span"
-import Genres from "./components/Genres"
 import "./App.css"
 
 const DivApp = styled.div`

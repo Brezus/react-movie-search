@@ -6,7 +6,6 @@ import { Link } from "react-router-dom"
 import ApiLogo from "../assets/tmdbIcon.svg"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { AiFillCloseCircle } from "react-icons/ai"
-import Genres from "./Genres"
 import { MdMonitor } from "react-icons/md"
 import { BiCameraMovie } from "react-icons/bi"
 import { nanoid } from "nanoid"
@@ -145,7 +144,7 @@ export default function DesktopNav({
   movieGenres,
 }) {
   const [movHoverRef, isMovHoverd] = useHover()
-  const [tvHoverRef, isTvHoverd] = useHover()
+  const [tvHoverRef, isTvHoverd, handleClick] = useHover()
 
   const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
   const { clearInput } = useContext(AppContext)
@@ -153,6 +152,7 @@ export default function DesktopNav({
   const tvGenreLinks = tvGenres?.map((genre) => {
     return (
       <StyledLink
+        onClick={handleClick}
         color={"white"}
         key={nanoid()}
         to={{
