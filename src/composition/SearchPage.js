@@ -192,7 +192,6 @@ function SearchPage({
   const location = useLocation()
   const params = useParams()
   console.log(location)
-  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
@@ -244,15 +243,7 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [
-    location.pathname,
-    dep,
-    p,
-    url,
-    redirected,
-    params.search,
-    location.state?.id,
-  ])
+  }, [location.pathname, dep, p, url, redirected, location.state?.id, params])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
@@ -379,7 +370,7 @@ function SearchPage({
           {children}
           {genre && (
             <h1>
-              Genre: <Span>{location?.state?.genreName}</Span>
+              Genre: <Span>{params?.search}</Span>
             </h1>
           )}
 

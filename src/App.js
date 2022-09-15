@@ -9,7 +9,7 @@ import { vars } from "./variables/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./composition/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
-import { HashRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { Switch, Route, Link } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import Span from "./components/Span"
@@ -120,55 +120,57 @@ function App() {
 
   return (
     <ThemeProvider theme={vars}>
-      <Router>
-        <DivApp>
-          <AppContext.Provider
-            value={{
-              srchQ,
-              debouncedChangeHandler,
-              LinksArray,
-              debounced,
-              clearInput,
-            }}
-          >
-            <Nav
-              navLinksArray={LinksArray}
-              searched={searched}
-              setOpenMenu={setOpenMenu}
-              setClickedInside={setClickedInside}
-              clickedInside={clickedInside}
-              openMenu={openMenu}
-              tvGenres={tvGenres}
-              movieGenres={movieGenres}
-            />
-            <Switch>
-              <Route exact path="/">
-                <Homescreen />
-                <Main />
-              </Route>
-              <Route exact path="/search/:name/page=:pNum">
-                <SearchPage redirected={redirected}>
-                  <h1>
-                    Results for <Span>{srchQ}</Span>
-                  </h1>{" "}
-                </SearchPage>
-              </Route>
-              <Route exact path={`/categories/:genre/page=:pNum`}>
-                <SearchPage redirected={false} genre={true} />
-              </Route>
-              <Route exact path={`/details/:movieName`}>
-                <DetailsPage />
-              </Route>
-              {tvGenreElements}
-              {movieGenreElements}
-              {navRoutesHtml}
-              <Route>
-                <p>you folllowed zoros directions didnt</p>
-              </Route>
-            </Switch>
-          </AppContext.Provider>
-        </DivApp>
-      </Router>
+      <DivApp>
+        <AppContext.Provider
+          value={{
+            srchQ,
+            debouncedChangeHandler,
+            LinksArray,
+            debounced,
+            clearInput,
+          }}
+        >
+          <Nav
+            navLinksArray={LinksArray}
+            searched={searched}
+            setOpenMenu={setOpenMenu}
+            setClickedInside={setClickedInside}
+            clickedInside={clickedInside}
+            openMenu={openMenu}
+            tvGenres={tvGenres}
+            movieGenres={movieGenres}
+          />
+          <Switch>
+            <Route exact path="/">
+              <Homescreen />
+              <Main />
+            </Route>
+            <Route exact path="/:search/page=:pNum">
+              <SearchPage
+                url={searchResultsUrl}
+                dep={srchQ}
+                redirected={redirected}
+              >
+                <h1>
+                  Results for <Span>{srchQ}</Span>
+                </h1>{" "}
+              </SearchPage>
+            </Route>
+            <Route exact path={`/categories/:genre/page=:pNum`}>
+              <SearchPage redirected={false} genre={true} />
+            </Route>
+            <Route exact path={`/details/:movieName`}>
+              <DetailsPage />
+            </Route>
+            {tvGenreElements}
+            {movieGenreElements}
+            {navRoutesHtml}
+            <Route>
+              <p>you folllowed zoros directions didnt</p>
+            </Route>
+          </Switch>
+        </AppContext.Provider>
+      </DivApp>
     </ThemeProvider>
   )
 }
