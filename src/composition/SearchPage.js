@@ -192,6 +192,7 @@ function SearchPage({
   const location = useLocation()
   const params = useParams()
   console.log(location)
+  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
@@ -214,6 +215,7 @@ function SearchPage({
       }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
         location?.state?.id
       }&with_watch_monetization_types=flatrate&`
+      console.log(genreUrl)
 
       fetch(
         redirected
@@ -243,7 +245,7 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location.pathname, dep, p, url, redirected, location.state?.id, params])
+  }, [location, dep, p, url, redirected, params])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
@@ -370,7 +372,7 @@ function SearchPage({
           {children}
           {genre && (
             <h1>
-              Genre: <Span>{params?.search}</Span>
+              Genre: <Span>{params?.search || params?.genre}</Span>
             </h1>
           )}
 
