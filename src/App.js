@@ -89,6 +89,7 @@ function App() {
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
+    localStorage.setItem("query", JSON.stringify(srchQ))
     setRedirected(true)
     setSearched(true)
     setDebounced(true)
@@ -144,26 +145,22 @@ function App() {
               <Homescreen />
               <Main />
             </Route>
-            <Route exact path="/:search/page=:pNum">
-              <SearchPage
-                url={searchResultsUrl}
-                dep={srchQ}
-                redirected={redirected}
-              >
-                <h1>
-                  Results for <Span>{srchQ}</Span>
-                </h1>{" "}
-              </SearchPage>
-            </Route>
-            <Route exact path={`/categories/:genre/page=:pNum`}>
+            <Route path={`/categories/:genre/page=:pNum`}>
               <SearchPage redirected={false} genre={true} />
             </Route>
-            <Route exact path={`/details/:movieName`}>
+            <Route path={`/details/:movieName`}>
               <DetailsPage />
             </Route>
             {tvGenreElements}
             {movieGenreElements}
             {navRoutesHtml}
+            <Route exact path="/:search/page=:pNum">
+              <SearchPage
+                url={searchResultsUrl}
+                dep={srchQ}
+                redirected={redirected}
+              />
+            </Route>
             <Route>
               <p>you folllowed zoros directions didnt</p>
             </Route>

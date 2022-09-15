@@ -191,8 +191,6 @@ function SearchPage({
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
-  console.log(location)
-  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
@@ -215,7 +213,6 @@ function SearchPage({
       }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
         location?.state?.id
       }&with_watch_monetization_types=flatrate&`
-      console.log(genreUrl)
 
       fetch(
         redirected
@@ -370,9 +367,10 @@ function SearchPage({
             onLoaderFinished={() => setProgress(0)}
           />
           {children}
-          {genre && (
+          {location?.pathname.length > 1 && (
             <h1>
-              Genre: <Span>{params?.search || params?.genre}</Span>
+              {genre ? "Genre" : "Results for"}:{" "}
+              <Span>{genre ? params?.genre : params?.search}</Span>
             </h1>
           )}
 
