@@ -36,7 +36,7 @@ const LinksContainer = styled.div`
 
 const LinksCont = styled.div`
   background-color: ${(props) => props.color};
-  width: 400px;
+  width: max-content;
   gap: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -47,6 +47,8 @@ const StyledP = styled.p`
   font-family: "Noto Sans Georgian", sans-serif;
   font-weight: 900;
   grid-column: 1/-1;
+  margin-bottom: ${(props) => (props.mobile === "true" ? "1em" : "initial")};
+  text-align: ${(props) => (props.mobile === "true" ? "initial" : "center")};
 `
 
 const DarkCover = styled.div`
@@ -107,30 +109,43 @@ const Ul = styled.ul`
   }
 `
 
-const OpenUL = styled(Ul)`
+const MobileUL = styled.ul`
     width: 100%;
     position: fixed;
     top: 0;
     bottom: 0;
     transition: right 0.5s ease;
+    right: ${(props) => props.right};
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 100vh;
     background-color: #1c1f29;
-    padding: 0 1em;
+    padding: 6em 4em 3em;
     margin: 0;
+    gap: 3em;
     z-index: 300;
     @media (min-width: 800px) {
       display: none;
-      
     }
-    @media (max-width: 799px) {
-      display: flex;
-    }
-
   }
+`
+const MobileLinkCont = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  width: max-content;
   color: ${(props) => props.color};
+  margin-bottom: 0.5em;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+    font-weight: bold;
+  }
 `
 
 export default function DesktopNav({
@@ -147,6 +162,8 @@ export default function DesktopNav({
   const [tvHover, setTvHover] = useState(false)
   const [tvLinkClicked, setTvLinkClicked] = useState(false)
   const [movLinkClicked, setMovLinkClicked] = useState(false)
+  const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
+  const { clearInput } = useContext(AppContext)
 
   const onMouseEnter = (setFunc, setFuncClick) => {
     setFunc(true)
@@ -161,12 +178,27 @@ export default function DesktopNav({
     setFuncClick(true)
   }
 
-  const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
-  const { clearInput } = useContext(AppContext)
+  const bgIcon = !openMenu ? (
+    <GiHamburgerMenu
+      style={{
+        color: "white",
+      }}
+    />
+  ) : (
+    <AiFillCloseCircle
+      style={{
+        color: "white",
+      }}
+    />
+  )
+
   const tvGenreLinks = tvGenres?.map((genre) => {
     return (
       <StyledLink
-        onClick={() => closeDesktopMenu(setTvHover, setTvLinkClicked)}
+        onClick={() => {
+          closeDesktopMenu(setTvHover, setTvLinkClicked)
+          setOpenMenu(false)
+        }}
         color={"white"}
         key={nanoid()}
         to={{
@@ -187,7 +219,10 @@ export default function DesktopNav({
   const movieGenreLinks = movieGenres?.map((genre) => {
     return (
       <StyledLink
-        onClick={() => closeDesktopMenu(setMovHover, setMovLinkClicked)}
+        onClick={() => {
+          closeDesktopMenu(setMovHover, setMovLinkClicked)
+          setOpenMenu(false)
+        }}
         color={"white"}
         key={nanoid()}
         to={{
@@ -204,19 +239,6 @@ export default function DesktopNav({
       </StyledLink>
     )
   })
-  const bgIcon = !openMenu ? (
-    <GiHamburgerMenu
-      style={{
-        color: "white",
-      }}
-    />
-  ) : (
-    <AiFillCloseCircle
-      style={{
-        color: "white",
-      }}
-    />
-  )
 
   return (
     <>
@@ -224,6 +246,15 @@ export default function DesktopNav({
       <Link to={"/"} onClick={clearInput}>
         {icon}
       </Link>
+      <MobileUL right={openMenu ? "0%" : "100%"}>
+        <MobileLinkCont>
+          <StyledP mobile={"true"}>movie</StyledP> {movieGenreLinks}
+        </MobileLinkCont>
+        <MobileLinkCont>
+          <StyledP mobile={"true"}>tv</StyledP>
+          {tvGenreLinks}
+        </MobileLinkCont>
+      </MobileUL>
       <Ul>
         <Div
           onMouseEnter={() => onMouseEnter(setMovHover, setMovLinkClicked)}
