@@ -261,7 +261,6 @@ function SearchPage({
         }}
         onClick={clearInput}
         key={nanoid()}
-        replace
         to={{
           pathname: `/details/${movie.title ? movie.title : movie.name}`,
           state: {
