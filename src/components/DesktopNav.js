@@ -143,16 +143,30 @@ export default function DesktopNav({
   tvGenres,
   movieGenres,
 }) {
-  const [movHoverRef, isMovHoverd] = useHover()
-  const [tvHoverRef, isTvHoverd, handleClick] = useHover()
+  const [movHover, setMovHover] = useState(false)
+  const [tvHover, setTvHover] = useState(false)
+  const [tvLinkClicked, setTvLinkClicked] = useState(false)
+  const [movLinkClicked, setMovLinkClicked] = useState(false)
+
+  const onMouseEnter = (setFunc, setFuncClick) => {
+    setFunc(true)
+    setFuncClick(false)
+  }
+  const onMouseLeave = (setFunc, setFuncClick) => {
+    setFunc(false)
+    setFuncClick(false)
+  }
+  const closeDesktopMenu = (setFunc, setFuncClick) => {
+    setFunc(false)
+    setFuncClick(true)
+  }
 
   const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
   const { clearInput } = useContext(AppContext)
-
   const tvGenreLinks = tvGenres?.map((genre) => {
     return (
       <StyledLink
-        onClick={handleClick}
+        onClick={() => closeDesktopMenu(setTvHover, setTvLinkClicked)}
         color={"white"}
         key={nanoid()}
         to={{
@@ -173,6 +187,7 @@ export default function DesktopNav({
   const movieGenreLinks = movieGenres?.map((genre) => {
     return (
       <StyledLink
+        onClick={() => closeDesktopMenu(setMovHover, setMovLinkClicked)}
         color={"white"}
         key={nanoid()}
         to={{
@@ -210,18 +225,28 @@ export default function DesktopNav({
         {icon}
       </Link>
       <Ul>
-        <Div ref={movHoverRef}>
+        <Div
+          onMouseEnter={() => onMouseEnter(setMovHover, setMovLinkClicked)}
+          onMouseLeave={() => onMouseLeave(setMovHover, setMovLinkClicked)}
+        >
           <span>Movies</span>
-          <LinksContainer>
+          <LinksContainer
+            style={{ display: `${movLinkClicked ? "none" : "block"}` }}
+          >
             <LinksCont color={"black"}>
               <StyledP>movie</StyledP>
               {movieGenreLinks}
             </LinksCont>
           </LinksContainer>
         </Div>
-        <Div ref={tvHoverRef}>
+        <Div
+          onMouseEnter={() => onMouseEnter(setTvHover, setTvLinkClicked)}
+          onMouseLeave={() => onMouseLeave(setTvHover, setTvLinkClicked)}
+        >
           <span>Tv</span>
-          <LinksContainer>
+          <LinksContainer
+            style={{ display: `${tvLinkClicked ? "none" : "block"}` }}
+          >
             <LinksCont color={"black"}>
               <StyledP>tv</StyledP>
               {tvGenreLinks}
@@ -230,8 +255,8 @@ export default function DesktopNav({
         </Div>
         <DarkCover
           style={{
-            opacity: `${isTvHoverd || isMovHoverd ? "1" : "0"}`,
-            display: `${isTvHoverd || isMovHoverd ? "block" : "none"}`,
+            opacity: `${movHover || tvHover ? "1" : "0"}`,
+            display: `${movHover || tvHover ? "block" : "none"}`,
           }}
         />
       </Ul>

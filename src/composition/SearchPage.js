@@ -194,12 +194,16 @@ function SearchPage({
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkName) {
-    toLink = linkName
+    toLink = location?.state?.linkName
   } else if (genre) {
     toLink = `/categories/${location?.state?.genreName}`
   } else {
     toLink = `/${params.search}`
   }
+  console.log(toLink + " this is toLink")
+  console.log(linkName + " this is linkName")
+  console.log(params)
+  console.log(location)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -367,7 +371,7 @@ function SearchPage({
             onLoaderFinished={() => setProgress(0)}
           />
           {children}
-          {location?.pathname.length > 1 && (
+          {location?.pathname.length > 1 && !deetsPage && (
             <h1>
               {genre ? "Genre" : "Results for"}:{" "}
               <Span>{genre ? params?.genre : params?.search}</Span>

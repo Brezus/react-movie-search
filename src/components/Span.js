@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 const StyledSpan = styled.span`
   display: block;
-  color: ${({ theme }) => theme.darkBlue};
+  color: ${({ theme }) => theme.darkYellow};
   font-size: ${({ theme }) => theme.fontSize};
 `
 
