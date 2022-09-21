@@ -10,6 +10,7 @@ import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 import Span from "../components/Span"
 import useWindowSize from "../hooks/UseWindowSize"
+import TextFlow from "../utils/TextFlow"
 
 const Button = styled(Link)`
   padding: 1em 0;
@@ -189,16 +190,6 @@ function SearchPage({
   const [mData, setMData] = useState([])
   const [maxString, setMaxString] = useState(25)
 
-  const size = useWindowSize()
-
-  useEffect(() => {
-    if (size.width <= 800) {
-      setMaxString(20)
-    } else {
-      setMaxString(30)
-    }
-  }, [size.width])
-
   const [remainingPages, setRemainingPages] = useState(null)
   const [progress, setProgress] = useState(0)
   const { clearInput } = useContext(AppContext)
@@ -215,6 +206,8 @@ function SearchPage({
   }
 
   useEffect(() => {
+    console.log("re ran")
+
     window.scrollTo(0, 0)
 
     if (dep || url || redirected || genre) {
@@ -264,6 +257,7 @@ function SearchPage({
 
     return (
       <StyledLink
+        title={`${nameOrTitle}`}
         style={{
           maxWidth: `${horizontalScroll ? "initial" : "300px"}`,
           overflow: `${horizontalScroll && "hidden"}`,
@@ -284,7 +278,7 @@ function SearchPage({
         <Movie
           style={{
             gridTemplateRows: `${
-              movie.poster_path && horizontalScroll ? "200px" : "300px auto"
+              movie.poster_path && horizontalScroll ? "200px" : "300px 90px"
             }`,
             backgroundColor: `${
               horizontalScroll ? "rgba(32, 32, 38, 1)" : "transparent"
@@ -333,13 +327,12 @@ function SearchPage({
               width: `${horizontalScroll && "95%"}`,
             }}
           >
-            <h3>
-              {nameOrTitle?.length >= 11 && horizontalScroll
-                ? nameOrTitle?.slice(0, 11) + "..."
-                : nameOrTitle?.length >= maxString && !horizontalScroll
-                ? nameOrTitle?.slice(0, maxString) + "..."
-                : nameOrTitle}
-            </h3>
+            <TextFlow
+              horizontalScroll={horizontalScroll}
+              text={nameOrTitle}
+              cast={false}
+            />
+            {/* <tctflow horizontalScroll/> */}
             <MetaInfo
               style={{
                 gap: `${horizontalScroll && "1em"}`,

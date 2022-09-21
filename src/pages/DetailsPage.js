@@ -83,8 +83,8 @@ const ContainerDiv = styled.div`
 
   @media (max-width: 700px) {
     display: grid;
-    grid-row-gap: 1em;
-    grid-column-gap: 0.8em;
+    grid-row-gap: 3em;
+    grid-column-gap: 1.5em;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "poster title"
@@ -140,7 +140,6 @@ const StyledH1Mob = styled.h1`
   font-family: "Noto Sans Georgian", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
-  text-align: center;
 
   @media (min-width: 700px) {
     display: none;
@@ -188,7 +187,16 @@ const StyledParagraphMob = styled.p`
   font-weight: 400;
   font-size: 1.2rem;
   text-transform: capitalise;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
+`
+const Desc = styled.div`
   grid-area: desc;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 
   @media (min-width: 700px) {
     display: none;
@@ -216,7 +224,7 @@ const Title = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 1em;
   @media (min-width: 700px) {
     display: none;
@@ -247,10 +255,7 @@ export default function DetailsPage() {
       autoplay: 1,
     },
   }
-  const bgStyle = {
-    backgroundImage: `linear-gradient(90deg, rgba(32,32,38,0.75) 0%, rgba(1,11,19,1) 100%), url(${bkdrp})`,
-    backgroundSize: `${detailsData?.backdrop_path ? "cover" : "contain"}`,
-  }
+
   const posterBg = {
     backgroundImage: `url(${postr && postr})`,
   }
@@ -349,10 +354,24 @@ export default function DetailsPage() {
                 </StyledH1Mob>
                 <ButtonMob>Watch Trailer</ButtonMob>
               </Title>
+              <Desc>
+                {detailsData?.tagline && (
+                  <StyledP>{detailsData.tagline}</StyledP>
+                )}
+                {detailsData?.release_date && (
+                  <StyledYear>
+                    {detailsData.release_date.slice(0, 4)}
+                  </StyledYear>
+                )}
+                {detailsData?.production_companies?.length >= 1 && (
+                  <Ul>{productionCompanies}</Ul>
+                )}
+                {genreList && <Ul>{genreList}</Ul>}
+                <StyledParagraphMob style={{ maxWidth: "700px" }}>
+                  {detailsData?.overview}
+                </StyledParagraphMob>
+              </Desc>
 
-              <StyledParagraphMob style={{ maxWidth: "700px" }}>
-                {detailsData?.overview}
-              </StyledParagraphMob>
               {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
             </ContainerDiv>
           </DivBKDrop>

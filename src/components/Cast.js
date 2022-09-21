@@ -5,6 +5,7 @@ import NoImage from "../assets/no-photo.png"
 import CastBg from "../assets/fancy-pants.jpg"
 import ProgressiveImage from "react-progressive-graceful-image"
 import LoadingAnimation from "../assets/take1animation.webp"
+import TextFlow from "../utils/TextFlow"
 
 const Aside = styled.aside`
   border: 5px solid black;
@@ -14,8 +15,18 @@ const StyledH2 = styled.h2`
   width: 95%;
   margin: 0 auto 3rem;
 `
+const StyledP = styled.p`
+  font-size: .8rem
+  width: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 const StyledSpan = styled.span`
   display: block;
+  font-weight: bold;
+  font-family: "Noto Sans Georgian", sans-serif;
+  font-size: 1.2rem;
 `
 
 const Profiles = styled.div`
@@ -24,23 +35,22 @@ const Profiles = styled.div`
   display: grid;
   grid-row-gap: 2em;
   grid-column-gap: 4em;
-  place-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, auto));
   justify-content: center;
-  gap: 3em;
+  align-items: start;
 
   @media (min-width: 800px) {
     justify-content: center;
     place-items: center;
   }
 `
+
 const ActorCont = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
   outline: 5px solid white;
-  height: 300px;
   width: 100%;
 `
 const StyledImage = styled.img`
@@ -53,6 +63,7 @@ const ProfileRole = styled.div`
   color: ${({ theme }) => theme.darkBg};
   padding: 1em;
   text-align: center;
+  width: 100%;
 `
 
 export default function Cast({ movieId, mediaType }) {
@@ -80,7 +91,10 @@ export default function Cast({ movieId, mediaType }) {
     castData &&
     castData.map((castMember) => {
       return (
-        <ActorCont key={nanoid()}>
+        <ActorCont
+          key={nanoid()}
+          title={`${castMember?.name} as ${castMember?.character}`}
+        >
           <ProgressiveImage
             src={`${
               castMember?.profile_path
@@ -99,12 +113,7 @@ export default function Cast({ movieId, mediaType }) {
             )}
           </ProgressiveImage>
           <ProfileRole>
-            <p>
-              {castMember?.name}{" "}
-              {castMember?.character && (
-                <StyledSpan>as: {castMember?.character}</StyledSpan>
-              )}
-            </p>
+            <TextFlow text={castMember} horizontalScroll={false} cast={true} />
           </ProfileRole>
         </ActorCont>
       )
