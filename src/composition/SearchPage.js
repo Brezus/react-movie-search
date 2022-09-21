@@ -9,6 +9,7 @@ import { FiPlayCircle } from "react-icons/fi"
 import LoadingAnimation from "../assets/take1animation.webp"
 import ProgressiveImage from "react-progressive-graceful-image"
 import Span from "../components/Span"
+import useWindowSize from "../hooks/UseWindowSize"
 
 const Button = styled(Link)`
   padding: 1em 0;
@@ -179,13 +180,25 @@ function SearchPage({
   children,
   redirected = false,
   category = false,
-  linkName = null,
+  linkUrl = null,
   genre = null,
   horizontalScroll = false,
   deetsPage = false,
   mediaType = null,
 }) {
   const [mData, setMData] = useState([])
+  const [maxString, setMaxString] = useState(25)
+
+  const size = useWindowSize()
+
+  useEffect(() => {
+    if (size.width <= 800) {
+      setMaxString(20)
+    } else {
+      setMaxString(30)
+    }
+  }, [size.width])
+
   const [remainingPages, setRemainingPages] = useState(null)
   const [progress, setProgress] = useState(0)
   const { clearInput } = useContext(AppContext)
@@ -193,17 +206,13 @@ function SearchPage({
   const params = useParams()
   const p = parseInt(params.pNum, 10)
   let toLink
-  if (linkName) {
-    toLink = location?.state?.linkName
+  if (linkUrl) {
+    toLink = `/${location?.state?.mediaType}/${location?.state?.genreName}`
   } else if (genre) {
     toLink = `/categories/${location?.state?.genreName}`
   } else {
     toLink = `/${params.search}`
   }
-  console.log(toLink + " this is toLink")
-  console.log(linkName + " this is linkName")
-  console.log(params)
-  console.log(location)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -327,8 +336,8 @@ function SearchPage({
             <h3>
               {nameOrTitle?.length >= 11 && horizontalScroll
                 ? nameOrTitle?.slice(0, 11) + "..."
-                : nameOrTitle?.length >= 25 && !horizontalScroll
-                ? nameOrTitle?.slice(0, 25) + "..."
+                : nameOrTitle?.length >= maxString && !horizontalScroll
+                ? nameOrTitle?.slice(0, maxString) + "..."
                 : nameOrTitle}
             </h3>
             <MetaInfo
@@ -406,6 +415,7 @@ function SearchPage({
                   state: {
                     id: `${location?.state?.id}`,
                     genreName: `${location?.state?.genreName}`,
+                    mediaType: `${location?.state?.mediaType}`,
                   },
                 }}
               >
@@ -426,6 +436,7 @@ function SearchPage({
                   state: {
                     id: `${location?.state?.id}`,
                     genreName: `${location?.state?.genreName}`,
+                    mediaType: `${location?.state?.mediaType}`,
                   },
                 }}
               >

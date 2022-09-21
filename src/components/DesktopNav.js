@@ -192,7 +192,7 @@ export default function DesktopNav({
     />
   )
 
-  const tvGenreLinks = tvGenres?.map((genre) => {
+  const tvGenreLinks = tvGenres?.map((genre, i) => {
     return (
       <StyledLink
         onClick={() => {

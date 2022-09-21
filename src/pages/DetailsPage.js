@@ -56,7 +56,6 @@ const StyledImg = styled.img`
 `
 
 const PosterCont = styled.div`
-  width: 200px;
   display: flex;
   flex-direction: column;
   gap: 2em;
@@ -84,8 +83,9 @@ const ContainerDiv = styled.div`
 
   @media (max-width: 700px) {
     display: grid;
-    gap: 0.8em;
-    grid-template-columns: 200px auto;
+    grid-row-gap: 1em;
+    grid-column-gap: 0.8em;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "poster title"
       "desc    desc";
@@ -100,6 +100,18 @@ const Button = styled.button`
   border-radius: ${({ theme }) => theme.border};
   border: none;
   width: 100%;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+const ButtonMob = styled(Button)`
+  margin-bottom: 0;
+  padding: 1em;
+  max-width: 200px;
+  @media (max-width: 700px) {
+    display: inline;
+  }
 `
 const InfoCont = styled.div`
   display: flex;
@@ -109,6 +121,10 @@ const InfoCont = styled.div`
   align-items: baseline;
   flex: 2;
   position: relative;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `
 
 const StyledH1 = styled.h1`
@@ -122,9 +138,9 @@ const StyledH1 = styled.h1`
 `
 const StyledH1Mob = styled.h1`
   font-family: "Noto Sans Georgian", sans-serif;
-  font-size: ${({ theme }) => theme.fontSize};
+  font-size: 1.5rem;
   font-weight: 900;
-  grid-area: title;
+  text-align: center;
 
   @media (min-width: 700px) {
     display: none;
@@ -193,6 +209,18 @@ const LoadingDiv = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
+`
+
+const Title = styled.div`
+  grid-area: title;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  @media (min-width: 700px) {
+    display: none;
+  }
 `
 
 export default function DetailsPage() {
@@ -315,9 +343,12 @@ export default function DetailsPage() {
                   {detailsData?.overview}
                 </StyledParagraph>
               </InfoCont>
-              <StyledH1Mob>
-                {detailsData?.title ? detailsData?.title : detailsData?.name}
-              </StyledH1Mob>
+              <Title>
+                <StyledH1Mob>
+                  {detailsData?.title ? detailsData?.title : detailsData?.name}
+                </StyledH1Mob>
+                <ButtonMob>Watch Trailer</ButtonMob>
+              </Title>
 
               <StyledParagraphMob style={{ maxWidth: "700px" }}>
                 {detailsData?.overview}

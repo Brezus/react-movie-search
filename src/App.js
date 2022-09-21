@@ -61,7 +61,7 @@ function App() {
         <SearchPage
           redirected={false}
           genre={true}
-          linkName={`/movie/${genre?.name}`}
+          linkUrl={true}
           mediaType="movie"
         />
       </Route>
@@ -74,7 +74,7 @@ function App() {
         <SearchPage
           redirected={false}
           genre={true}
-          linkName={`/tv/${genre?.name}`}
+          linkUrl={true}
           mediaType="tv"
         />
       </Route>

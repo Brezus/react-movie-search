@@ -22,19 +22,26 @@ const Profiles = styled.div`
   width: 95%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-row-gap: 2em;
   grid-column-gap: 4em;
   place-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  justify-content: center;
+  gap: 3em;
+
+  @media (min-width: 800px) {
+    justify-content: center;
+    place-items: center;
+  }
 `
 const ActorCont = styled.div`
-  height: 300px;
   display: grid;
-  grid-template-columns: 200px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr auto;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
   outline: 5px solid white;
+  height: 300px;
+  width: 100%;
 `
 const StyledImage = styled.img`
   object-fit: cover;
@@ -44,7 +51,7 @@ const StyledImage = styled.img`
 const ProfileRole = styled.div`
   background: white;
   color: ${({ theme }) => theme.darkBg};
-  padding: 0 1em;
+  padding: 1em;
   text-align: center;
 `
 
@@ -84,7 +91,7 @@ export default function Cast({ movieId, mediaType }) {
           >
             {(src) => (
               <StyledImage
-                height={"170px"}
+                height={"220px"}
                 width={"100%"}
                 src={src}
                 alt={`portrait of ${castMember?.name}`}
