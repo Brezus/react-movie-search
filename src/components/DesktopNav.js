@@ -84,6 +84,7 @@ const BurgerIcon = styled.a`
   border-radius: 50px;
   z-index: 301;
   font-size: 1.5rem;
+  cursor: pointer;
 
   @media (min-width: 800px) {
     display: none;

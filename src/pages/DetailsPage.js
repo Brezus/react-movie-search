@@ -25,7 +25,6 @@ const DivBKDrop = styled.article`
   justify-content: center;
   background: rgb(32, 32, 38);
   background-position: center;
-  min-height: 100vh;
   position: relative;
   background-color: rgba(32, 32, 38, 1);
   overflow: hidden;
