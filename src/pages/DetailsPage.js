@@ -72,7 +72,7 @@ const DivPoster = styled.div`
 
 const ContainerDiv = styled.div`
   width: 95%;
-  margin: 314px auto 0;
+  margin: 500px auto 0;
   display: flex;
   gap: 5em;
 
