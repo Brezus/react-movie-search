@@ -14,7 +14,6 @@ const SearchPage = lazy(() =>
 )
 
 const Main = styled.main`
-  padding-top: 5rem;
   padding-bottom: 5rem;
   min-height: 100vh;
 `
