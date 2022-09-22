@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid"
-import { SearchPage } from "./composition/SearchPage"
+import { SearchPage } from "./pages/SearchPage"
 import { Route } from "react-router-dom"
-import Span from "./components/Span"
+import Span from "./utils/Span"
 
 export const LinksArray = [
   {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
-import DesktopNav from "./DesktopNav"
+import NavChild from "./NavChild"
 import useWindowSize from "../hooks/UseWindowSize"
 import useScrollDirection from "../hooks/useScrollDirection"
 import { Link } from "react-router-dom"
@@ -95,7 +95,7 @@ export default function Nav({
     setOpenMenu((prev) => !prev)
   }
   const navComponent = (
-    <DesktopNav
+    <NavChild
       navRouterLinks={navRouterLinks}
       tvGenres={tvGenres}
       movieGenres={movieGenres}

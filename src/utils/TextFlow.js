@@ -2,20 +2,14 @@ import React from "react"
 import styled from "styled-components"
 
 const H3 = styled.h3`
-  @media (min-width: 680px) {
-    display: none;
-  }
-  @media (max-width: 680px) {
-    display: block;
-  }
-`
+  width: 100px;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-const H36 = styled.h3`
-  @media (min-width: 680px) {
-    display: initial;
-  }
-  @media (max-width: 680px) {
-    display: none;
+  @media (min-width: 600px) {
+    width: 150px;
   }
 `
 
@@ -61,20 +55,7 @@ export default function TextFlow({
     <>
       {!cast ? (
         <>
-          <H3>
-            {text?.length >= 11 && horizontalScroll
-              ? text?.slice(0, 11) + "..."
-              : text?.length >= 20 && !horizontalScroll
-              ? text?.slice(0, 20) + "..."
-              : text}
-          </H3>
-          <H36>
-            {text?.length >= 11 && horizontalScroll
-              ? text?.slice(0, 11) + "..."
-              : text?.length >= 25 && !horizontalScroll
-              ? text?.slice(0, 25) + "..."
-              : text}
-          </H36>
+          <H3>{text}</H3>
         </>
       ) : (
         <StyledP>

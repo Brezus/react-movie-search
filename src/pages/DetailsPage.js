@@ -8,7 +8,7 @@ import LoadingAnimation from "../assets/giphy.gif"
 import ProgressiveImage from "react-progressive-graceful-image"
 
 const SearchPage = lazy(() =>
-  import("../composition/SearchPage").then((module) => ({
+  import("../pages/SearchPage").then((module) => ({
     default: module.SearchPage,
   }))
 )
