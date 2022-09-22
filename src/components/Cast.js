@@ -35,19 +35,16 @@ const Profiles = styled.div`
   display: grid;
   grid-row-gap: 2em;
   grid-column-gap: 4em;
-  grid-template-columns: repeat(auto-fill, minmax(180px, auto));
-  justify-content: center;
-  align-items: start;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 
-  @media (min-width: 800px) {
-    justify-content: center;
-    place-items: center;
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 `
 
 const ActorCont = styled.div`
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr 150px;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
   outline: 5px solid white;
@@ -105,10 +102,10 @@ export default function Cast({ movieId, mediaType }) {
           >
             {(src) => (
               <StyledImage
-                height={"220px"}
+                height={"auto"}
                 width={"100%"}
                 src={src}
-                alt={`portrait of ${castMember?.name}`}
+                alt={`photo of ${castMember?.name}`}
               />
             )}
           </ProgressiveImage>
@@ -120,7 +117,7 @@ export default function Cast({ movieId, mediaType }) {
     })
   return (
     <>
-      {castData && (
+      {castData.length >= 1 && (
         <Aside style={{ backgroundImage: `url(${CastBg})` }}>
           <StyledH2>Starring</StyledH2>
           <Profiles>{profiles}</Profiles>

@@ -38,17 +38,18 @@ const CastDiv6 = styled.div`
 `
 const StyledP = styled.p`
   font-size: .8rem
-  width: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: wrap;
 `
 
 const StyledSpan = styled.span`
   display: block;
   font-weight: bold;
   font-family: "Noto Sans Georgian", sans-serif;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem;
+  }
 `
 
 export default function TextFlow({
@@ -76,16 +77,11 @@ export default function TextFlow({
           </H36>
         </>
       ) : (
-        <StyledP title={`${text?.name} as ${text?.character}`}>
-          {text?.name.length >= 10 ? text?.name.slice(0, 10) : text?.name}{" "}
+        <StyledP>
+          {text?.name}{" "}
           {text?.character && (
             <>
-              as:{" "}
-              <StyledSpan>
-                {text?.character.length >= 9
-                  ? text?.character.slice(0, 9) + "."
-                  : text?.character}
-              </StyledSpan>
+              as: <StyledSpan>{text?.character}</StyledSpan>
             </>
           )}
         </StyledP>
