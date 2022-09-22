@@ -20,7 +20,6 @@ const Main = styled.main`
 `
 
 const DivBKDrop = styled.article`
-  padding-top: 5em;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -35,23 +34,21 @@ const DivBKDrop = styled.article`
   @media (max-width: 700px) {
     flex-direction: column;
     row-gap: 4em;
-    padding-top: 0;
   }
 `
 
 const StyledImg = styled.img`
   max-width: 100%;
   height: auto;
-  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
   z-index: -1;
   mix-blend-mode: overlay;
-
-  @media (max-width: 700px) {
-    position: relative;
+  position: relative;
+  @media (min-width: 700px) {
+    position: absolute;
   }
 `
 
@@ -77,11 +74,12 @@ const DivPoster = styled.div`
 
 const ContainerDiv = styled.div`
   width: 95%;
-  margin: 0 auto;
+  margin: 314px auto 0;
   display: flex;
   gap: 5em;
 
   @media (max-width: 700px) {
+    margin: 0 auto;
     display: grid;
     grid-row-gap: 3em;
     grid-column-gap: 1.5em;
@@ -90,6 +88,9 @@ const ContainerDiv = styled.div`
       "poster title"
       "desc    desc";
   }
+  @media (min-width: 900px) {
+    margin: 6rem auto;
+
 `
 
 const Button = styled.button`
@@ -109,12 +110,13 @@ const ButtonMob = styled(Button)`
   margin-bottom: 0;
   padding: 1em;
   max-width: 200px;
+
   @media (max-width: 700px) {
     display: inline;
   }
 `
 const InfoCont = styled.div`
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.8em;
   justify-content: flex-start;
@@ -122,8 +124,8 @@ const InfoCont = styled.div`
   flex: 2;
   position: relative;
 
-  @media (max-width: 700px) {
-    display: none;
+  @media (min-width: 700px) {
+    display: flex;
   }
 `
 
@@ -131,39 +133,23 @@ const StyledH1 = styled.h1`
   font-family: "Noto Sans Georgian", sans-serif;
   font-size: ${({ theme }) => theme.fontSize};
   font-weight: 900;
-
-  @media (max-width: 700px) {
-    display: none;
-  }
 `
 const StyledH1Mob = styled.h1`
   font-family: "Noto Sans Georgian", sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
-
-  @media (min-width: 700px) {
-    display: none;
-  }
 `
 
 const StyledP = styled.p`
   font-family: "Montserrat", sans-serif;
   font-style: italic;
   font-weight: 400;
-
-  @media (max-width: 700px) {
-    display: none;
-  }
 `
 
 const StyledPMob = styled.p`
   font-family: "Montserrat", sans-serif;
   font-style: italic;
   font-weight: 400;
-
-  @media (min-width: 700px) {
-    display: none;
-  }
 `
 
 const StyledYear = styled(StyledH1)`
@@ -175,10 +161,6 @@ const StyledParagraph = styled.p`
   font-weight: 400;
   font-size: 1.2rem;
   text-transform: capitalise;
-
-  @media (max-width: 700px) {
-    display: none;
-  }
 `
 
 const StyledParagraphMob = styled.p`
@@ -187,16 +169,6 @@ const StyledParagraphMob = styled.p`
   font-weight: 400;
   font-size: 1.2rem;
   text-transform: capitalise;
-
-  @media (min-width: 700px) {
-    display: none;
-  }
-`
-const Desc = styled.div`
-  grid-area: desc;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
 
   @media (min-width: 700px) {
     display: none;
@@ -219,6 +191,17 @@ const LoadingDiv = styled.div`
   height: 100vh;
 `
 
+const Desc = styled.div`
+  grid-area: desc;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  @media (min-width: 700px) {
+    display: none;
+  }
+`
+
 const Title = styled.div`
   grid-area: title;
   display: flex;
@@ -226,6 +209,7 @@ const Title = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 1em;
+
   @media (min-width: 700px) {
     display: none;
   }
