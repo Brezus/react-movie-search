@@ -116,11 +116,10 @@ const StyledLink = styled(Link)`
 
 const Section = styled.section`
   display: grid;
-
   gap: 3em;
 
   ${(props) =>
-    props.horizontal === "true" &&
+    props.horizontal &&
     css`
       grid-auto-columns: 65%;
       grid-auto-flow: column;
@@ -131,7 +130,7 @@ const Section = styled.section`
     `}
 
   ${(props) =>
-    props.horizontal === "false" &&
+    !props.horizontal &&
     css`
       place-items: center;
       justify-content: center;
@@ -140,14 +139,14 @@ const Section = styled.section`
   
   @media (min-width: 800px) {
     ${(props) =>
-      props.horizontal === "true" &&
+      props.horizontal &&
       css`
         grid-auto-columns: 43%;
         grid-auto-flow: column;
         scroll-snap-type: inline mandatory;
       `}
     ${(props) =>
-      props.horizontal === "false" &&
+      !props.horizontal &&
       css`
         place-items: center;
         justify-content: center;
@@ -389,9 +388,7 @@ function SearchPage({
             </h1>
           )}
 
-          <Section horizontal={`${horizontalScroll ? "true" : "false"}`}>
-            {movies}
-          </Section>
+          <Section horizontal={horizontalScroll}>{movies}</Section>
           {params.pNum && (
             <ButtonCont>
               <Button
