@@ -213,8 +213,26 @@ const Title = styled.div`
   }
 `
 
+const VideoCont = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.545);
+`
+
+const CloseVideo = styled.div`
+  align-self: end;
+`
+
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
+  const [buttonClick, setButtonClicked] = useState(false)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )
@@ -308,7 +326,9 @@ export default function DetailsPage() {
             <ContainerDiv>
               <PosterCont>
                 <DivPoster style={posterBg}></DivPoster>
-                <Button>Watch Trailer</Button>
+                <Button onClick={() => setButtonClicked(true)}>
+                  Watch Trailer
+                </Button>
               </PosterCont>
               <InfoCont>
                 <StyledH1>
@@ -334,7 +354,9 @@ export default function DetailsPage() {
                 <StyledH1Mob>
                   {detailsData?.title ? detailsData?.title : detailsData?.name}
                 </StyledH1Mob>
-                <ButtonMob>Watch Trailer</ButtonMob>
+                <ButtonMob onClick={() => setButtonClicked(true)}>
+                  Watch Trailer
+                </ButtonMob>
               </Title>
               <Desc>
                 {detailsData?.tagline && (
@@ -353,8 +375,16 @@ export default function DetailsPage() {
                   {detailsData?.overview}
                 </StyledParagraphMob>
               </Desc>
-
-              {/* {trailer?.key && <YouTube videoId={trailer?.key} opts={opts} />} */}
+              {buttonClick && (
+                <VideoCont>
+                  {trailer?.key && (
+                    <YouTube videoId={trailer?.key} opts={opts} />
+                  )}
+                  <CloseVideo onClick={() => setButtonClicked(false)}>
+                    Close
+                  </CloseVideo>
+                </VideoCont>
+              )}
             </ContainerDiv>
           </DivBKDrop>
           {mediaType && movieId ? (
