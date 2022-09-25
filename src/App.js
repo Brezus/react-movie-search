@@ -95,10 +95,7 @@ function App() {
   }
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
 
-  const searchResultsUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
-    process.env.REACT_APP_API_KEY
-  }&language=en-US&query=${srchQ || "sonic"}&include_adult=false&`
-
+  const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&include_adult=false&`
   useEffect(() => {
     const tvUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     const movieUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -157,7 +154,7 @@ function App() {
               <SearchPage
                 url={searchResultsUrl}
                 dep={srchQ}
-                redirected={redirected}
+                redirected={false}
               />
             </Route>
             <Route>

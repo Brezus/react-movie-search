@@ -61,9 +61,6 @@ const Div = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
   font-size: 0.8rem;
 
-  @media (min-width: 700px) {
-    grid-row-gap: 6rem;
-  }
   &:last-child {
     border-bottom: 0;
   }
@@ -132,7 +129,6 @@ const Section = styled.section`
   ${(props) =>
     !props.horizontal &&
     css`
-      place-items: center;
       justify-content: center;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     `}
@@ -150,7 +146,7 @@ const Section = styled.section`
       css`
         place-items: center;
         justify-content: center;
-        grid-template-columns: repeat(auto-fill, minmax(244px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       `}
   }
 `
@@ -158,6 +154,10 @@ const Section = styled.section`
 const Movie = styled.div`
   display: grid;
   border-radius: 10px;
+
+  grid-template-rows: ${(props) => (props.horizontal ? "200px" : "auto 1fr")};
+  background-color: ${(props) =>
+    props.horizontal ? "rgba(32, 32, 38, 1)" : "transparent"};
 `
 
 const Info = styled.div`
@@ -168,6 +168,26 @@ const MetaInfo = styled.div`
   display: flex;
   align-items: center;
   font-size: 0.8rem;
+
+  p {
+    font-size: 0.6rem;
+  }
+
+  @media (min-width: 500px) {
+    font-size: 1rem;
+
+    p {
+      font-size: 0.6rem;
+    }
+  }
+
+  @media (min-width: 700px) {
+    font-size: 1.2rem;
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
 `
 const TypeIndicator = styled.p`
   padding: 0.2em;
@@ -202,6 +222,7 @@ function SearchPage({
   mediaType = null,
 }) {
   const [mData, setMData] = useState([])
+  console.log(mData)
   const [remainingPages, setRemainingPages] = useState(null)
   const [progress, setProgress] = useState(0)
   const { clearInput } = useContext(AppContext)
@@ -248,7 +269,7 @@ function SearchPage({
           setMData(
             params.pNum
               ? data.results
-              : data.results.slice(0, `${deetsPage ? 4 : 8}`)
+              : data.results.slice(0, `${deetsPage ? 4 : 10}`)
           )
           setRemainingPages(data)
         })
@@ -285,16 +306,7 @@ function SearchPage({
           },
         }}
       >
-        <Movie
-          style={{
-            gridTemplateRows: `${
-              movie.poster_path && horizontalScroll ? "200px" : "auto 1fr"
-            }`,
-            backgroundColor: `${
-              horizontalScroll ? "rgba(32, 32, 38, 1)" : "transparent"
-            }`,
-          }}
-        >
+        <Movie horizontal={horizontalScroll}>
           <DarkDiv
             style={{
               opacity: `${movie.hoverd && !horizontalScroll ? "0.8" : "0"}`,
@@ -350,7 +362,7 @@ function SearchPage({
                 }`,
               }}
             >
-              <p style={{ fontSize: ".6rem" }}>
+              <p>
                 {releaseOrAirDate?.slice(0, 4)} • (
                 {Math.floor(movie.vote_average)} ⭐)
               </p>

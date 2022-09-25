@@ -35,10 +35,10 @@ const Profiles = styled.div`
   display: grid;
   grid-row-gap: 2em;
   grid-column-gap: 4em;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 
-  @media (min-width: 700px) {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  @media (min-width: 800px) {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   }
 `
 

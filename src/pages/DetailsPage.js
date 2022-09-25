@@ -326,9 +326,11 @@ export default function DetailsPage() {
             <ContainerDiv>
               <PosterCont>
                 <DivPoster style={posterBg}></DivPoster>
-                <Button onClick={() => setButtonClicked(true)}>
-                  Watch Trailer
-                </Button>
+                {trailer?.key && (
+                  <Button onClick={() => setButtonClicked(true)}>
+                    Watch Trailer
+                  </Button>
+                )}
               </PosterCont>
               <InfoCont>
                 <StyledH1>
@@ -354,9 +356,11 @@ export default function DetailsPage() {
                 <StyledH1Mob>
                   {detailsData?.title ? detailsData?.title : detailsData?.name}
                 </StyledH1Mob>
-                <ButtonMob onClick={() => setButtonClicked(true)}>
-                  Watch Trailer
-                </ButtonMob>
+                {trailer?.key && (
+                  <ButtonMob onClick={() => setButtonClicked(true)}>
+                    Watch Trailer
+                  </ButtonMob>
+                )}
               </Title>
               <Desc>
                 {detailsData?.tagline && (
@@ -377,9 +381,7 @@ export default function DetailsPage() {
               </Desc>
               {buttonClick && (
                 <VideoCont>
-                  {trailer?.key && (
-                    <YouTube videoId={trailer?.key} opts={opts} />
-                  )}
+                  <YouTube videoId={trailer?.key} opts={opts} />
                   <CloseVideo onClick={() => setButtonClicked(false)}>
                     Close
                   </CloseVideo>
