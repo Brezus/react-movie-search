@@ -34,21 +34,36 @@ const Profiles = styled.div`
   margin: 0 auto;
   display: grid;
   grid-row-gap: 2em;
-  grid-column-gap: 4em;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-column-gap: 2em;
+  grid-template-columns: 1fr 1fr;
+
+  @media (min-width: 500px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media (min-width: 800px) {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
   }
+
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  // @media (min-width: 800px) {
+  //   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  // }
 `
 
 const ActorCont = styled.div`
   display: grid;
-  grid-template-rows: 1fr 150px;
+  grid-template-rows: 200px 80px;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
   outline: 5px solid white;
   width: 100%;
+
+  @media (min-width: 500px) {
+    grid-template-rows: 200px 120px;
+  }
 `
 const StyledImage = styled.img`
   object-fit: cover;
@@ -58,9 +73,13 @@ const StyledImage = styled.img`
 const ProfileRole = styled.div`
   background: white;
   color: ${({ theme }) => theme.darkBg};
-  padding: 1em;
+  padding: 0.5em;
   text-align: center;
   width: 100%;
+
+  @media (min-width: 800px) {
+    padding: 1em;
+  }
 `
 
 export default function Cast({ movieId, mediaType }) {

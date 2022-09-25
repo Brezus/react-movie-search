@@ -11,6 +11,10 @@ const H3 = styled.h3`
   @media (min-width: 600px) {
     width: 150px;
   }
+  @media (min-width: 1000px) {
+    width: 170px;
+    font-size: 1.1rem;
+  }
 `
 
 const CastDiv = styled.div`
@@ -31,18 +35,21 @@ const CastDiv6 = styled.div`
   }
 `
 const StyledP = styled.p`
-  font-size: .8rem
+  font-size: 0.8rem;
   text-overflow: wrap;
+
+  @media (min-width: 800px) {
+    font-size: 1rem;
+  }
 `
 
 const StyledSpan = styled.span`
   display: block;
   font-weight: bold;
   font-family: "Noto Sans Georgian", sans-serif;
-  font-size: 0.9rem;
 
-  @media (min-width: 700px) {
-    font-size: 1.2rem;
+  @media (min-width: 500px) {
+    font-size: 1rem;
   }
 `
 

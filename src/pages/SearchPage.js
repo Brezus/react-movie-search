@@ -113,7 +113,7 @@ const StyledLink = styled(Link)`
 
 const Section = styled.section`
   display: grid;
-  gap: 3em;
+  gap: 2em;
 
   ${(props) =>
     props.horizontal &&
@@ -146,7 +146,7 @@ const Section = styled.section`
       css`
         place-items: center;
         justify-content: center;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(182px, 1fr));
       `}
   }
 `
@@ -194,8 +194,9 @@ const TypeIndicator = styled.p`
   width: 70px;
   text-align: center;
   background: transparent;
-  border: 1px solid whitesmoke;
+  border: 1px solid #9699a3;
   border-radius: 5px;
+  color: white;
 `
 const ButtonCont = styled.div`
   display: flex;
@@ -360,6 +361,7 @@ function SearchPage({
                 justifyContent: `${
                   horizontalScroll ? "flex-start" : "space-between"
                 }`,
+                color: "#9699a3",
               }}
             >
               <p>

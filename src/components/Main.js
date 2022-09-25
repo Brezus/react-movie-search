@@ -23,6 +23,8 @@ const StyledLink = styled(Link)`
   font-size: 1.2rem;
   position: relative;
   isolation: isolate;
+  letter-spacing: 2px;
+  transition: letter-spacing 0.3s ease;
 
   &:before {
     content: "";
@@ -32,8 +34,16 @@ const StyledLink = styled(Link)`
     width: 110%;
     height: 10px;
     right: 0;
+    opacity: 0.5;
     background-color: ${({ theme }) => theme.darkerYellow};
     transform: skew(-25deg);
+  }
+
+  &:hover {
+    letter-spacing: 5px;
+  }
+  &:hover:before {
+    opacity: 1;
   }
 `
 const SeeMoreContainer = styled.div`
@@ -61,7 +71,7 @@ function Main() {
       >
         <SeeMoreContainer>
           {" "}
-          <h2>{genres[i]?.name}</h2>
+          <h2 style={{ fontSize: "2rem" }}>{genres[i]?.name}</h2>
           <StyledLink
             to={{
               pathname: `/categories/${genres[i]?.name.toLowerCase()}/page=1`,
