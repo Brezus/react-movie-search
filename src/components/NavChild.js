@@ -35,7 +35,7 @@ const LinksContainer = styled.div`
 const LinksCont = styled.div`
   background-color: ${(props) => props.color};
   width: max-content;
-  gap: 1em;
+  gap: 2em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 2em;
@@ -263,7 +263,7 @@ export default function NavChild({
           <LinksContainer
             style={{ display: `${movLinkClicked ? "none" : "block"}` }}
           >
-            <LinksCont color={"black"}>
+            <LinksCont color={"#1e1f22"}>
               <StyledP>movie</StyledP>
               {movieGenreLinks}
             </LinksCont>
@@ -277,7 +277,7 @@ export default function NavChild({
           <LinksContainer
             style={{ display: `${tvLinkClicked ? "none" : "block"}` }}
           >
-            <LinksCont color={"black"}>
+            <LinksCont color={"#1e1f22"}>
               <StyledP>tv</StyledP>
               {tvGenreLinks}
             </LinksCont>

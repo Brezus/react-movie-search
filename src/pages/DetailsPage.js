@@ -59,6 +59,7 @@ const PosterCont = styled.div`
 
 const DivPoster = styled.div`
   height: 350px;
+  min-width: 200px;
   border-radius: ${({ theme }) => theme.border};
   background: black;
   background-size: cover;
