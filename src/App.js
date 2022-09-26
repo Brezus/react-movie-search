@@ -9,7 +9,7 @@ import { vars } from "./css-context/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./pages/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
-import { Switch, Route, Link } from "react-router-dom"
+import { Switch, Route, Link, useLocation } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import "./App.css"
@@ -151,11 +151,7 @@ function App() {
             {movieGenreElements}
             {navRoutesHtml}
             <Route exact path="/:search/page=:pNum">
-              <SearchPage
-                url={searchResultsUrl}
-                dep={srchQ}
-                redirected={false}
-              />
+              <SearchPage url={true} dep={srchQ} redirected={false} />
             </Route>
             <Route>
               <p>you folllowed zoros directions didnt</p>

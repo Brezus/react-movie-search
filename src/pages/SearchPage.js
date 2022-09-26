@@ -252,13 +252,14 @@ function SearchPage({
       }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
         location?.state?.id
       }&with_watch_monetization_types=flatrate&`
+      const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&include_adult=false&`
 
       fetch(
         redirected
           ? redirectedUrl
           : genre
           ? genreUrl + `page=${p}`
-          : url + `page=${p}`
+          : searchResultsUrl + `page=${p}`
       )
         .then((res) => {
           if (!res.ok) {
@@ -281,7 +282,7 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location, dep, p, url, redirected, params])
+  }, [location, dep, p, url, redirected, params, location.pathname])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
