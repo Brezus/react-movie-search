@@ -65,24 +65,8 @@ export default function Search({
       inputRef.current.value = ""
     }
     if (srchQ) setOpenMenu(false)
-    if (clickedInside) inputRef.current.focus()
-  }, [debounced, srchQ, clickedInside])
+  }, [debounced, srchQ])
 
-  function useOutsideAlerter(ref) {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setClickedInside(false)
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside)
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside)
-      }
-    }, [ref])
-  }
-  const wrapperRef = useRef(null)
-  // useOutsideAlerter(wrapperRef)
   const searchIcon = (
     <svg
       onClick={() => {
@@ -101,7 +85,7 @@ export default function Search({
 
   return (
     <>
-      <InputWrapper mobile={mobile} ref={wrapperRef}>
+      <InputWrapper>
         {srchQ ? (
           <Redirect push to={`/${srchQ}/page=1`} />
         ) : (
@@ -109,7 +93,6 @@ export default function Search({
         )}
         {searchIcon}
         <InputSearch
-          style={{ display: `${clickedInside ? "initial" : "none"}` }}
           ref={inputRef}
           color={color}
           type={"text"}

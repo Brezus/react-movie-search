@@ -270,7 +270,7 @@ function SearchPage({
           setMData(
             params.pNum
               ? data.results
-              : data.results.slice(0, `${deetsPage ? 4 : 10}`)
+              : data.results.slice(0, `${deetsPage ? 6 : 10}`)
           )
           setRemainingPages(data)
         })

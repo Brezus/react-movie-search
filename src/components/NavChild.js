@@ -9,6 +9,7 @@ import { AiFillCloseCircle } from "react-icons/ai"
 import { MdMonitor } from "react-icons/md"
 import { BiCameraMovie } from "react-icons/bi"
 import { nanoid } from "nanoid"
+import PopcornIcon from "../assets/popcorn.png"
 
 const opaictyAnimation = keyframes`
   from {
@@ -84,12 +85,13 @@ const BurgerIcon = styled.a`
   font-size: 1.5rem;
   cursor: pointer;
 
-  @media (min-width: 800px) {
+  @media (min-width: 700px) {
     display: none;
   }
 `
 
 const Icon = styled.img`
+const logo = 
   height: 30%;
   width: 30px;
 `
@@ -103,7 +105,7 @@ const Ul = styled.ul`
   left: 6%;
   width: 44%;
 
-  @media (min-width: 800px) {
+  @media (min-width: 700px) {
     display: flex;
   }
 `
@@ -124,7 +126,7 @@ const MobileUL = styled.ul`
     margin: 0;
     gap: 3em;
     z-index: 300;
-    @media (min-width: 800px) {
+    @media (min-width: 700px) {
       display: none;
     }
   }
@@ -144,6 +146,20 @@ const StyledLink = styled(Link)`
   &:hover {
     transform: scale(1.2);
     font-weight: bold;
+    color: ${({ theme }) => theme.darkBlue};
+  }
+`
+
+const StyledImg = styled.img`
+  height: 100%;
+  max-width: 100%;
+`
+
+const SearchCont = styled.div`
+  display: none;
+
+  @media (min-width: 700px) {
+    display: initial;
   }
 `
 
@@ -162,6 +178,7 @@ export default function NavChild({
   const [tvLinkClicked, setTvLinkClicked] = useState(false)
   const [movLinkClicked, setMovLinkClicked] = useState(false)
   const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
+  const logo = <StyledImg src={PopcornIcon} alt={"logo"} />
   const { clearInput } = useContext(AppContext)
 
   const onMouseEnter = (setFunc, setFuncClick) => {
@@ -242,8 +259,8 @@ export default function NavChild({
   return (
     <>
       <BurgerIcon onClick={toggleMenu}>{bgIcon}</BurgerIcon>
-      <Link to={"/"} onClick={clearInput}>
-        {icon}
+      <Link style={{ height: "100%;" }} to={"/"} onClick={clearInput}>
+        {logo}
       </Link>
       <MobileUL right={openMenu ? "0%" : "100%"}>
         <MobileLinkCont>
@@ -253,6 +270,14 @@ export default function NavChild({
           <StyledP mobile={"true"}>tv</StyledP>
           {tvGenreLinks}
         </MobileLinkCont>
+        <div style={{ position: "absolute", left: "78%", top: "1.4%" }}>
+          <Search
+            setOpenMenu={setOpenMenu}
+            color={"black"}
+            setClickedInside={setClickedInside}
+            clickedInside={clickedInside}
+          />
+        </div>
       </MobileUL>
       <Ul>
         <Div
@@ -290,12 +315,16 @@ export default function NavChild({
           }}
         />
       </Ul>
-      <Search
-        setOpenMenu={setOpenMenu}
-        color={"black"}
-        setClickedInside={setClickedInside}
-        clickedInside={clickedInside}
-      />
+
+      {icon}
+      <SearchCont>
+        <Search
+          setOpenMenu={setOpenMenu}
+          color={"black"}
+          setClickedInside={setClickedInside}
+          clickedInside={clickedInside}
+        />
+      </SearchCont>
     </>
   )
 }
