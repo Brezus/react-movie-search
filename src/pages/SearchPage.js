@@ -60,6 +60,7 @@ const Div = styled.div`
   gap: 3em;
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
   font-size: 0.8rem;
+  margin-top: 8rem;
 
   &:last-child {
     border-bottom: 0;
@@ -444,7 +445,12 @@ function SearchPage({
           )}
         </>
       ) : (
-        <p>no such result</p>
+        <>
+          <h1>
+            Results for: <Span>{genre ? params?.genre : params?.search}</Span>
+          </h1>
+          <p>no such result</p>
+        </>
       )}
     </Div>
   )

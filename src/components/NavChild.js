@@ -11,6 +11,13 @@ import { BiCameraMovie } from "react-icons/bi"
 import { nanoid } from "nanoid"
 import PopcornIcon from "../assets/popcorn.png"
 
+const HomeLink = styled(Link)`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const opaictyAnimation = keyframes`
   from {
     opacity: 0;
@@ -138,7 +145,7 @@ const MobileLinkCont = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  width: max-content;
+  max-width: 120px;
   color: ${(props) => props.color};
   margin-bottom: 0.5em;
   transition: all 0.3s ease;
@@ -151,8 +158,8 @@ const StyledLink = styled(Link)`
 `
 
 const StyledImg = styled.img`
-  height: 100%;
   max-width: 100%;
+  object-fit: contain;
 `
 
 const SearchCont = styled.div`
@@ -178,7 +185,9 @@ export default function NavChild({
   const [tvLinkClicked, setTvLinkClicked] = useState(false)
   const [movLinkClicked, setMovLinkClicked] = useState(false)
   const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
-  const logo = <StyledImg src={PopcornIcon} alt={"logo"} />
+  const logo = (
+    <StyledImg src={PopcornIcon} alt={"logo"} height={"30px"} width={"30px"} />
+  )
   const { clearInput } = useContext(AppContext)
 
   const onMouseEnter = (setFunc, setFuncClick) => {
@@ -259,9 +268,9 @@ export default function NavChild({
   return (
     <>
       <BurgerIcon onClick={toggleMenu}>{bgIcon}</BurgerIcon>
-      <Link style={{ height: "100%;" }} to={"/"} onClick={clearInput}>
+      <HomeLink to={"/"} onClick={clearInput}>
         {logo}
-      </Link>
+      </HomeLink>
       <MobileUL right={openMenu ? "0%" : "100%"}>
         <MobileLinkCont>
           <StyledP mobile={"true"}>movie</StyledP> {movieGenreLinks}
