@@ -9,7 +9,7 @@ import { vars } from "./css-context/Vars"
 import { AppContext } from "./AppContext"
 import { SearchPage } from "./pages/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
-import { Switch, Route, Link, useLocation } from "react-router-dom"
+import { Switch, Route, Link, useLocation, useParams } from "react-router-dom"
 import debounce from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import "./App.css"
@@ -93,9 +93,9 @@ function App() {
     setSearched(true)
     setDebounced(true)
   }
+
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
 
-  const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${srchQ}&include_adult=false&`
   useEffect(() => {
     const tvUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     const movieUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`

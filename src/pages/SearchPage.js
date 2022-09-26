@@ -224,12 +224,13 @@ function SearchPage({
   mediaType = null,
 }) {
   const [mData, setMData] = useState([])
-  console.log(mData)
   const [remainingPages, setRemainingPages] = useState(null)
   const [progress, setProgress] = useState(0)
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
+  console.log(location)
+  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkUrl) {
@@ -252,14 +253,16 @@ function SearchPage({
       }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${
         location?.state?.id
       }&with_watch_monetization_types=flatrate&`
-      const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&include_adult=false&`
+      const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${
+        process.env.REACT_APP_API_KEY
+      }&language=en-US&query=${params?.search || dep}&include_adult=false&`
 
       fetch(
         redirected
           ? redirectedUrl
           : genre
           ? genreUrl + `page=${p}`
-          : searchResultsUrl + `page=${p}`
+          : searchResultsUrl + `page=${p || 1}`
       )
         .then((res) => {
           if (!res.ok) {
@@ -282,7 +285,18 @@ function SearchPage({
           console.error(err)
         })
     }
-  }, [location, dep, p, url, redirected, params, location.pathname])
+  }, [
+    url,
+    dep,
+    genre,
+    deetsPage,
+    location?.state?.id,
+    mediaType,
+    p,
+    params.pNum,
+    params.search,
+    redirected,
+  ])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
     const releaseOrAirDate = movie.release_date
