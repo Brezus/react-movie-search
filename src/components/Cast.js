@@ -62,7 +62,7 @@ const ActorCont = styled.div`
   width: 100%;
 
   @media (min-width: 500px) {
-    grid-template-rows: 200px 120px;
+    grid-template-rows: 250px 70px;
   }
 `
 const StyledImage = styled.img`
