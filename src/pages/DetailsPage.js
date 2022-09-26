@@ -238,6 +238,7 @@ export default function DetailsPage() {
     video.name.toLowerCase().includes("trailer")
   )
   const location = useLocation()
+  console.log(location)
   const loadingDiv = <div>loading</div>
   const bkdrp = `${
     detailsData?.backdrop_path
@@ -282,7 +283,7 @@ export default function DetailsPage() {
       ></li>
     ))
   const movieId = detailsData?.id
-  const mediaType = detailsData?.release_date ? "movie" : "tv"
+
   function _onReady(e) {
     e.target.pauseVideo()
   }
@@ -390,12 +391,13 @@ export default function DetailsPage() {
               )}
             </ContainerDiv>
           </DivBKDrop>
-          {mediaType && movieId ? (
-            <Cast movieId={movieId} mediaType={mediaType} />
+          {location?.state?.mediaType && movieId ? (
+            <Cast movieId={movieId} mediaType={location?.state?.mediaType} />
           ) : null}
           <Suspense fallback={loadingDiv}>
             <SearchPage
-              url={`https://api.themoviedb.org/3/${mediaType}/${movieId}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`}
+              movieId={movieId}
+              mediaType={location?.state?.mediaType}
               redirected={false}
               category={true}
               deetsPage={true}

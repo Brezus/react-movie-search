@@ -60,7 +60,7 @@ const Div = styled.div`
   gap: 3em;
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
   font-size: 0.8rem;
-  margin-top: 8rem;
+  margin-top: ${({ deetsPage }) => (deetsPage ? "0rem" : "8rem")};
 
   &:last-child {
     border-bottom: 0;
@@ -222,6 +222,9 @@ function SearchPage({
   horizontalScroll = false,
   deetsPage = false,
   mediaType = null,
+  movieId = null,
+  main = null,
+  mainUrl = null,
 }) {
   const [mData, setMData] = useState([])
   const [remainingPages, setRemainingPages] = useState(null)
@@ -229,8 +232,6 @@ function SearchPage({
   const { clearInput } = useContext(AppContext)
   const location = useLocation()
   const params = useParams()
-  console.log(location)
-  console.log(params)
   const p = parseInt(params.pNum, 10)
   let toLink
   if (linkUrl) {
@@ -244,7 +245,7 @@ function SearchPage({
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    if (dep || url || redirected || genre) {
+    if (dep || url || redirected || genre || deetsPage) {
       const redirectedUrl = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${params.search}&page=${p}&include_adult=false`
       const genreUrl = `https://api.themoviedb.org/3/discover/${
         mediaType || "movie"
@@ -256,12 +257,30 @@ function SearchPage({
       const searchResultsUrl = `https://api.themoviedb.org/3/search/multi?api_key=${
         process.env.REACT_APP_API_KEY
       }&language=en-US&query=${params?.search || dep}&include_adult=false&`
+      const similarResultsUrl = `https://api.themoviedb.org/3/${
+        location?.state?.mediaType || mediaType
+      }/${movieId}/similar?api_key=${
+        process.env.REACT_APP_API_KEY
+      }&language=en-US&page=1`
 
+      // fetch(
+      //   redirected
+      //     ? redirectedUrl
+      //     : genre
+      //     ? genreUrl + `page=${p}`
+      //     : deetsPage
+      //     ? similarResultsUrl
+      //     : url
+      //     ? searchResultsUrl + `page=${p || 1}`
+      //     : mainUrl
+      // )
       fetch(
-        redirected
-          ? redirectedUrl
+        genre && main
+          ? mainUrl
           : genre
           ? genreUrl + `page=${p}`
+          : deetsPage
+          ? similarResultsUrl
           : searchResultsUrl + `page=${p || 1}`
       )
         .then((res) => {
@@ -296,6 +315,7 @@ function SearchPage({
     params.pNum,
     params.search,
     redirected,
+    movieId,
   ])
   const movies = mData?.map((movie) => {
     const nameOrTitle = movie.title ? movie.title : movie.name
@@ -316,10 +336,11 @@ function SearchPage({
           pathname: `/details/${movie.title ? movie.title : movie.name}`,
           state: {
             detailsUrl: `https://api.themoviedb.org/3/${
-              movie.first_air_date ? "tv" : "movie"
+              movie?.media_type || mediaType
             }/${movie.id}?api_key=${
               process.env.REACT_APP_API_KEY
             }&language=en-US&append_to_response=videos`,
+            mediaType: movie?.media_type || mediaType,
           },
         }}
       >
@@ -384,9 +405,7 @@ function SearchPage({
                 {releaseOrAirDate?.slice(0, 4)} • (
                 {Math.floor(movie.vote_average)} ⭐)
               </p>
-              <TypeIndicator>
-                {movie.first_air_date ? "tv" : "movie"}
-              </TypeIndicator>
+              <TypeIndicator>{movie?.media_type || mediaType}</TypeIndicator>
             </MetaInfo>
           </Info>
         </Movie>
@@ -395,6 +414,7 @@ function SearchPage({
   })
   return (
     <Div
+      deetsPage={deetsPage}
       style={{
         padding: `${
           redirected || category || genre ? "10rem 0 5rem" : "1rem 0 5rem"

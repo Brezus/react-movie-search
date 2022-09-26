@@ -94,7 +94,7 @@ function App() {
     setDebounced(true)
   }
 
-  const debouncedChangeHandler = useMemo(() => debounce(handleChange, 300), [])
+  const debouncedChangeHandler = useMemo(() => debounce(handleChange, 500), [])
 
   useEffect(() => {
     const tvUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`

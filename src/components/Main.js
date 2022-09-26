@@ -60,14 +60,17 @@ function Main() {
     return (
       <Genre
         key={nanoid()}
-        url={`https://api.themoviedb.org/3/discover/movie?api_key=${
+        main={true}
+        mainUrl={`https://api.themoviedb.org/3/discover/movie?api_key=${
           process.env.REACT_APP_API_KEY
         }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${genres[
           i
         ]?.id?.toString()}&with_watch_monetization_types=flatrate&page=1`}
+        genre={true}
         dep={genres[i]?.id.toString()}
         redirected={false}
         horizontalScroll={i % 3 === 0 && true}
+        mediaType={"movie"}
       >
         <SeeMoreContainer>
           {" "}
