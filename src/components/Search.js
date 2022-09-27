@@ -95,11 +95,7 @@ export default function Search({
     <>
       {!mobile ? (
         <InputWrapper>
-          {srchQ ? (
-            <Redirect push to={`/${srchQ}/page=1`} />
-          ) : (
-            <Redirect push to={"/"} />
-          )}
+          {srchQ && <Redirect push to={`/${srchQ}/page=1`} />}
           {searchIcon}
           <InputSearch
             onClick={clearInput}

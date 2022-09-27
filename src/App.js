@@ -7,7 +7,7 @@ import { ThemeProvider } from "styled-components"
 import { useEffect, useState, useMemo } from "react"
 import { vars } from "./css-context/Vars"
 import { AppContext } from "./AppContext"
-import { SearchPage } from "./pages/SearchPage"
+import { MemoSearchPage } from "./pages/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
 import { Switch, Route, Link, useLocation, useParams } from "react-router-dom"
 import throttle from "lodash.debounce"
@@ -58,7 +58,7 @@ function App() {
   const movieGenreElements = movieGenres?.map((genre) => {
     return (
       <Route exact path={`/movie/:genre/page=:pNum`} key={nanoid()}>
-        <SearchPage
+        <MemoSearchPage
           redirected={false}
           genre={true}
           linkUrl={true}
@@ -71,7 +71,7 @@ function App() {
   const tvGenreElements = tvGenres?.map((genre) => {
     return (
       <Route exact path={`/tv/:genre/page=:pNum`} key={nanoid()}>
-        <SearchPage
+        <MemoSearchPage
           redirected={false}
           genre={true}
           linkUrl={true}
@@ -148,7 +148,7 @@ function App() {
               <Main />
             </Route>
             <Route path={`/categories/:genre/page=:pNum`}>
-              <SearchPage redirected={false} genre={true} />
+              <MemoSearchPage redirected={false} genre={true} />
             </Route>
             <Route path={`/details/:movieName`}>
               <DetailsPage />
@@ -157,7 +157,7 @@ function App() {
             {movieGenreElements}
             {navRoutesHtml}
             <Route exact path="/:search/page=:pNum">
-              <SearchPage url={true} dep={srchQ} />
+              <MemoSearchPage url={true} dep={srchQ} />
             </Route>
             <Route>
               <p>you folllowed zoros directions didnt</p>

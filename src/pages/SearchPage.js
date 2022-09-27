@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, memo } from "react"
 import { AppContext } from "../AppContext"
 import styled, { css } from "styled-components"
 import { nanoid } from "nanoid"
@@ -478,4 +478,7 @@ function SearchPage({
     </Div>
   )
 }
+
 export { SearchPage }
+
+export const MemoSearchPage = memo(SearchPage)
