@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from "react"
 import { AppContext } from "../AppContext"
 import Search from "./Search"
-import SearchMobile from "./SearchMobile"
 import styled, { keyframes } from "styled-components"
 import { Link } from "react-router-dom"
 import ApiLogo from "../assets/tmdbIcon.svg"
