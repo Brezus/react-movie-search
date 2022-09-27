@@ -10,7 +10,7 @@ import { AppContext } from "./AppContext"
 import { SearchPage } from "./pages/SearchPage"
 import DetailsPage from "./pages/DetailsPage"
 import { Switch, Route, Link, useLocation, useParams } from "react-router-dom"
-import debounce from "lodash.debounce"
+import throttle from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import "./App.css"
 
@@ -97,7 +97,7 @@ function App() {
     }
   }
 
-  const debouncedChangeHandler = useMemo(() => debounce(handleChange, 500), [])
+  const debouncedChangeHandler = useMemo(() => throttle(handleChange, 500), [])
 
   useEffect(() => {
     const tvUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
