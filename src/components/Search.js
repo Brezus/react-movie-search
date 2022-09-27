@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from "react"
+import React, { useRef, useEffect, useContext, useState } from "react"
 import styled from "styled-components"
 import { AppContext } from "../AppContext"
 import { Redirect } from "react-router-dom"
@@ -9,14 +9,14 @@ const InputWrapper = styled.span`
   justify-content: center;
   align-items: center;
   z-index: 303;
-  width: 60px;
+  width: 100px;
   height: ${({ theme }) => theme.inputHeight};
   transition: width 0.2s ease;
   border: 1px solid rgba(240, 241, 245, 0.16);
   padding: 0 0.5em;
 
   &:focus-within {
-    width: 100px;
+    width: 150px;
   }
 
   @media (min-width: 800px) {
@@ -52,12 +52,20 @@ const InputSearch = styled.input`
 
 export default function Search({
   color,
-  mobile,
+  mobile = false,
   setOpenMenu,
   setClickedInside,
   clickedInside,
 }) {
-  const { srchQ, debouncedChangeHandler, debounced } = useContext(AppContext)
+  const {
+    srchQ,
+    debouncedChangeHandler,
+    debounced,
+    clearInput,
+    searched,
+    setSearched,
+    handleChangeMobile,
+  } = useContext(AppContext)
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -85,21 +93,35 @@ export default function Search({
 
   return (
     <>
-      <InputWrapper>
-        {srchQ ? (
-          <Redirect push to={`/${srchQ}/page=1`} />
-        ) : (
-          <Redirect push to={"/"} />
-        )}
-        {searchIcon}
-        <InputSearch
-          ref={inputRef}
-          color={color}
-          type={"text"}
-          placeholder={"search movies and tv shows"}
-          onChange={debouncedChangeHandler}
-        />
-      </InputWrapper>
+      {!mobile ? (
+        <InputWrapper>
+          {srchQ ? (
+            <Redirect push to={`/${srchQ}/page=1`} />
+          ) : (
+            <Redirect push to={"/"} />
+          )}
+          {searchIcon}
+          <InputSearch
+            onClick={clearInput}
+            ref={inputRef}
+            color={color}
+            type={"text"}
+            placeholder={"search movies and tv shows"}
+            onChange={debouncedChangeHandler}
+          />
+        </InputWrapper>
+      ) : (
+        <InputWrapper>
+          {searched && <Redirect push to={`/${srchQ}/page=1`} />}
+          {searchIcon}
+          <InputSearch
+            onKeyDown={handleChangeMobile}
+            ref={inputRef}
+            type={"text"}
+            placeholder={"search movies and tv shows"}
+          />
+        </InputWrapper>
+      )}
     </>
   )
 }

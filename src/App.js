@@ -47,12 +47,12 @@ const StyledInput = styled.input`
 `
 function App() {
   const [srchQ, setSrchQ] = useState("")
+  const [searched, setSearched] = useState(false)
+
   const [tvGenres, setTvGenres] = useState(null)
   const [movieGenres, setMovieGenres] = useState(null)
   const [openMenu, setOpenMenu] = useState(false)
   const [clickedInside, setClickedInside] = useState(false)
-  const [searched, setSearched] = useState(false)
-  const [redirected, setRedirected] = useState(false)
   const [debounced, setDebounced] = useState(false)
 
   const movieGenreElements = movieGenres?.map((genre) => {
@@ -83,15 +83,18 @@ function App() {
 
   function clearInput() {
     setDebounced(false)
-    console.log("clicked")
   }
 
   const handleChange = (e) => {
     setSrchQ(e.target.value)
-    localStorage.setItem("query", JSON.stringify(srchQ))
-    setRedirected(true)
-    setSearched(true)
     setDebounced(true)
+  }
+
+  const handleChangeMobile = (e) => {
+    if (e.key === "Enter") {
+      setSearched(true)
+      setSrchQ(e.target.value)
+    }
   }
 
   const debouncedChangeHandler = useMemo(() => debounce(handleChange, 500), [])
@@ -124,11 +127,14 @@ function App() {
             LinksArray,
             debounced,
             clearInput,
+            handleChange,
+            handleChangeMobile,
+            searched,
+            setSearched,
           }}
         >
           <Nav
             navLinksArray={LinksArray}
-            searched={searched}
             setOpenMenu={setOpenMenu}
             setClickedInside={setClickedInside}
             clickedInside={clickedInside}
@@ -151,7 +157,7 @@ function App() {
             {movieGenreElements}
             {navRoutesHtml}
             <Route exact path="/:search/page=:pNum">
-              <SearchPage url={true} dep={srchQ} redirected={false} />
+              <SearchPage url={true} dep={srchQ} />
             </Route>
             <Route>
               <p>you folllowed zoros directions didnt</p>

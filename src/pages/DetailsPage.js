@@ -6,6 +6,7 @@ import { nanoid } from "nanoid"
 import Cast from "../components/Cast"
 import LoadingAnimation from "../assets/giphy.gif"
 import ProgressiveImage from "react-progressive-graceful-image"
+import { AiFillCloseCircle } from "react-icons/ai"
 
 const SearchPage = lazy(() =>
   import("../pages/SearchPage").then((module) => ({
@@ -100,6 +101,7 @@ const Button = styled.button`
   border-radius: ${({ theme }) => theme.border};
   border: none;
   width: 100%;
+  cursor: pointer;
 
   @media (max-width: 700px) {
     display: none;
@@ -228,17 +230,17 @@ const VideoCont = styled.div`
 `
 
 const CloseVideo = styled.div`
-  align-self: end;
+  align-self: center;
 `
 
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
   const [buttonClick, setButtonClicked] = useState(false)
+  console.count(buttonClick)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
   )
   const location = useLocation()
-  console.log(location)
   const loadingDiv = <div>loading</div>
   const bkdrp = `${
     detailsData?.backdrop_path
@@ -382,11 +384,19 @@ export default function DetailsPage() {
                 </StyledParagraphMob>
               </Desc>
               {buttonClick && (
-                <VideoCont>
-                  <YouTube videoId={trailer?.key} opts={opts} />
-                  <CloseVideo onClick={() => setButtonClicked(false)}>
-                    Close
-                  </CloseVideo>
+                <VideoCont onClick={() => setButtonClicked(false)}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <CloseVideo onClick={() => setButtonClicked(false)}>
+                      <AiFillCloseCircle
+                        style={{
+                          color: "white",
+                          fontSize: "2rem",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </CloseVideo>
+                    <YouTube videoId={trailer?.key} opts={opts} />
+                  </div>
                 </VideoCont>
               )}
             </ContainerDiv>

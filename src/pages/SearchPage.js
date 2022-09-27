@@ -60,7 +60,6 @@ const Div = styled.div`
   gap: 3em;
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
   font-size: 0.8rem;
-  margin-top: ${({ deetsPage }) => (deetsPage ? "0rem" : "8rem")};
 
   &:last-child {
     border-bottom: 0;
@@ -263,17 +262,6 @@ function SearchPage({
         process.env.REACT_APP_API_KEY
       }&language=en-US&page=1`
 
-      // fetch(
-      //   redirected
-      //     ? redirectedUrl
-      //     : genre
-      //     ? genreUrl + `page=${p}`
-      //     : deetsPage
-      //     ? similarResultsUrl
-      //     : url
-      //     ? searchResultsUrl + `page=${p || 1}`
-      //     : mainUrl
-      // )
       fetch(
         genre && main
           ? mainUrl
@@ -414,11 +402,11 @@ function SearchPage({
   })
   return (
     <Div
-      deetsPage={deetsPage}
       style={{
         padding: `${
-          redirected || category || genre ? "10rem 0 5rem" : "1rem 0 5rem"
+          redirected || category || genre ? "3rem 0 5rem" : "1rem 0 5rem"
         }`,
+        marginTop: `${deetsPage || main ? "0" : "8rem"}`,
       }}
     >
       {!mData ? (

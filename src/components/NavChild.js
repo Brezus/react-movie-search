@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from "react"
 import { AppContext } from "../AppContext"
 import Search from "./Search"
+import SearchMobile from "./SearchMobile"
 import styled, { keyframes } from "styled-components"
 import { Link } from "react-router-dom"
 import ApiLogo from "../assets/tmdbIcon.svg"
@@ -98,9 +99,8 @@ const BurgerIcon = styled.a`
 `
 
 const Icon = styled.img`
-const logo = 
   height: 30%;
-  width: 30px;
+  width: 45px;
 `
 
 const Ul = styled.ul`
@@ -279,8 +279,15 @@ export default function NavChild({
           <StyledP mobile={"true"}>tv</StyledP>
           {tvGenreLinks}
         </MobileLinkCont>
-        <div style={{ position: "absolute", left: "78%", top: "1.4%" }}>
+        <div
+          style={{
+            position: "absolute",
+            left: "75%",
+            top: "1.4%",
+          }}
+        >
           <Search
+            mobile={true}
             setOpenMenu={setOpenMenu}
             color={"black"}
             setClickedInside={setClickedInside}
