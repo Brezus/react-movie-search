@@ -148,7 +148,7 @@ const StyledLink = styled(Link)`
   color: ${(props) => props.color};
   margin-bottom: 0.5em;
   transition: all 0.3s ease;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 
   &:hover {
     transform: scale(1.2);

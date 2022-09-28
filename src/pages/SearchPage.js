@@ -396,11 +396,11 @@ function SearchPage({
                 justifyContent: `${
                   horizontalScroll ? "flex-start" : "space-between"
                 }`,
-                color: "#9699a3",
+                color: `${horizontalScroll ? "white" : "#9699a3"}`,
               }}
             >
               <p>
-                {releaseOrAirDate?.slice(0, 4)} • (
+                {releaseOrAirDate?.slice(0, 4) || "N/A"} • (
                 {Math.floor(movie.vote_average)} ⭐)
               </p>
               <TypeIndicator>{movie?.media_type || mediaType}</TypeIndicator>

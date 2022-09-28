@@ -94,7 +94,8 @@ const ContainerDiv = styled.div`
 `
 
 const Button = styled.button`
-  padding: 1em 3em;
+  padding: 0.9em;
+  font-size: 0.9rem;
   margin-bottom: 5em;
   background-color: ${({ theme }) => theme.darkYellow};
   color: white;
@@ -102,9 +103,12 @@ const Button = styled.button`
   border: none;
   width: 100%;
   cursor: pointer;
+  font-family: ${({ theme }) => theme.ffm};
+  font-weight: 900;
 
   @media (max-width: 700px) {
     display: none;
+    padding: 1em 3em;
   }
 `
 const ButtonMob = styled(Button)`

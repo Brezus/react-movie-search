@@ -17,4 +17,6 @@ export const vars = {
   darkYellow: "#F5AB0A",
   darkerYellow: "#A87300",
   fontSize: "3rem",
+  ffm: "Noto Sans Georgian, sans-serif",
+  ffs: "Montserrat, sans-serif",
 }
