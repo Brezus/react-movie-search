@@ -14,6 +14,12 @@ const Navigation = styled.nav`
   width: 95%;
   transition: height 0.3s ease-in;
   position: relative;
+  overflow: hidden;
+  height: ${({ dir }) => (dir ? "0" : "60px")};
+
+  &:hover {
+    overflow: initial;
+  }
 `
 const NavWrapper = styled.div`
   width: 100%;
@@ -25,6 +31,7 @@ const NavWrapper = styled.div`
   right: 0;
   z-index: 10;
   transition: background 0.3s ease;
+  // overflow: hidden;
 `
 
 const StyledLink = styled(Link)`
@@ -64,7 +71,7 @@ export default function Nav({
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY < 200) {
+      if (window.scrollY < 230) {
         setNavBg(false)
       } else {
         setNavBg(true)
@@ -106,17 +113,14 @@ export default function Nav({
       clickedInside={clickedInside}
     />
   )
-  // const navVar = width < 700 ? <NavVariant mobile={true} toggleMenu={toggleMenu} openMenu={openMenu} /> : <NavVariant mobile={false} />
   return (
     <NavWrapper
       style={{
-        background: `${navBg ? "black" : "none"}`,
+        background: `${navBg ? "rgb(8 12 20)" : "none"}`,
         height: `${scrollDirection === "down" ? "0" : "60px"}`,
       }}
     >
-      <Navigation
-        style={{ height: `${scrollDirection === "down" ? "0" : "60px"}` }}
-      >
+      <Navigation dir={scrollDirection === "down" ? true : false}>
         {navComponent}
       </Navigation>
     </NavWrapper>

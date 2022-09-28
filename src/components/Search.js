@@ -111,7 +111,7 @@ export default function Search({
           {searched && <Redirect push to={`/${srchQ}/page=1`} />}
           {searchIcon}
           <InputSearch
-            onKeyDown={handleChangeMobile}
+            onChange={handleChangeMobile}
             ref={inputRef}
             type={"text"}
             placeholder={"search movies and tv shows"}
