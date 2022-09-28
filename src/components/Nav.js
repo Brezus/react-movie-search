@@ -12,10 +12,11 @@ const Navigation = styled.nav`
   justify-content: space-between;
   align-items: center;
   width: 95%;
+  max-width: ${({ theme }) => theme.maxWidthDivs};
   transition: height 0.3s ease-in;
   position: relative;
   overflow: hidden;
-  height: ${({ dir }) => (dir ? "0" : "60px")};
+  height: ${({ dir }) => (dir === "down" ? "0" : "60px")};
 
   &:hover {
     overflow: initial;
@@ -120,9 +121,7 @@ export default function Nav({
         height: `${scrollDirection === "down" ? "0" : "60px"}`,
       }}
     >
-      <Navigation dir={scrollDirection === "down" ? true : false}>
-        {navComponent}
-      </Navigation>
+      <Navigation dir={scrollDirection}>{navComponent}</Navigation>
     </NavWrapper>
   )
 }

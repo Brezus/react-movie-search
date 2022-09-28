@@ -56,6 +56,7 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   width: 93%;
+  max-width: ${({ theme }) => theme.maxWidthDivs};
   margin-inline: auto;
   gap: 3em;
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};

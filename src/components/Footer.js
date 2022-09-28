@@ -14,15 +14,9 @@ const StyledFooter = styled.footer`
   align-items: center;
   gap: 2em;
 
-  p {
-    color: ;
+  @media (min-width: 700px) {
+    flex-direction: column;
   }
-`
-
-const Div = styled.div`
-  height: 100px;
-  width: 100px;
-  background-size: cover;
 `
 
 const StyledImg = styled.img`

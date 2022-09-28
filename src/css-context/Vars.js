@@ -19,4 +19,5 @@ export const vars = {
   fontSize: "3rem",
   ffm: "Noto Sans Georgian, sans-serif",
   ffs: "Montserrat, sans-serif",
+  maxWidthDivs: "1200px",
 }

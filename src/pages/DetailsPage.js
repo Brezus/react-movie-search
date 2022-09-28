@@ -17,6 +17,7 @@ const SearchPage = lazy(() =>
 const Main = styled.main`
   padding-bottom: 5rem;
   min-height: 100vh;
+  max-width: ${({ theme }) => theme.maxWidthDivs};
 `
 
 const DivBKDrop = styled.article`
@@ -55,7 +56,16 @@ const StyledImg = styled.img`
   }
   @media (min-width: 900px) {
     position: absolute;
+    height: 126vh;
+  }
+  @media (min-width: 1000px) {
+    position: absolute;
     height: 100vh;
+  }
+
+  @media (min-width: 1100px) {
+    position: absolute;
+    height: 120vh;
   }
 `
 
