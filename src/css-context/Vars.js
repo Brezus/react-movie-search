@@ -1,5 +1,6 @@
 export const vars = {
   gBackground: "rgb(252, 252, 252, 0)",
+  footerColor: "rgb(8 12 20)",
   darkBg: "rgba(16, 21, 30, 1)",
   gBackgroundGradient: `linear-gradient(
         180deg,

@@ -12,6 +12,7 @@ import DetailsPage from "./pages/DetailsPage"
 import { Switch, Route, Link, useLocation, useParams } from "react-router-dom"
 import throttle from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
+import Footer from "./components/Footer"
 import "./App.css"
 
 const DivApp = styled.div`
@@ -163,6 +164,7 @@ function App() {
               <p>you folllowed zoros directions didnt</p>
             </Route>
           </Switch>
+          <Footer />
         </AppContext.Provider>
       </DivApp>
     </ThemeProvider>

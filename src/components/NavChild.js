@@ -30,8 +30,8 @@ const opaictyAnimation = keyframes`
 
 const LinksContainer = styled.div`
   position: absolute;
-  left: 10%;
-  top: 100%;
+  left: -150%;
+  top: 150%;
   align-items: start;
   max-height: 0;
   overflow: hidden;
@@ -46,7 +46,7 @@ const LinksCont = styled.div`
   gap: 2em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  padding: 6em;
+  padding: 1em;
 `
 const StyledP = styled.p`
   font-size: 1.2rem;
@@ -75,7 +75,7 @@ const Div = styled.div`
   z-index: 5;
 
   &:hover ${LinksContainer} {
-    max-height: 400px;
+    max-height: 800px;
     border: 2px solid white;
   }
 `
@@ -166,6 +166,16 @@ const SearchCont = styled.div`
 
   @media (min-width: 700px) {
     display: initial;
+  }
+`
+
+const SearchContMobile = styled.div`
+  position: absolute;
+  left: 54%;
+  top: 1.4%;
+
+  @media (min-width: 400px) {
+    left: 65%;
   }
 `
 
@@ -278,13 +288,7 @@ export default function NavChild({
           <StyledP mobile={"true"}>tv</StyledP>
           {tvGenreLinks}
         </MobileLinkCont>
-        <div
-          style={{
-            position: "absolute",
-            left: "75%",
-            top: "1.4%",
-          }}
-        >
+        <SearchContMobile>
           <Search
             mobile={true}
             setOpenMenu={setOpenMenu}
@@ -292,7 +296,7 @@ export default function NavChild({
             setClickedInside={setClickedInside}
             clickedInside={clickedInside}
           />
-        </div>
+        </SearchContMobile>
       </MobileUL>
       <Ul>
         <Div

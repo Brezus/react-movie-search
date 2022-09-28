@@ -55,7 +55,7 @@ const Button = styled(Link)`
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 93%;
   margin-inline: auto;
   gap: 3em;
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
@@ -87,9 +87,17 @@ const StyledPlay = styled(FiPlayCircle)`
 `
 
 const StyledImg = styled.img`
-  height: auto;
+  min-height: 100px;
+  height: 100%;
   width: 100%;
   transition: opacity 0.2s ease;
+
+  @media (min-width: 500px) {
+    min-height: 200px;
+  }
+  @media (min-width: 800px) {
+    min-height: 280px;
+  }
 `
 
 const StyledLink = styled(Link)`
@@ -130,10 +138,12 @@ const Section = styled.section`
     !props.horizontal &&
     css`
       justify-content: center;
+      align-items: center;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     `}
   
   @media (min-width: 800px) {
+    gap: 2rem;
     ${(props) =>
       props.horizontal &&
       css`
@@ -154,7 +164,6 @@ const Section = styled.section`
 const Movie = styled.div`
   display: grid;
   border-radius: 10px;
-
   grid-template-rows: ${(props) => (props.horizontal ? "200px" : "auto 1fr")};
   background-color: ${(props) =>
     props.horizontal ? "rgba(32, 32, 38, 1)" : "transparent"};
@@ -232,6 +241,7 @@ function SearchPage({
   const location = useLocation()
   const params = useParams()
   const p = parseInt(params.pNum, 10)
+  console.log("reran")
   let toLink
   if (linkUrl) {
     toLink = `/${location?.state?.mediaType}/${location?.state?.genreName}`
