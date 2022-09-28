@@ -98,10 +98,10 @@ const ContainerDiv = styled.div`
   }
 
   @media (min-width: 700px) {
-    margin: 30rem auto;
+    margin: 30rem auto 0;
   }
   @media (min-width: 900px) {
-    margin: 6rem auto;
+    margin: 6rem auto 0;
   }
 `
 
