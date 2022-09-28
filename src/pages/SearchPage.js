@@ -119,7 +119,7 @@ const StyledLink = styled(Link)`
   }
   &:hover ${StyledImg} {
     opacity: 0.4;
-    border: 2px solid orange;
+    outline: 2px solid orange;
   }
 `
 
