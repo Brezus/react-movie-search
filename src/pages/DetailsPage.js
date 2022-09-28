@@ -26,7 +26,8 @@ const DivBKDrop = styled.article`
   background: rgb(32, 32, 38);
   background-position: center;
   position: relative;
-  background-color: rgba(32, 32, 38, 1);
+  background-color: rgb(24, 24, 29);
+
   overflow: hidden;
   isolation: isolate;
 
@@ -38,7 +39,7 @@ const DivBKDrop = styled.article`
 
 const StyledImg = styled.img`
   max-width: 100%;
-  height: auto;
+  height: 70vw;
   left: 0;
   right: 0;
   bottom: 0;
@@ -46,8 +47,15 @@ const StyledImg = styled.img`
   z-index: -1;
   mix-blend-mode: overlay;
   position: relative;
+  object-fit: cover;
+
   @media (min-width: 700px) {
     position: absolute;
+    height: 60vw;
+  }
+  @media (min-width: 900px) {
+    position: absolute;
+    height: 100vh;
   }
 `
 
@@ -74,7 +82,7 @@ const DivPoster = styled.div`
 
 const ContainerDiv = styled.div`
   width: 95%;
-  margin: 500px auto 0;
+  margin: 5rem auto 0;
   display: flex;
   gap: 5em;
 
@@ -88,9 +96,13 @@ const ContainerDiv = styled.div`
       "poster title"
       "desc    desc";
   }
+
+  @media (min-width: 700px) {
+    margin: 30rem auto;
+  }
   @media (min-width: 900px) {
     margin: 6rem auto;
-
+  }
 `
 
 const Button = styled.button`
@@ -128,6 +140,7 @@ const InfoCont = styled.div`
   align-items: baseline;
   flex: 2;
   position: relative;
+  // background: rgba(16, 21, 30, 0.4);
 
   @media (min-width: 700px) {
     display: flex;
@@ -239,7 +252,6 @@ const CloseVideo = styled.div`
 
 export default function DetailsPage() {
   const [detailsData, setDetailsData] = useState(null)
-  console.log(detailsData)
   const [buttonClick, setButtonClicked] = useState(false)
   const trailer = detailsData?.videos?.results.find((video) =>
     video.name.toLowerCase().includes("trailer")
@@ -268,7 +280,10 @@ export default function DetailsPage() {
     backgroundImage: `url(${postr && postr})`,
   }
   const genreList = detailsData?.genres.map((genre) => (
-    <li style={{ textTransform: "uppercase" }} key={nanoid()}>
+    <li
+      style={{ textTransform: "uppercase", letterSpacing: "5px" }}
+      key={nanoid()}
+    >
       {genre.name}
     </li>
   ))
@@ -281,10 +296,13 @@ export default function DetailsPage() {
           backgroundImage: `url(https://image.tmdb.org/t/p/w45/${company?.logo_path})`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
+          backgroundSize: "80%",
           height: "50px",
           width: "50px",
           display: `${company?.logo_path ? "initial" : "none"}`,
+          padding: "1em",
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          borderRadius: "10px",
         }}
       ></li>
     ))

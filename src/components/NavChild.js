@@ -46,7 +46,7 @@ const LinksCont = styled.div`
   gap: 2em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  padding: 1em;
+  padding: 1em 4em;
 `
 const StyledP = styled.p`
   font-size: 1.2rem;

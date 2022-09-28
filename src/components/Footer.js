@@ -8,7 +8,7 @@ const StyledFooter = styled.footer`
   background: ${({ theme }) => theme.footerColor};
   font-family: ${({ theme }) => theme.ffm};
   font-weight: 900;
-  padding: 6em;
+  padding: 4em;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -61,6 +61,9 @@ const Div = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.darkYellow};
   font-size: 0.8rem;
 
+  &:last-of-type {
+    border-bottom: 0;
+  }
   &:last-child {
     border-bottom: 0;
   }
