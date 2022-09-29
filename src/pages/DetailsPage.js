@@ -17,7 +17,6 @@ const SearchPage = lazy(() =>
 const Main = styled.main`
   padding-bottom: 5rem;
   min-height: 100vh;
-  max-width: ${({ theme }) => theme.maxWidthDivs};
 `
 
 const DivBKDrop = styled.article`

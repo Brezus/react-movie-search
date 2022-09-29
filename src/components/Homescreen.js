@@ -1,11 +1,12 @@
 import React, { useState, useEffect, memo } from "react"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 const Display = styled.div`
   background-color: black;
   min-height: ${({ theme }) => theme.hScreenHeight};
   background-size: cover;
-  height: 100vh;
+  height: 80vh;
   position: relative;
   z-index: 9;
   &:before {
@@ -42,11 +43,33 @@ const StyledImage = styled.img`
   object-fit: cover;
   z-index: 10;
 `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  font-weight: 900;
+  font-family: ${({ theme }) => theme.ffm};
+  font-size: 2rem;
+  display: inline-block;
+`
+
+const StyledDiv = styled.div`
+  position: absolute;
+  left: 10%;
+  top: 70%;
+  transform: translate(-10%, -70%);
+  width: 88%;
+  z-index: 11;
+  max-width: 700px;
+  padding: 2em;
+  background-color: rgba(20, 21, 23, 0.686);
+`
+
 const key = process.env.REACT_APP_API_KEY
 const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&language=en-US&page=1`
 
 function Homescreen() {
   const [fetchedData, setFetchedData] = useState([])
+  console.log(fetchedData)
   useEffect(() => {
     const randomNumber = Math.floor(Math.random() * 19)
     fetch(url)
@@ -77,6 +100,26 @@ function Homescreen() {
               : ""
           }
         />
+        <StyledDiv>
+          <StyledLink
+            to={{
+              pathname: `/details/${
+                fetchedData.title || fetchedData.original_title
+              }`,
+              state: {
+                detailsUrl: `https://api.themoviedb.org/3/${"movie"}/${
+                  fetchedData.id
+                }?api_key=${
+                  process.env.REACT_APP_API_KEY
+                }&language=en-US&append_to_response=videos`,
+                mediaType: "movie",
+              },
+            }}
+          >
+            <h1>{fetchedData.title || fetchedData.original_title}</h1>
+          </StyledLink>
+          <p>{fetchedData.overview}</p>
+        </StyledDiv>
       </Display>
     </>
   )
