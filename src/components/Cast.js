@@ -54,16 +54,11 @@ const Profiles = styled.div`
 `
 
 const ActorCont = styled.div`
-  display: grid;
-  grid-template-rows: 200px 80px;
   border-radius: ${({ theme }) => theme.border};
   overflow: hidden;
   outline: 5px solid white;
   width: 100%;
-
-  @media (min-width: 500px) {
-    grid-template-rows: 250px 70px;
-  }
+  background-color: white;
 `
 const StyledImage = styled.img`
   object-fit: cover;
