@@ -13,6 +13,7 @@ import { Switch, Route, Link, useLocation, useParams } from "react-router-dom"
 import throttle from "lodash.debounce"
 import { LinksArray, navRoutesHtml } from "./navLinksArray"
 import Footer from "./components/Footer"
+import ErrorPage404 from "./pages/ErrorPage404"
 import "./App.css"
 
 const DivApp = styled.div`
@@ -161,7 +162,7 @@ function App() {
               <MemoSearchPage url={true} dep={srchQ} />
             </Route>
             <Route>
-              <p>you folllowed zoros directions didnt</p>
+              <ErrorPage404 />
             </Route>
           </Switch>
           <Footer />
