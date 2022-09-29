@@ -13,6 +13,16 @@ const StyledP = styled.p`
   font-size: 6rem;
 `
 
+const StyledDivCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  padding: 2em 0;
+  font-family: ${({ theme }) => theme.ffs};
+`
+
 const StyledLink = styled(Link)`
   color: whitesmoke;
   text-decoration: none;
@@ -30,7 +40,6 @@ const StyledDiv = styled.div`
   margin-top: 6em;
   position: relative;
   color: black;
-  font-family: ${({ theme }) => theme.ffs};
 `
 
 const P1 = styled.p`
@@ -48,13 +57,18 @@ export default function ErrorPage404() {
   const { pathname } = useLocation()
   console.log(pathname)
   return (
-    <StyledDiv bg={ErrorImg}>
-      {/* <StyledLink>Go to Home</StyledLink> */}
-      <P1>but can i ..</P1>
-      <P2>
-        <span style={{ display: "block", fontWeight: "bold" }}>{pathname}</span>{" "}
-        doesnt exist
-      </P2>
-    </StyledDiv>
+    <StyledDivCont>
+      <StyledDiv bg={ErrorImg}>
+        <P1>But can i ..</P1>
+        <P2>
+          The path
+          <span style={{ display: "block", fontWeight: "bold" }}>
+            {pathname}
+          </span>{" "}
+          doesnt exist
+        </P2>
+      </StyledDiv>
+      <StyledLink to={"/"}>Back to Home</StyledLink>
+    </StyledDivCont>
   )
 }
