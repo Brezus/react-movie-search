@@ -26,7 +26,7 @@ const Display = styled.div`
   }
   &:after {
     content: "";
-    height: ${({ theme }) => theme.gradientHight};
+    height: 600px;
     width: 100%;
     position: absolute;
     left: 0;
@@ -55,13 +55,11 @@ const StyledLink = styled(Link)`
 const StyledDiv = styled.div`
   position: absolute;
   left: 10%;
-  top: 70%;
-  transform: translate(-10%, -70%);
+  top: 75%;
+  transform: translate(-10%, -75%);
   width: 88%;
-  z-index: 11;
+  z-index: 15;
   max-width: 700px;
-  padding: 2em;
-  background-color: rgba(20, 21, 23, 0.686);
 `
 
 const key = process.env.REACT_APP_API_KEY

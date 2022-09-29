@@ -7,6 +7,11 @@ export const vars = {
         rgba(252, 252, 252, 0) 30%,
         rgba(16, 21, 30, 1) 100%
       );`,
+  tBackgroundGradient: `linear-gradient(
+        180deg,
+        rgba(252, 252, 252, 0) 30%,
+        rgba(16, 21, 30, 0.6) 100%
+      );`,
   hScreenHeight: "400px",
   gradientHight: "120px",
   iconColor: "white",
@@ -19,5 +24,4 @@ export const vars = {
   fontSize: "3rem",
   ffm: "Noto Sans Georgian, sans-serif",
   ffs: "Montserrat, sans-serif",
-  maxWidthDivs: "1200px",
 }
