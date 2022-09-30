@@ -9,6 +9,7 @@ const Display = styled.div`
   height: 80vh;
   position: relative;
   z-index: 9;
+  border-bottom: 1px solid orange;
   &:before {
     content: "";
     height: ${({ theme }) => theme.gradientHight};
@@ -60,6 +61,10 @@ const StyledDiv = styled.div`
   width: 88%;
   z-index: 15;
   max-width: 700px;
+`
+
+const StyledP = styled.p`
+  font-family: ${({ theme }) => theme.ffs};
 `
 
 const key = process.env.REACT_APP_API_KEY
@@ -116,7 +121,7 @@ function Homescreen() {
           >
             <h1>{fetchedData.title || fetchedData.original_title}</h1>
           </StyledLink>
-          <p>{fetchedData.overview}</p>
+          <StyledP>{fetchedData.overview}</StyledP>
         </StyledDiv>
       </Display>
     </>

@@ -4,15 +4,6 @@ import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import ErrorImg from "../assets/batmanrobin1.jpg"
 
-const StyledH1 = styled.h1`
-  font-size: 15rem;
-  color: whitesmoke;
-`
-
-const StyledP = styled.p`
-  font-size: 6rem;
-`
-
 const StyledDivCont = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,7 +41,8 @@ const P1 = styled.p`
 `
 
 const P2 = styled(P1)`
-  left: 55%;
+  top: 2%;
+  left: 62%;
 `
 
 export default function ErrorPage404() {

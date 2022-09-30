@@ -12,11 +12,11 @@ const MainDiv = styled.main`
   width: 95%;
   margin-inline: auto;
   gap: 3em;
-  padding: 5em 0;
+  padding: 2em 0 5em;
 `
 
 const Styledh2 = styled.h2`
-  font-size: 21rem @media (min-width: 500px) {
+  @media (min-width: 800px) {
     font-size: 2rem;
   }
 `

@@ -53,6 +53,8 @@ function App() {
 
   const [tvGenres, setTvGenres] = useState(null)
   const [movieGenres, setMovieGenres] = useState(null)
+
+  console.log(tvGenres)
   const [openMenu, setOpenMenu] = useState(false)
   const [clickedInside, setClickedInside] = useState(false)
   const [debounced, setDebounced] = useState(false)
@@ -149,7 +151,7 @@ function App() {
               <Homescreen />
               <Main />
             </Route>
-            <Route path={`/categories/:genre/page=:pNum`}>
+            <Route path={`/categories/:popMtype/page=:pNum`}>
               <MemoSearchPage redirected={false} genre={true} />
             </Route>
             <Route path={`/details/:movieName`}>

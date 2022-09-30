@@ -245,7 +245,6 @@ function SearchPage({
   const location = useLocation()
   const params = useParams()
   const p = parseInt(params.pNum, 10)
-  console.log("reran")
   let toLink
   if (linkUrl) {
     toLink = `/${location?.state?.mediaType}/${location?.state?.genreName}`
