@@ -17,6 +17,17 @@ const StyledDivCont = styled.div`
 const StyledLink = styled(Link)`
   color: whitesmoke;
   text-decoration: none;
+  border: 2px solid whitesmoke;
+  border-radius: 10px;
+  padding: 0.6em 1em;
+  transition: all 0.3s ease;
+
+  &:hover,
+  :focus {
+    color: ${({ theme }) => theme.darkYellow};
+    outline: none;
+    transform: scale(1.1);
+  }
 `
 
 const StyledDiv = styled.div`
@@ -47,7 +58,6 @@ const P2 = styled(P1)`
 
 export default function ErrorPage404() {
   const { pathname } = useLocation()
-  console.log(pathname)
   return (
     <StyledDivCont>
       <StyledDiv bg={ErrorImg}>

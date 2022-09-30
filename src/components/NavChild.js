@@ -283,17 +283,7 @@ export default function NavChild({
       </HomeLink>
       <MobileUL right={openMenu ? "0%" : "100%"}>
         <MobileLinkCont>
-          <StyledP mobile={"true"}>movie</StyledP>{" "}
-          <StyledLink
-            onClick={() => {
-              closeDesktopMenu(setMovHover, setMovLinkClicked)
-              setOpenMenu(false)
-            }}
-            color={"white"}
-          >
-            Trending
-          </StyledLink>
-          {movieGenreLinks}
+          <StyledP mobile={"true"}>movie</StyledP> {movieGenreLinks}
         </MobileLinkCont>
         <MobileLinkCont>
           <StyledP mobile={"true"}>tv</StyledP>
@@ -334,24 +324,6 @@ export default function NavChild({
           >
             <LinksCont color={"#1e1f22"}>
               <StyledP>tv</StyledP>
-              <StyledLink
-                onClick={() => {
-                  closeDesktopMenu(setMovHover, setMovLinkClicked)
-                  setOpenMenu(false)
-                }}
-                color={"white"}
-                to={{
-                  pathname: `/categories/popular-tv/page=1`,
-                  state: {
-                    id: null,
-                    genreName: `popular-tv`,
-                    linkName: `/categories/popular-tv`,
-                    mediaType: "tv",
-                  },
-                }}
-              >
-                Popular
-              </StyledLink>
               {tvGenreLinks}
             </LinksCont>
           </LinksContainer>

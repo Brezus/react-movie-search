@@ -49,8 +49,12 @@ const StyledLink = styled(Link)`
   color: white;
   font-weight: 900;
   font-family: ${({ theme }) => theme.ffm};
-  font-size: 2rem;
+  font-size: 1.4rem;
   display: inline-block;
+
+  @media (min-width: 500px) {
+    font-size: 2rem;
+  }
 `
 
 const StyledDiv = styled.div`
@@ -65,6 +69,11 @@ const StyledDiv = styled.div`
 
 const StyledP = styled.p`
   font-family: ${({ theme }) => theme.ffs};
+  font-size: 0.7rem;
+
+  @media (min-width: 500px) {
+    font-size: 1.2rem;
+  }
 `
 
 const key = process.env.REACT_APP_API_KEY
