@@ -16,7 +16,7 @@ const Navigation = styled.nav`
   transition: height 0.3s ease-in;
   position: relative;
   overflow: hidden;
-  height: ${({ dir }) => (dir === "down" ? "0" : "60px")};
+  height: ${({ dir }) => (dir === "down" ? "0" : "80px")};
 
   &:hover {
     overflow: initial;
@@ -118,7 +118,7 @@ export default function Nav({
     <NavWrapper
       style={{
         background: `${navBg ? "rgb(8 12 20)" : "none"}`,
-        height: `${scrollDirection === "down" ? "0" : "60px"}`,
+        height: `${scrollDirection === "down" ? "0" : "80px"}`,
       }}
     >
       <Navigation dir={scrollDirection}>{navComponent}</Navigation>
