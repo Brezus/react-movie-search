@@ -72,6 +72,9 @@ const StyledP = styled.p`
   font-size: 0.7rem;
 
   @media (min-width: 500px) {
+    font-size: 0.9rem;
+  }
+  @media (min-width: 600px) {
     font-size: 1.2rem;
   }
 `
