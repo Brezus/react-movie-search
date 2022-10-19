@@ -94,9 +94,9 @@ function App() {
   }
 
   const handleChangeMobile = (e) => {
-    if (e.key === "Enter" || e.key === 13) {
-      setSearched(true)
+    if (e.key === "Enter") {
       setSrchQ(e.target.value)
+      setDebounced(true)
     }
   }
 
