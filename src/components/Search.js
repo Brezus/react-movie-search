@@ -104,7 +104,7 @@ export default function Search({
             color={color}
             type={"text"}
             placeholder={"search movies and tv shows"}
-            onChange={debouncedChangeHandler}
+            onKeyDown={handleChangeMobile}
           />
         </InputWrapper>
       ) : (
