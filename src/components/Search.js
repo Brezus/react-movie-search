@@ -65,6 +65,7 @@ export default function Search({
     searched,
     setSearched,
     handleChangeMobile,
+    debouncedChangeHandlerMobile,
   } = useContext(AppContext)
   const inputRef = useRef(null)
 
@@ -111,7 +112,7 @@ export default function Search({
           {searched && <Redirect push to={`/${srchQ}/page=1`} />}
           {searchIcon}
           <InputSearch
-            onChange={handleChangeMobile}
+            onChange={debouncedChangeHandlerMobile}
             ref={inputRef}
             type={"text"}
             placeholder={"search movies and tv shows"}
