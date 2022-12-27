@@ -233,7 +233,7 @@ function SearchPage({
   genre = null,
   horizontalScroll = false,
   deetsPage = false,
-  mediaType = null,
+  mediaType = 'movie',
   movieId = null,
   main = null,
   mainUrl = null,
