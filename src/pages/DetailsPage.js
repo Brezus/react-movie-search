@@ -243,7 +243,7 @@ const Title = styled.div`
 `
 
 const VideoCont = styled.div`
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
@@ -253,6 +253,7 @@ const VideoCont = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.545);
+  z-index: 2147483647;
 `
 
 const CloseVideo = styled.div`
@@ -278,8 +279,8 @@ export default function DetailsPage() {
       : null
   }`
   const opts = {
-    height: "300",
-    width: "400",
+    height: "500",
+    width: "500",
     playerVars: {
       autoplay: 1,
     },

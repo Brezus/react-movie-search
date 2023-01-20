@@ -196,7 +196,7 @@ export default function NavChild({
   const [movLinkClicked, setMovLinkClicked] = useState(false)
   const icon = <Icon src={ApiLogo} alt={"tv data base icon"} />
   const logo = (
-    <StyledImg src={PopcornIcon} alt={"logo"} height={"100%"} width={"30px"} />
+    <StyledImg src={PopcornIcon} alt={"logo"} height={"100%"} width={"50px"} />
   )
   const { clearInput } = useContext(AppContext)
 

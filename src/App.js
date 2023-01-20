@@ -100,11 +100,7 @@ function App() {
     }
   }
 
-  const debouncedChangeHandler = useMemo(() => throttle(handleChange, 500), [])
-  const debouncedChangeHandlerMobile = useMemo(
-    () => throttle(handleChange, 700),
-    []
-  )
+  const debouncedChangeHandler = useMemo(() => throttle(handleChange, 700), [])
 
   useEffect(() => {
     const tvUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -136,7 +132,6 @@ function App() {
             clearInput,
             handleChange,
             handleChangeMobile,
-            debouncedChangeHandlerMobile,
             searched,
             setSearched,
           }}

@@ -65,7 +65,6 @@ export default function Search({
     searched,
     setSearched,
     handleChangeMobile,
-    debouncedChangeHandlerMobile,
   } = useContext(AppContext)
   const inputRef = useRef(null)
 
@@ -104,7 +103,7 @@ export default function Search({
             color={color}
             type={"text"}
             placeholder={"search movies and tv shows"}
-            onKeyDown={handleChangeMobile}
+            onChange={debouncedChangeHandler}
           />
         </InputWrapper>
       ) : (
@@ -112,7 +111,8 @@ export default function Search({
           {searched && <Redirect push to={`/${srchQ}/page=1`} />}
           {searchIcon}
           <InputSearch
-            onChange={debouncedChangeHandlerMobile}
+            onClick={clearInput}
+            onChange={debouncedChangeHandler}
             ref={inputRef}
             type={"text"}
             placeholder={"search movies and tv shows"}
