@@ -7,6 +7,7 @@ import Cast from "../components/Cast"
 import LoadingAnimation from "../assets/giphy.gif"
 import ProgressiveImage from "react-progressive-graceful-image"
 import { AiFillCloseCircle } from "react-icons/ai"
+import useWindowSize from "../hooks/UseWindowSize"
 
 const SearchPage = lazy(() =>
   import("../pages/SearchPage").then((module) => ({
@@ -261,6 +262,7 @@ const CloseVideo = styled.div`
 `
 
 export default function DetailsPage() {
+  const { width } = useWindowSize()
   const [detailsData, setDetailsData] = useState(null)
   const [buttonClick, setButtonClicked] = useState(false)
   const trailer = detailsData?.videos?.results.find((video) =>
@@ -279,8 +281,8 @@ export default function DetailsPage() {
       : null
   }`
   const opts = {
-    height: "500",
-    width: "500",
+    height: "400",
+    width: `${width >= 1000 ? width - 500 : width - 100}`,
     playerVars: {
       autoplay: 1,
     },
