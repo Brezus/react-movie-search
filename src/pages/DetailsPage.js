@@ -282,7 +282,7 @@ export default function DetailsPage() {
   }`
   const opts = {
     height: "400",
-    width: `${width >= 1000 ? width - 500 : width - 100}`,
+    width: `100%`,
     playerVars: {
       autoplay: 1,
     },
@@ -419,7 +419,13 @@ export default function DetailsPage() {
               </Desc>
               {buttonClick && (
                 <VideoCont onClick={() => setButtonClicked(false)}>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "80%",
+                    }}
+                  >
                     <CloseVideo onClick={() => setButtonClicked(false)}>
                       <AiFillCloseCircle
                         style={{
